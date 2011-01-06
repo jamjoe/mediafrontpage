@@ -18,7 +18,7 @@ function widgetHardDrives() {
 		echo "\t\t<th>Disk</th>\n";
 		echo "\t\t<th>Size</th>\n";
 		echo "\t\t<th>Free</th>\n";
-		echo "\t\t<th>%</th>\n";
+		echo "\t\t<th>Usage</th>\n";
 		echo "\t</tr>\n";
 		foreach( $drive as $drivelabel => $drivepath) {
 			echo "\t<tr>\n";
