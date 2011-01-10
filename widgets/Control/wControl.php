@@ -148,7 +148,7 @@ function widgetControl($baseurl = "widgets/Control/wControl.php", $forcemenu = f
 			$results = jsoncall($request);
 		// This method will only work if MFP is on the same system as xbmc.
 		} elseif(!empty($_GET["xbmcsend"])) {
-			if((!empty($mfpapikey) && !empty($_GET["apikey"]) && ($_GET["apikey"] == $mfpapikey)) || $mfpsecured) {
+			if((!empty($mfpapikey) && !empty($_GET["apikey"]) && ($_GET["apikey"] == $mfpapikey)) || $mfpsecured !== 'false') {
 				$request = "xbmc-send";
 				$request .= (!empty($_GET["host"]) ? " --host=".$_GET["host"] : "");
 				$request .= (!empty($_GET["port"]) ? " --port=".$_GET["port"] : "");
