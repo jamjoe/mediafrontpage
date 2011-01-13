@@ -55,9 +55,9 @@ function widgetComingEpisodesHeader() {
 				alt = false;
 
 				for (i=0; i < allHTMLTags.length; i++) {
-					if (allHTMLTags[i].className == 'listing') {
+					if (allHTMLTags[i].className == 'ep_listing') {
 						if(alt) {
-							allHTMLTags[i].className = 'listing alt';
+							allHTMLTags[i].className = 'ep_listing alt';
 						}
 						alt = !alt;
 					}
@@ -68,7 +68,20 @@ function widgetComingEpisodesHeader() {
 				var allHTMLTags = document.getElementsByTagName("img");
 
 				for (i=0; i < allHTMLTags.length; i++) {
-					if (allHTMLTags[i].className == 'listingThumb') {
+					if (allHTMLTags[i].className == 'bannerThumb') {
+						//Set parent node <a> tag to have correct
+						allHTMLTags[i].parentNode.setAttribute('href',allHTMLTags[i].src);
+						allHTMLTags[i].parentNode.className = 'highslide';
+						allHTMLTags[i].parentNode.setAttribute('onclick','return hs.expand(this)');
+						allHTMLTags[i].parentNode.onclick = function() { return hs.expand(allHTMLTags[i]) }; 
+						
+						//Wrap with span and reset.
+						var newHTML = '<span class="sbposter-img">'+allHTMLTags[i].parentNode.outerHTML+'<a><div class="highslide-caption"><br></div></a></span>';
+						allHTMLTags[i].parentNode.outerHTML = newHTML;
+					}
+				}
+				for (i=0; i < allHTMLTags.length; i++) {
+					if (allHTMLTags[i].className == 'posterThumb') {
 						//Set parent node <a> tag to have correct
 						allHTMLTags[i].parentNode.setAttribute('href',allHTMLTags[i].src);
 						allHTMLTags[i].parentNode.className = 'highslide';
@@ -86,7 +99,7 @@ function widgetComingEpisodesHeader() {
 				var windowSizeAdjustment = 100;
 				var windowHeight = (window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight) - windowSizeAdjustment;
 				if (windowHeight > 0) { 
-					var objWrapper = document.getElementById("listingWrapper");
+					var objWrapper = document.getElementById("insideContent");
 					objWrapper.style.height = windowHeight + 'px';
 				}
 			}
@@ -109,7 +122,7 @@ if(!empty($_GET["display"])) {
 	}
 	$uri_domain = str_replace($urldata["path"], "", $sickbeardcomingepisodes);
 	
-	$regex  = '/(<[(img)|(a)]\s*(.*?)\s*[(src)|(href)]=(?P<link>[\'"]+?\s*\S+\s*[\'"])+?\s*(.*?)\s*>)/i';
+	$regex  = '/(<(img|a)\s*(.*?)\s*(src|href)=(?P<link>([\'"])\s*\S+?\s*\6)+?\s*(.*?)\s*>)/i';
 
 	preg_match_all($regex, $body, $matches);
 	
@@ -124,7 +137,6 @@ if(!empty($_GET["display"])) {
 		}
 		$body = str_replace($link, $newlink, $body);
 	}
-
 	echo $body;
 }
 
@@ -144,7 +156,7 @@ function stripBody($body) {
 	return $body;
 }
 function stripInnerWrapper($body) {
-	$pos = strpos($body, "<div id=\"listingWrapper\">");
+	$pos = strpos($body, "<h1>Coming Episodes</h1>");
 	if ($pos > 0) {
 		$body = substr($body, $pos);
 		$pos = strpos($body, "<script");
