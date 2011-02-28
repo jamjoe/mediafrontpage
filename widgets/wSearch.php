@@ -13,11 +13,7 @@ function widgetSearchHeader() {
 			else if(str==2){
 				document.getElementById('type').innerHTML="<option value=\"\">ALL</option><option value=\"1\">Movies: DVD</option><option value=\"2\">Movies: DIVX</option><option value=\"54\">Movies: BrRip</option><option value=\"42\">Movies: HD x264</option><option value=\"5\">TV: DVD</option><option value=\"6\">TV: DivX</option><option value=\"41\">TV: HD</option><option value=\"7\">TV: Sports</option><option value=\"9\">Documentaries</option><option value=\"53\">Documentaries: HD</option><option value=\"22\">MP3 Albums</option><option value=\"47\">MP3 Singles</option>"
 			}
-		}
-		function searchResults(){
-				document.getElementById('result').innerHTML="Search Results should be here"
-			}
-		
+			
 		}
 	-->
 </script>
@@ -148,15 +144,13 @@ function nzbmatrix($item) {
 function getform(){
 	//($variable == X) ? "true statement" : "false statement";
 	return "<form method=\"post\"><input type=\"text\" name=\"search\" id=\"search\"/>
-		<input type=\"radio\" name=\"site\" id=\"search\" value=1 onclick=\"catDropDown(this.value)\"> nzb.su</input>
-		<input type=\"radio\" name=\"site\" value=\"2\" onclick=\"catDropDown(this.value)\"> NZBMatrix</input>
+		<input type=\"radio\" name=\"site\" value=1 onclick=\"catDropDown(this.value)\"> nzb.su</input>
+		<input type=\"radio\" name=\"site\" value=2 onclick=\"catDropDown(this.value)\"> NZBMatrix</input>
 		<select name=\"type\" id=\"type\">
 		<option value=\"\">CATEGORIES</option>
 		</select>
-		<input type=\"button\" name=\"search\" id=\"search\" value=\"Search\" onclick=\"searchResults()\"/>
 		<input type=\"submit\" name=\"submit\" value=\"Search\" />
-		</form>
-		<div id=\"result\">Test</div>";
+		</form>";
 }
 ?>
 		<html>
