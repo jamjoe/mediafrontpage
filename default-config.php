@@ -44,8 +44,12 @@ $saburl = 'http://localhost:8080/sabnzbd/';  // The full URL you use to access S
 $sabapikey = '';                             // SABnzbd's API Key found in Config>General.
 
 //enter NZBmatrix login
-$nzbusername = '';		//username
-$nzbapi = '';			//api
+$nzbusername = 'your nzb matrix username';		//username
+$nzbapi = 'your nzb matrix api';           //api
+
+//enter nzb.su login
+$nzbsuapi = 'your nzb.su api';                // find this in http://nzb.su/profile 
+$nzbsudl = '&i=XXXX&r=XXXXXXXXXXXXXXXX';      // find this in http://nzb.su/rss where it says "Add this string to your feed URL to allow NZB downloads without logging in:"
 
 // enter navigation bar links
 $navlink;

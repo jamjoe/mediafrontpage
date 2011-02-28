@@ -30,6 +30,12 @@ p {
 	font-size: 12px;
 	line-height: 140%;
 }
+p2 {
+	color: #666666;
+	margin: .5em 0;
+	font-size: 12px;
+	line-height: 100%;
+}
 table {
 	font-size:1.2em;
 	text-align:center;
