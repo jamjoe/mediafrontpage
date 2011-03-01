@@ -51,7 +51,7 @@ function nzbsu($item) {
 			$type = "&cat=".$_POST['type'];
 		}
 
-		$table = "<table border='2'; style='width:100%';><tr><th></th><th>Name</th><th>Size</th><th>Category</th></tr>";
+		$table = "<table border='2'><tr><th></th><th>Name</th><th>Size</th><th>Category</th></tr>";
 		$search = "http://nzb.su/api?t=search&q=".urlencode($item).$type."&apikey=".$nzbsuapi."&o=json";
 		$json = @file_get_contents($search);
 		$content = json_decode($json, true);
@@ -67,13 +67,13 @@ function nzbsu($item) {
 			$url="http://nzb.su/getnzb/".$id.".nzb".$nzbsudl;
 			$url=$saburl.'api?mode=addurl&name='.urlencode($url).'&apikey='.$sabapikey;
 			$nzblink = "http://nzb.su/details/".$id;
-			$name = str_replace(".", "<br />", $name);
-
+			$name = str_replace(".", "\n", $name);
+			$name = str_replace(" ", "\n", $name);
 			if(strlen($name)!=0){
-			$table .="<tr><td><p2><a href=$url; target='nothing';><img class=\"sablink\" src=\"../media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
-					 <td style='width:60%'; white-space: normal'><a href=\"$nzblink\">".$name."</a></td>
+			$table .="\n<tr><td><a href=$url; target='nothing';><img class=\"sablink\" src=\"../media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
+					 <td style='width:60%'><a href=\"$nzblink\">".$name."</a></td>
 					 <td>".$size."</td>
-					 <td style='width:25%'>".$cat."</p2></td></tr>";		
+					 <td style='width:20%'>".$cat."</td></tr>";
 			}
 		}
 		$table .= "</table>";
@@ -132,7 +132,7 @@ function nzbmatrix($item) {
 					$nzblink = "http://www.".substr($link,6);
 					if(strlen($name)!=0){
 					$table .="<tr><td><p2><a href=$url; target='nothing';><img class=\"sablink\" src=\"../media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
-					 <td style='width:60%'; white-space: nowrap'><a href=\"$nzblink\">".$name."</a></td>
+					 <td style='width:60%';><a href=\"$nzblink\">".$name."</a></td>
 					 <td>".$size."</td>
 					 <td style='width:25%'>".$cat."</p2></td></tr>";			
 					}
