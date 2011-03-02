@@ -50,7 +50,7 @@ function nzbsu($item) {
 			$type = "&cat=".$_POST['type'];
 		}
 
-		$table = "<table border='2'><tr><th></th><th>Name</th><th>Size</th><th>Category</th></tr>";
+		$table = "<div style=\"height:70%;overflow:auto;\"><table border='2'><tr><th></th><th>Name</th><th>Size</th><th>Category</th></tr>";
 		$search = "http://nzb.su/api?t=search&q=".urlencode($item).$type."&apikey=".$nzbsuapi."&o=json";
 		$json = @file_get_contents($search);
 		$content = json_decode($json, true);
@@ -83,7 +83,7 @@ function nzbsu($item) {
 					 <td style='width:20%'>".$cat."</td></tr>";
 			}
 		}
-		$table .= "</table>";
+		$table .= "</table></div>";
 		return $table;
 
 }
@@ -98,7 +98,7 @@ function nzbmatrix($item) {
 		$search = "http://api.nzbmatrix.com/v1.1/search.php?search=".urlencode($item).$type."&username=".$nzbusername."&apikey=".$nzbapi;
 		$content = file_get_contents($search);
 		$itemArray = explode('|',$content);
-		$table = "<table border='2'><tr><th></th><th>Name</th><th>Size</th><th>Category</th></tr>";
+		$table = "<div style=\"height:70%;overflow:auto;\"><table border='2'><tr><th></th><th>Name</th><th>Size</th><th>Category</th></tr>";
 			foreach($itemArray as &$item){
 					$item = explode(';',$item);
 /*
@@ -143,7 +143,7 @@ function nzbmatrix($item) {
 					 <td style='width:25%'>".$cat."</p2></td></tr>";			
 					}
 				}
-				$table.= "</table>";
+				$table.= "</table></div>";
 				return $table;
 }	
 	
