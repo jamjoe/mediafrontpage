@@ -137,10 +137,10 @@ function nzbmatrix($item) {
 					//$popup =(print_r($id,true)."<br>".print_r($name,true));
 					$nzblink = "http://www.".substr($link,6);
 					if(strlen($name)!=0){
-					$table .="<tr><td><p2><a href=$url; target='nothing';><img class=\"sablink\" src=\"./media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
+					$table .="<tr><td><a href=$url; target='nothing';><img class=\"sablink\" src=\"./media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
 					 <td style='width:60%';><a href=\"$nzblink\">".$name."</a></td>
 					 <td>".$size."</td>
-					 <td style='width:25%'>".$cat."</p2></td></tr>";			
+					 <td style='width:25%'>".$cat."</td></tr>";			
 					}
 				}
 				$table.= "</table></div>";
