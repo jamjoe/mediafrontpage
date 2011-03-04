@@ -4,8 +4,13 @@ $wIndex["wSearch"] = $wdgtSearch;
 
 function widgetSearchHeader() {
 	echo <<< SEARCHHEADER
-<script type="text/javascript" language="javascript">
-	<!--		
+	<script type="text/javascript" language="javascript">
+	<!--	
+	
+		$(document).ready(function(){
+			$("tr:odd").addClass("odd");
+		});
+		
 		function catDropDown(str) {
 			if(str==1){
 				document.getElementById('type').innerHTML="<option value=\"\">Everything</option><option  class=\"grouping\" value=\"1000\">Console</option><option  value=\"1010\">&nbsp;&nbsp;NDS</option><option  value=\"1080\">&nbsp;&nbsp;PS3</option><option  value=\"1020\">&nbsp;&nbsp;PSP</option><option  value=\"1030\">&nbsp;&nbsp;Wii</option><option  value=\"1060\">&nbsp;&nbsp;WiiWare/VC</option><option  value=\"1070\">&nbsp;&nbsp;XBOX 360 DLC</option><option  value=\"1040\">&nbsp;&nbsp;Xbox</option><option  value=\"1050\">&nbsp;&nbsp;Xbox 360</option><option  class=\"grouping\" value=\"2000\">Movies</option><option  value=\"2010\">&nbsp;&nbsp;Foreign</option><option  value=\"2040\">&nbsp;&nbsp;HD</option><option  value=\"2020\">&nbsp;&nbsp;Other</option><option  value=\"2030\">&nbsp;&nbsp;SD</option><option  class=\"grouping\" value=\"3000\">Audio</option><option  value=\"3030\">&nbsp;&nbsp;Audiobook</option><option  value=\"3040\">&nbsp;&nbsp;Lossless</option><option  value=\"3010\">&nbsp;&nbsp;MP3</option><option  value=\"3020\">&nbsp;&nbsp;Video</option><option  class=\"grouping\" value=\"4000\">PC</option><option  value=\"4010\">&nbsp;&nbsp;0day</option><option  value=\"4050\">&nbsp;&nbsp;Games</option><option  value=\"4020\">&nbsp;&nbsp;ISO</option><option  value=\"4030\">&nbsp;&nbsp;Mac</option><option  value=\"4040\">&nbsp;&nbsp;Phone</option><option  class=\"grouping\" value=\"5000\">TV</option><option  value=\"5020\">&nbsp;&nbsp;Foreign</option><option  value=\"5040\">&nbsp;&nbsp;HD</option><option  value=\"5050\">&nbsp;&nbsp;Other</option><option  value=\"5030\">&nbsp;&nbsp;SD</option><option  value=\"5060\">&nbsp;&nbsp;Sport</option><option  class=\"grouping\" value=\"6000\">XXX</option><option  value=\"6010\">&nbsp;&nbsp;DVD</option><option  value=\"6020\">&nbsp;&nbsp;WMV</option><option  value=\"6030\">&nbsp;&nbsp;XviD</option><option  value=\"6040\">&nbsp;&nbsp;x264</option><option  class=\"grouping\" value=\"7000\">Other</option><option  value=\"7030\">&nbsp;&nbsp;Comics</option><option  value=\"7020\">&nbsp;&nbsp;Ebook</option><option  value=\"7010\">&nbsp;&nbsp;Misc</option>";
@@ -50,7 +55,7 @@ function nzbsu($item) {
 			$type = "&cat=".$_POST['type'];
 		}
 
-		$table = "<div style=\"height:70%;overflow:auto;\"><table border='2'><tr><th></th><th>Name</th><th>Size</th><th>Category</th></tr>";
+		$table = "<div id=\"tableResults\" style=\"height:70%;overflow:auto;\"><table border='0'><tr><th></th><th>Name</th><th>Size</th><th>Category</th></tr>";
 		$search = "http://nzb.su/api?t=search&q=".urlencode($item).$type."&apikey=".$nzbsuapi."&o=json";
 		$json = @file_get_contents($search);
 		$content = json_decode($json, true);
@@ -77,10 +82,7 @@ function nzbsu($item) {
 			$item_desc = str_replace("\n", "<br>", $item_desc);
 			
 			if(strlen($name)!=0){
-			$table .="\n<tr><td><a href=$url; target='nothing';><img class=\"sablink\" src=\"./media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
-					 <td style='width:60%'><a href=\"$nzblink\" onMouseOver=\"ShowPopupBox('".$item_desc."');\" onMouseOut=\"HidePopupBox();\">".$name."</a></td>
-					 <td>".$size."</td>
-					 <td style='width:20%'>".$cat."</td></tr>";
+			$table .= printTable($name,$cat,$size,$url,$nzblink,$item_desc);
 			}
 		}
 		$table .= "</table></div>";
@@ -98,7 +100,9 @@ function nzbmatrix($item) {
 		$search = "http://api.nzbmatrix.com/v1.1/search.php?search=".urlencode($item).$type."&username=".$nzbusername."&apikey=".$nzbapi;
 		$content = file_get_contents($search);
 		$itemArray = explode('|',$content);
-		$table = "<div style=\"height:70%;overflow:auto;\"><table border='2'><tr><th></th><th>Name</th><th>Size</th><th>Category</th></tr>";
+		
+		
+		$table = "<div id=\"tableResults\" style=\"height:70%;overflow:auto;\"><table border='0'><tr><th></th><th>Name</th><th>Size</th><th>Category</th></tr>";
 			foreach($itemArray as &$item){
 					$item = explode(';',$item);
 /*
@@ -109,7 +113,7 @@ function nzbmatrix($item) {
 */					
 					$id = $item[0];
 					$name = substr($item[1],9);
-					$link = $item[2];
+					$link = "http://www.".substr($item[2], 6);
 					$size = 0+substr($item[3], 6);
 					$size = to_readable_size($size);
 					$cat = substr($item[6],10);
@@ -120,7 +124,7 @@ function nzbmatrix($item) {
 					$comments = $item[8];
 					$hits = (string)$item[9];
 					$nfo = $item[10];
-					//$item_desc = "description";
+					$item_desc = "description";
 					
 					// Movies --> $_POST['type']==1||$_POST['type']==2||$_POST['type']==54||$_POST['type']==42||$_POST['type']==9||$_POST['type']==53||
 					// TV  --> $_POST['type']==5||$_POST['type']==41||$_POST['type']==7||$_POST['type']==6||
@@ -143,10 +147,7 @@ function nzbmatrix($item) {
 					//$popup =(print_r($id,true)."<br>".print_r($name,true));
 					$nzblink = "http://www.".substr($link,6);
 					if(strlen($name)!=0){
-					$table .="<tr><td><a href=$url; target='nothing';><img class=\"sablink\" src=\"./media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
-					 <td style='width:60%';><a href=\"$nzblink\" onMouseOver=\"ShowPopupBox(".$cat.");\" onMouseOut=\"HidePopupBox();\">".$name."</a></td>
-					 <td>".$size."</td>
-					 <td style='width:25%'>".$cat."</td></tr>";			
+					$table .= printTable($name,$cat,$size,$url,$link,$item_desc);	
 					}
 				}
 				$table.= "</table></div>";
@@ -164,13 +165,19 @@ function getform(){
 		<input type=\"submit\" name=\"submit\" value=\"Search\" />
 		</form>";
 }
+function printTable($name,$cat,$size,$url,$nzblink,$item_desc){
+	return "<tr><td><a href=$url; target='nothing';><img class=\"sablink\" src=\"./media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
+					 <td style='width:60%';><a href=\"$nzblink\" target='_blank'; onMouseOver=\"ShowPopupBox('".$item_desc."');\" onMouseOut=\"HidePopupBox();\">".$name."</a></td>
+					 <td>".$size."</td>
+					 <td style='width:25%'>".$cat."</td></tr>";		
+}
 ?>
 		<html>
 			<head>
 				<title>Media Front Page - Search Widget</title>
 				<link rel='stylesheet' type='text/css' href='css/front.css'>
-				<body>
-					<iframe name="nothing" height="0" width="0" style="visibility:hidden;display:none"></iframe>
-				</body>
 			</head>
+			<body>
+				<iframe name="nothing" height="0" width="0" style="visibility:hidden;display:none"></iframe>
+			</body>
 		</html>
