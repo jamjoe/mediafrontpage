@@ -64,9 +64,9 @@ function widgetSearch() {
 						<thead> 
 							<tr> 
     							<th></th> 
-    							<th>Name</th> 
-    							<th>Size</th> 
-    							<th>Category</th> 
+    							<th>Name <img src=\"./media/arrow.png\"/></th> 
+    							<th>Size <img src=\"./media/arrow.png\"/></th> 
+    							<th>Category <img src=\"./media/arrow.png\"/></th> 
 							</tr> 
 						</thead> 
 						<tbody>";
