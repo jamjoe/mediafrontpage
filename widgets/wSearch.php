@@ -8,8 +8,14 @@ function widgetSearchHeader() {
 	<!--	
 	
 		$(document).ready(function(){
+			$("#myTable").tablesorter("header");
 			$("tr:odd").addClass("odd");
 		});
+		$(document).change(function(){
+			$("tr:odd").addClass("odd");
+			$("tr:even").removeClass("odd");
+		});
+
 		
 		function catDropDown(str) {
 			if(str==1){
@@ -24,7 +30,24 @@ function widgetSearchHeader() {
 
 SEARCHHEADER;
 }
+function get_page($url) { 
+  
+        $ch = curl_init(); 
 
+        // set url 
+        curl_setopt($ch, CURLOPT_URL, $url); 
+
+        //return the transfer as a string 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+
+        // $output contains the output string 
+        $output = curl_exec($ch); 
+
+        // close curl resource to free up system resources 
+        curl_close($ch);  
+        
+        return $output;    
+} 
 
 function widgetSearch() {
 	global $nzbusername, $nzbapi,$saburl,$sabapikey;
@@ -36,13 +59,26 @@ function widgetSearch() {
 	else{
 		$item = $_POST['search'];
 		echo getform();
-		
+		echo "<div id=\"tableResults\" style=\"height:70%;overflow:auto;\">
+					<table id=\"myTable\" class=\"tablesorter\"> 
+						<thead> 
+							<tr> 
+    							<th></th> 
+    							<th>Name</th> 
+    							<th>Size</th> 
+    							<th>Category</th> 
+							</tr> 
+						</thead> 
+						<tbody>";
+						
 		if($_POST['site']==1){
 			echo nzbsu($item);
 		}
 		elseif($_POST['site']==2){
 			echo nzbmatrix($item);
 		}	
+		
+		echo "</tbody></table>></div>";
 	}
 }
 
@@ -50,12 +86,13 @@ function widgetSearch() {
 
 function nzbsu($item) {
 	global $saburl,$sabapikey, $nzbsuapi, $nzbsudl;
-		$type = "";
+		$type = "";	
+
 		if(!empty($_POST['type'])){
 			$type = "&cat=".$_POST['type'];
 		}
 
-		$table = "<div id=\"tableResults\" style=\"height:70%;overflow:auto;\"><table border='0'><tr><th></th><th>Name</th><th>Size</th><th>Category</th></tr>";
+		$table = "";				
 		$search = "http://nzb.su/api?t=search&q=".urlencode($item).$type."&apikey=".$nzbsuapi."&o=json";
 		$json = @file_get_contents($search);
 		$content = json_decode($json, true);
@@ -82,10 +119,9 @@ function nzbsu($item) {
 			$item_desc = str_replace("\n", "<br>", $item_desc);
 			
 			if(strlen($name)!=0){
-			$table .= printTable($name,$cat,$size,$url,$nzblink,$item_desc);
+			$table .= printTable($name,$cat,$size,$url,$nzblink,$item_desc);	
 			}
 		}
-		$table .= "</table></div>";
 		return $table;
 
 }
@@ -102,7 +138,8 @@ function nzbmatrix($item) {
 		$itemArray = explode('|',$content);
 		
 		
-		$table = "<div id=\"tableResults\" style=\"height:70%;overflow:auto;\"><table border='0'><tr><th></th><th>Name</th><th>Size</th><th>Category</th></tr>";
+		$table = "";
+
 			foreach($itemArray as &$item){
 					$item = explode(';',$item);
 /*
@@ -124,7 +161,7 @@ function nzbmatrix($item) {
 					$comments = $item[8];
 					$hits = (string)$item[9];
 					$nfo = $item[10];
-					$item_desc = "description";
+					$item_desc = "Not yet implemented";
 					
 					// Movies --> $_POST['type']==1||$_POST['type']==2||$_POST['type']==54||$_POST['type']==42||$_POST['type']==9||$_POST['type']==53||
 					// TV  --> $_POST['type']==5||$_POST['type']==41||$_POST['type']==7||$_POST['type']==6||
@@ -150,26 +187,27 @@ function nzbmatrix($item) {
 					$table .= printTable($name,$cat,$size,$url,$link,$item_desc);	
 					}
 				}
-				$table.= "</table></div>";
 				return $table;
 }	
 	
 function getform(){
 	//($variable == X) ? "true statement" : "false statement";
 	return "<form method=\"post\"><input type=\"text\" name=\"search\" id=\"search\" value=\"".$_POST['search']."\"/>
-		<input type=\"radio\" name=\"site\" value=1 onclick=\"catDropDown(this.value)\"> nzb.su</input>
-		<input type=\"radio\" name=\"site\" value=2 onclick=\"catDropDown(this.value)\"> NZBMatrix</input>
-		<select name=\"type\" id=\"type\">
-		<option value=\"\">CATEGORIES</option>
-		</select>
-		<input type=\"submit\" name=\"submit\" value=\"Search\" />
-		</form>";
+				<input type=\"radio\" name=\"site\" value=1 onclick=\"catDropDown(this.value)\"> nzb.su</input>
+				<input type=\"radio\" name=\"site\" value=2 onclick=\"catDropDown(this.value)\"> NZBMatrix</input>
+				<select name=\"type\" id=\"type\">
+					<option value=\"\">CATEGORIES</option>
+				</select>
+				<input type=\"submit\" name=\"submit\" value=\"Search\" />
+			</form>";
 }
 function printTable($name,$cat,$size,$url,$nzblink,$item_desc){
-	return "<tr><td><a href=$url; target='nothing';><img class=\"sablink\" src=\"./media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
-					 <td style='width:60%';><a href=\"$nzblink\" target='_blank'; onMouseOver=\"ShowPopupBox('".$item_desc."');\" onMouseOut=\"HidePopupBox();\">".$name."</a></td>
-					 <td>".$size."</td>
-					 <td style='width:25%'>".$cat."</td></tr>";		
+	return "	<tr>
+					<td><a href=$url; target='nothing';><img class=\"sablink\" src=\"./media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
+					<td style='width:60%';><a href=$nzblink target='_blank'; onMouseOver=\"ShowPopupBox('".$item_desc."');\" onMouseOut=\"HidePopupBox();\">$name</a></td>
+					<td>$size</td>
+					<td style='width:25%'>$cat</td>
+				</tr>";		
 }
 ?>
 		<html>
