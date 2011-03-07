@@ -34,6 +34,9 @@ table {
 	font-size:1.2em;
 	text-align:center;
 }
+tr.row:hover {
+	background-color: #FFFFFF;
+} 
 td {
 	vertical-align:top;
 }

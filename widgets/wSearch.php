@@ -64,9 +64,9 @@ function widgetSearch() {
 						<thead> 
 							<tr> 
     							<th></th> 
-    							<th>Name <img src=\"./media/arrow.png\"/></th> 
-    							<th>Size <img src=\"./media/arrow.png\"/></th> 
-    							<th>Category <img src=\"./media/arrow.png\"/></th> 
+    							<th><a href=#>Name <img src=\"./media/arrow.png\"/></a></th> 
+    							<th><a href=#>Size <img src=\"./media/arrow.png\"/></a></th> 
+    							<th><a href=#>Category <img src=\"./media/arrow.png\"/></a></th> 
 							</tr> 
 						</thead> 
 						<tbody>";
@@ -202,7 +202,7 @@ function getform(){
 			</form>";
 }
 function printTable($name,$cat,$size,$url,$nzblink,$item_desc){
-	return "	<tr>
+	return "	<tr class=\"row\">
 					<td><a href=$url; target='nothing';><img class=\"sablink\" src=\"./media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
 					<td style='width:60%';><a href=$nzblink target='_blank'; onMouseOver=\"ShowPopupBox('".$item_desc."');\" onMouseOut=\"HidePopupBox();\">$name</a></td>
 					<td>$size</td>
