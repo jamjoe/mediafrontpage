@@ -11,10 +11,10 @@ function widgetSearchHeader() {
 			$("#myTable").tablesorter("header");
 			$("tr:odd").addClass("odd");
 		});
-		$(document).change(function(){
+		function updateRows(){
 			$("tr:odd").addClass("odd");
 			$("tr:even").removeClass("odd");
-		});
+		}
 
 		
 		function catDropDown(str) {
@@ -64,9 +64,9 @@ function widgetSearch() {
 						<thead> 
 							<tr> 
     							<th></th> 
-    							<th><a href=#>Name <img src=\"./media/arrow.png\"/></a></th> 
-    							<th><a href=#>Size <img src=\"./media/arrow.png\"/></a></th> 
-    							<th><a href=#>Category <img src=\"./media/arrow.png\"/></a></th> 
+    							<th onclick=\"setTimeout('updateRows()',50);\"><a href=#>Name <img src=\"./media/arrow.png\"/></a></th> 
+    							<th onclick=\"setTimeout('updateRows()',50);\"><a href=#>Size <img src=\"./media/arrow.png\"/></a></th> 
+    							<th onclick=\"setTimeout('updateRows()',50);\"><a href=#>Category <img src=\"./media/arrow.png\"/></a></th> 
 							</tr> 
 						</thead> 
 						<tbody>";
