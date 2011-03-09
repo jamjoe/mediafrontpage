@@ -111,15 +111,16 @@ function nzbsu($item) {
 			(!empty($array[seriesfull]))?($seriesfull=("<p>Episode info: ".$array[seriesfull]." ".$array[tvtitle]." ".$array[tvairdate]."</p>")):($seriesfull="");
 
 			$url="http://nzb.su/getnzb/".$id.".nzb".$nzbsudl;
-			$url=$saburl.'api?mode=addurl&name='.urlencode($url).'&apikey='.$sabapikey;
+			$addToSab = $saburl.'api?mode=addurl&name='.urlencode($url).'&apikey='.$sabapikey;
 			$nzblink = "http://nzb.su/details/".$id;
 			$name = str_replace(".", "\n", $name);
 			$name = str_replace(" ", "\n", $name);
 			$item_desc = $postdate.$coments.$group_name.$grabs.$seriesfull;
 			$item_desc = str_replace("\n", "<br>", $item_desc);
 			
+			$addToSab = addCategory($cat,$addToSab);
 			if(strlen($name)!=0){
-			$table .= printTable($name,$cat,$size,$url,$nzblink,$item_desc);	
+				$table .= printTable($name,$cat,$size,$addToSab,$nzblink,$item_desc);	
 			}
 		}
 		return $table;
@@ -154,7 +155,7 @@ function nzbmatrix($item) {
 					$size = 0+substr($item[3], 6);
 					$size = to_readable_size($size);
 					$cat = substr($item[6],10);
-					$url=$saburl."api?mode=addurl&name=http://www.".substr($link,6)."&nzbname=".urlencode(substr($name,9))."&apikey=".$sabapikey;
+					$addToSab=$saburl."api?mode=addurl&name=http://www.".substr($link,6)."&nzbname=".urlencode($name)."&apikey=".$sabapikey;
 					
 					$indexdate = $item[4];
 					$group = $item[7];
@@ -163,28 +164,10 @@ function nzbmatrix($item) {
 					$nfo = $item[10];
 					$item_desc = "Not yet implemented";
 					
-					// Movies --> $_POST['type']==1||$_POST['type']==2||$_POST['type']==54||$_POST['type']==42||$_POST['type']==9||$_POST['type']==53||
-					// TV  --> $_POST['type']==5||$_POST['type']==41||$_POST['type']==7||$_POST['type']==6||
-					// Music --> $_POST['type']==22||$_POST['type']==47||
-					if(strpos($cat, "Movies")!=false||strpos($cat, "Documentaries")!=false){
-						$sabcat="movies";
-					}
-					elseif(strpos($cat, "TV")!=false){
-						$sabcat="tv";
-					}
-					elseif(strpos($cat, "Music")!=false){
-						$sabcat="music";
-					}
-					else $sabcat="";	
-							
-					if(!empty($sabcat)){
-						$url .="&cat=".$sabcat;
-					}
-					
-					//$popup =(print_r($id,true)."<br>".print_r($name,true));
-					$nzblink = "http://www.".substr($link,6);
+					$addToSab = addCategory($cat,$addToSab);
+
 					if(strlen($name)!=0){
-					$table .= printTable($name,$cat,$size,$url,$link,$item_desc);	
+					$table .= printTable($name,$cat,$size,$addToSab,$link,$item_desc);	
 					}
 				}
 				return $table;
@@ -201,13 +184,38 @@ function getform(){
 				<input type=\"submit\" name=\"submit\" value=\"Search\" />
 			</form>";
 }
-function printTable($name,$cat,$size,$url,$nzblink,$item_desc){
+function printTable($name,$cat,$size,$addToSab,$nzblink,$item_desc){
 	return "	<tr class=\"row\">
-					<td><a href=$url; target='nothing';><img class=\"sablink\" src=\"./media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
+					<td><a href=$addToSab; target='nothing';><img class=\"sablink\" src=\"./media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
 					<td style='width:60%';><a href=$nzblink target='_blank'; onMouseOver=\"ShowPopupBox('".$item_desc."');\" onMouseOut=\"HidePopupBox();\">$name</a></td>
 					<td>$size</td>
 					<td style='width:25%'>$cat</td>
 				</tr>";		
+}
+
+function addCategory($cat,$url){
+	$cat = strtolower($cat);
+	if(strpos($cat, "movies")!==false||strpos($cat, "documentaries")!==false){
+			$cat="&cat=movies";
+	}
+	elseif(strpos($cat, "tv")!==false){
+			$cat="&cat=tv";
+	}
+	elseif(strpos($cat, "audio")!==false||strpos($cat, "music")!==false){
+			$cat="&cat=music";
+	}
+	elseif(strpos($cat, "games")!==false||strpos($cat, "console")!==false){
+			$cat="&cat=games";
+	}
+	elseif(strpos($cat, "apps")!==false||strpos($cat, "pc")!==false){
+			$cat="&cat=apps";
+	}
+	else $cat="";	
+					
+	if(!empty($cat)){
+		$url .= $cat;
+	}
+	return $url;
 }
 ?>
 		<html>
