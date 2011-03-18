@@ -15,7 +15,7 @@ function widgetSearch() {
                   value="2"
                   onclick="catDropDown(this.value)"> NZBMatrix <select name="type"
                   id="type">
-                <option value="">
+                <option>
                     CATEGORIES
                 </option>
             </select> <input type="button"

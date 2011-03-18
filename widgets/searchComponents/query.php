@@ -2,8 +2,6 @@
 function main() {
 	require_once "../../config.php";
 
-	//echo $nzbusername." ".$nzbapi." ".$saburl." ".$sabapikey;
-
 	$q=$_GET["q"];
 	$site = $_GET["site"];
 	echo "<div id=\"tableResults\" style=\"height:70%;overflow:auto;\">
@@ -30,8 +28,8 @@ function nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl){
 
 	$type = "";
 
-	if(!empty($_POST['type'])){
-		$type = "&cat=".$_POST['type'];
+	if(!empty($_GET['type'])){
+		$type = "&cat=".$_GET['type'];
 	}
 
 	$table = "";
@@ -71,8 +69,8 @@ function nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl){
 
 function nzbmatrix($item, $nzbusername, $nzbapi,$saburl,$sabapikey) {
 	$type = "";
-	if(!empty($_POST['type'])){
-		$type = "&catid=".$_POST['type'];
+	if(!empty($_GET['type'])){
+		$type = "&catid=".$_GET['type'];
 	}
 	$search = "http://api.nzbmatrix.com/v1.1/search.php?search=".urlencode($item).$type."&username=".$nzbusername."&apikey=".$nzbapi;
 	$content = file_get_contents($search);
@@ -192,9 +190,7 @@ function ByteSize($bytes)
 		<html>
 			<head>
 				<link rel='stylesheet' type='text/css' href='css/front.css'>
-				<script type="text/javascript" src="js/jquery.js"></script>
     			<script type="text/javascript" src="js/jquery.tablesorter.js"></script>
-				<script src="http://cdn.jquerytools.org/1.2.5/full/jquery.tools.min.js"></script>
 			</head>
 			<body>
 				<iframe name="nothing" height="0" width="0" style="visibility:hidden;display:none;"></iframe>

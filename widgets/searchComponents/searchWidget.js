@@ -24,7 +24,7 @@ function results() {
 }
 
 function getResults(item) {
-    document.getElementById("resultstable").innerHTML = "Loading";
+    document.getElementById("resultstable").innerHTML = "Loading...";
 
     if (window.XMLHttpRequest) {
         xhr = new XMLHttpRequest();
@@ -39,8 +39,9 @@ function getResults(item) {
     }
 
     if (xhr) {
+        var type = document.getElementById("type").value;
         xhr.onreadystatechange = showContents;
-        xhr.open("GET", url + "?site=" + site + "&q=" + item, true);
+        xhr.open("GET", url + "?site=" + site + "&q=" + item + "&type=" + type, true);
         xhr.send();
     }
     else {
