@@ -23,12 +23,49 @@ function widgetHardDrives() {
 		foreach( $drive as $drivelabel => $drivepath) {
 			echo "\t<tr>\n";
 			echo "\t\t<td>".$drivelabel."</td>\n";
-			echo "\t\t<td>".to_readable_size(disk_total_space($drivepath))."</td>\n";
-			echo "\t\t<td>".to_readable_size(disk_free_space($drivepath))."</td>\n";
+			echo "\t\t<td>".ByteSize(disk_total_space($drivepath))."</td>\n";
+			echo "\t\t<td>".ByteSize(disk_free_space($drivepath))."</td>\n";
 			echo "\t\t<td><div class=\"progressbar\"><div class=\"progress".((disk_used_percentage($drivepath) > $warningthreshold) ? " warning" : "")."\" style=\"width:".(disk_used_percentage($drivepath))."%\"></div><div class=\"progresslabel\">".sprintf("%u", disk_used_percentage($drivepath))."%</div></div></td>\n";
 			echo "\t</tr>\n";
 		}
 		echo "</table>\n";
 	}
 }
+?>
+
+<?php
+
+function ByteSize($bytes) 
+    {
+    $size = $bytes / 1024;
+    if($size < 1024)
+        {
+        $size = number_format($size, 0);
+        $size .= ' KB';
+        } 
+    else 
+        {
+        if($size / 1024 < 1024) 
+            {
+            $size = number_format($size / 1024, 0);
+            $size .= ' MB';
+            } 
+        else if ($size / 1024 / 1024 < 1024)  
+            {
+            $size = number_format($size / 1024 / 1024, 0);
+            $size .= ' GB';
+            } 
+        
+            else if ($size / 1024 / 1024 / 1024 < 1024)  
+            {
+            $size = number_format($size / 1024 / 1024/ 1024, 0);
+            $size .= ' TB';
+            } 
+        }
+    return $size;
+    }
+
+// Returns '19.28mb'
+//print ByteSize('20211982');
+
 ?>
