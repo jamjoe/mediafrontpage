@@ -4,8 +4,7 @@ function main() {
 
 	$q=$_GET["q"];
 	$site = $_GET["site"];
-	echo "<div id=\"tableResults\" style=\"height:70%;overflow:auto;\">
-					<table id=\"myTable\" class=\"tablesorter\">
+	echo "<div style=\"overflow: auto; max-height: 70%;\"><table id=\"myTable\" class=\"tablesorter\" style=\"height:70%;overflow:auto;\">
 						<thead>
 							<tr>
     							<th></th>
@@ -161,25 +160,25 @@ function ByteSize($bytes)
 	$size = $bytes / 1024;
 	if($size < 1024)
 	{
-		$size = number_format($size, 0);
+		$size = number_format($size, 2);
 		$size .= ' KB';
 	}
 	else
 	{
 		if($size / 1024 < 1024)
 		{
-			$size = number_format($size / 1024, 0);
+			$size = number_format($size / 1024, 2);
 			$size .= ' MB';
 		}
 		else if ($size / 1024 / 1024 < 1024)
 			{
-				$size = number_format($size / 1024 / 1024, 0);
+				$size = number_format($size / 1024 / 1024, 2);
 				$size .= ' GB';
 			}
 
 		else if ($size / 1024 / 1024 / 1024 < 1024)
 			{
-				$size = number_format($size / 1024 / 1024/ 1024, 0);
+				$size = number_format($size / 1024 / 1024/ 1024, 2);
 				$size .= ' TB';
 			}
 	}
@@ -190,7 +189,7 @@ function ByteSize($bytes)
 		<html>
 			<head>
 				<link rel='stylesheet' type='text/css' href='css/front.css'>
-    			<script type="text/javascript" src="js/jquery.tablesorter.js"></script>
+    			<script type="text/javascript" src="js/jquery.js"></script>
 			</head>
 			<body>
 				<iframe name="nothing" height="0" width="0" style="visibility:hidden;display:none;"></iframe>

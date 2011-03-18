@@ -2,11 +2,6 @@ var xhr = false;
 var site = 0;
 var url = "widgets/searchComponents/query.php";
 
-$(document).ready(function(){
-	$("#myTable").tablesorter("header");
-	$("tr:odd").addClass("odd");
-});
-
 function updateRows(){
 	$("tr:odd").addClass("odd");
 	$("tr:even").removeClass("odd");
@@ -51,15 +46,17 @@ function getResults(item) {
 }
 
 function showContents() {
+	var worked = 0;
     if (xhr.readyState == 4) {
         if (xhr.status == 200) {
             var outMsg = xhr.responseText;
+            worked = 1;
         }
         else {
             var outMsg = "There was a problem with the request " + xhr.status;
         }
-
-        document.getElementById("resultstable").innerHTML = outMsg;
+		document.getElementById("resultstable").innerHTML = outMsg;
+		$("tr:odd").addClass("odd");
     }
 }
 
