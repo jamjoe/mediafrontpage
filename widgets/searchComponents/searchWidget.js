@@ -57,6 +57,7 @@ function showContents() {
         }
 		document.getElementById("resultstable").innerHTML = outMsg;
 		$("tr:odd").addClass("odd");
+        $("#myTable").tablesorter(); 
     }
 }
 

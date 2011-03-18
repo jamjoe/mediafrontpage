@@ -20,7 +20,7 @@ function main() {
 	else{
 		echo nzbmatrix($q, $nzbusername, $nzbapi,$saburl,$sabapikey);
 	}
-	echo "</div>";
+	echo "</tbody></table></div>";
 }
 
 function nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl){
@@ -189,7 +189,6 @@ function ByteSize($bytes)
 		<html>
 			<head>
 				<link rel='stylesheet' type='text/css' href='css/front.css'>
-    			<script type="text/javascript" src="js/jquery.js"></script>
 			</head>
 			<body>
 				<iframe name="nothing" height="0" width="0" style="visibility:hidden;display:none;"></iframe>
