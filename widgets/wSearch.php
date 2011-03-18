@@ -4,7 +4,6 @@ $wIndex["wSearch"] = $wdgtSearch;
 
 function widgetSearch() {	
 	 echo <<<TEST
-        <form>
             <input type="text"
                   value=""
                   id="searchterm"
@@ -22,8 +21,10 @@ function widgetSearch() {
             </select> <input type="button"
                   id="searchbutton"
                   value="Search"
-                  onclick="results()">
-        </form>
+                  onclick="results()"> <input type="button"
+                  id="clearbutton"
+                  value="Clear"
+                  onclick="clearResults()">
         <div id="resultstable"></div>
 TEST;
 }

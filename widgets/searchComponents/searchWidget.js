@@ -62,6 +62,11 @@ function showContents() {
     }
 }
 
+function clearResults(){
+	    document.getElementById("resultstable").innerHTML = "";
+}
+
+
 function catDropDown(str) {
     if (str == 1) {
         document.getElementById('type').innerHTML = "<option value=\"\">Everything</option><option  class=\"grouping\" value=\"1000\">Console</option><option  value=\"1010\">&nbsp;&nbsp;NDS</option><option  value=\"1080\">&nbsp;&nbsp;PS3</option><option  value=\"1020\">&nbsp;&nbsp;PSP</option><option  value=\"1030\">&nbsp;&nbsp;Wii</option><option  value=\"1060\">&nbsp;&nbsp;WiiWare/VC</option><option  value=\"1070\">&nbsp;&nbsp;XBOX 360 DLC</option><option  value=\"1040\">&nbsp;&nbsp;Xbox</option><option  value=\"1050\">&nbsp;&nbsp;Xbox 360</option><option  class=\"grouping\" value=\"2000\">Movies</option><option  value=\"2010\">&nbsp;&nbsp;Foreign</option><option  value=\"2040\">&nbsp;&nbsp;HD</option><option  value=\"2020\">&nbsp;&nbsp;Other</option><option  value=\"2030\">&nbsp;&nbsp;SD</option><option  class=\"grouping\" value=\"3000\">Audio</option><option  value=\"3030\">&nbsp;&nbsp;Audiobook</option><option  value=\"3040\">&nbsp;&nbsp;Lossless</option><option  value=\"3010\">&nbsp;&nbsp;MP3</option><option  value=\"3020\">&nbsp;&nbsp;Video</option><option  class=\"grouping\" value=\"4000\">PC</option><option  value=\"4010\">&nbsp;&nbsp;0day</option><option  value=\"4050\">&nbsp;&nbsp;Games</option><option  value=\"4020\">&nbsp;&nbsp;ISO</option><option  value=\"4030\">&nbsp;&nbsp;Mac</option><option  value=\"4040\">&nbsp;&nbsp;Phone</option><option  class=\"grouping\" value=\"5000\">TV</option><option  value=\"5020\">&nbsp;&nbsp;Foreign</option><option  value=\"5040\">&nbsp;&nbsp;HD</option><option  value=\"5050\">&nbsp;&nbsp;Other</option><option  value=\"5030\">&nbsp;&nbsp;SD</option><option  value=\"5060\">&nbsp;&nbsp;Sport</option><option  class=\"grouping\" value=\"6000\">XXX</option><option  value=\"6010\">&nbsp;&nbsp;DVD</option><option  value=\"6020\">&nbsp;&nbsp;WMV</option><option  value=\"6030\">&nbsp;&nbsp;XviD</option><option  value=\"6040\">&nbsp;&nbsp;x264</option><option  class=\"grouping\" value=\"7000\">Other</option><option  value=\"7030\">&nbsp;&nbsp;Comics</option><option  value=\"7020\">&nbsp;&nbsp;Ebook</option><option  value=\"7010\">&nbsp;&nbsp;Misc</option>";
