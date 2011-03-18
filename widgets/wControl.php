@@ -34,7 +34,7 @@ function widgetControlHeader() {
 CONTROLHEADER;
 }
 function widgetMenu($baseurl) {
-	global $shortcut;
+	global $shortcut, $mfpapikey;
 
 	if(empty($_GET["style"])) {
 		$style = "w";
