@@ -25,18 +25,14 @@ function main() {
 
 function nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl){
 
-	$type = "";
+	$type = (!empty($_GET['type']))?("&cat=".$_GET['type']):"";
 
-	if(!empty($_GET['type'])){
-		$type = "&cat=".$_GET['type'];
-	}
-
-	$table = "";
 	$search = "http://nzb.su/api?t=search&q=".urlencode($q).$type."&apikey=".$nzbsuapi."&o=json";
 	$json = @file_get_contents($search);
 	$content = json_decode($json, true);
 	//print_r($content);
 
+	$table = "";
 	foreach($content as &$array){
 		//print_r($array);
 		$id = $array[guid];
@@ -59,7 +55,7 @@ function nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl){
 
 		$addToSab = addCategory($cat,$addToSab);
 		if(strlen($name)!=0){
-			$table .= printTable($name,$cat,$size,$addToSab,$nzblink,$item_desc);
+			$table .= (strpos(strtolower($cat), "xxx")===false)?printTable($name,$cat,$size,$addToSab,$nzblink,$item_desc):("");
 		}
 	}
 	return $table;
@@ -67,17 +63,14 @@ function nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl){
 }
 
 function nzbmatrix($item, $nzbusername, $nzbapi,$saburl,$sabapikey) {
-	$type = "";
-	if(!empty($_GET['type'])){
-		$type = "&catid=".$_GET['type'];
-	}
+
+	$type = (!empty($_GET['type']))?("&catid=".$_GET['type']):"";
+
 	$search = "http://api.nzbmatrix.com/v1.1/search.php?search=".urlencode($item).$type."&username=".$nzbusername."&apikey=".$nzbapi;
 	$content = file_get_contents($search);
 	$itemArray = explode('|',$content);
 
-
 	$table = "";
-
 	foreach($itemArray as &$item){
 		$item = explode(';',$item);
 		/*
