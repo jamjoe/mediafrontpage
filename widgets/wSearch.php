@@ -3,8 +3,8 @@ $wdgtSearch = array("name" => "Search Widget", "type" => "inline", "function" =>
 $wIndex["wSearch"] = $wdgtSearch;
 
 function widgetSearch() {	
-	 echo <<<TEST
-            <input type="text"
+	 echo <<<BODY
+            <div><input type="text"
                   value=""
                   id="searchterm"
                   onkeydown="if (event.keyCode == 13) document.getElementById('searchbutton').click()">  <input type="radio"
@@ -13,20 +13,17 @@ function widgetSearch() {
                   onclick="catDropDown(this.value)"> nzb.su <input type="radio"
                   name="site"
                   value="2"
-                  onclick="catDropDown(this.value)"> NZBMatrix <select name="type"
+                  onclick="catDropDown(this.value)"> NZBMatrix <select name="type" style="visibility:hidden;"
                   id="type">
-                <option>
-                    CATEGORIES
-                </option>
             </select> <input type="button"
                   id="searchbutton"
                   value="Search"
                   onclick="results()"> <input type="button"
                   id="clearbutton"
                   value="Clear"
-                  onclick="clearResults()">
+                  onclick="clearResults()"></div>
         <div id="resultstable"></div>
-TEST;
+BODY;
 }
 
 ?>

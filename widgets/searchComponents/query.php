@@ -4,12 +4,12 @@ function main() {
 
 	$q=$_GET["q"];
 	$site = $_GET["site"];
-	$tablebody = "<div style=\"overflow: auto; max-height: 70%;\"><table id=\"myTable\" class=\"tablesorter\" style=\"height:70%;overflow:auto;\">
+	$tablebody = "<div style=\"overflow: auto; max-height: 70%; max-width: 100%;\"><table id=\"myTable\" class=\"tablesorter\" style=\"height:70%;overflow:auto;\">
 						<thead>
 							<tr>
     							<th></th>
     							<th onclick=\"setTimeout('updateRows()',50);\"><a href=#>Name <img src=\"./media/arrow.png\"/></a></th>
-    							<th onclick=\"setTimeout('updateRows()',50);\"><a href=#>Size <img src=\"./media/arrow.png\"/></a></th>
+    							<th class=\"header filesize\" onclick=\"setTimeout('updateRows()',50);\"><a href=#>Size <img src=\"./media/arrow.png\"/></a></th>
     							<th onclick=\"setTimeout('updateRows()',50);\"><a href=#>Category <img src=\"./media/arrow.png\"/></a></th>
 							</tr>
 						</thead>
@@ -125,8 +125,8 @@ function printTable($name,$cat,$size,$addToSab,$nzblink,$item_desc){
 	return "	<tr class=\"row\">
 					<td><a href=$addToSab; target='nothing';><img class=\"sablink\" src=\"./media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
 					<td style='width:60%';><a href=$nzblink target='_blank'; onMouseOver=\"ShowPopupBox('".$item_desc."');\" onMouseOut=\"HidePopupBox();\">$name</a></td>
-					<td>".ByteSize($size)."</td>
-					<td style='width:25%'>$cat</td>
+					<td class='filesize'>".ByteSize($size)."</td>
+					<td style='width:20%'>$cat</td>
 				</tr>";
 }
 
