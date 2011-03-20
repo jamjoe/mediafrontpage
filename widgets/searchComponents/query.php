@@ -4,7 +4,7 @@ function main() {
 
 	$q=$_GET["q"];
 	$site = $_GET["site"];
-	echo "<div style=\"overflow: auto; max-height: 70%;\"><table id=\"myTable\" class=\"tablesorter\" style=\"height:70%;overflow:auto;\">
+	$tablebody = "<div style=\"overflow: auto; max-height: 70%;\"><table id=\"myTable\" class=\"tablesorter\" style=\"height:70%;overflow:auto;\">
 						<thead>
 							<tr>
     							<th></th>
@@ -15,12 +15,12 @@ function main() {
 						</thead>
 						<tbody>";
 	if ($site == 1){
-		echo nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl);
+		$results = nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl);
 	}
 	else{
-		echo nzbmatrix($q, $nzbusername, $nzbapi,$saburl,$sabapikey);
+		$results = nzbmatrix($q, $nzbusername, $nzbapi,$saburl,$sabapikey);		
 	}
-	echo "</tbody></table></div>";
+	echo (!empty($results))? $tablebody.$results."</tbody></table></div>" : "<h1>Nothing found!</h1>";
 }
 
 function nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl){
