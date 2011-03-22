@@ -17,7 +17,11 @@ function main() {
 	if ($site == 1){
 		$results = nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl);
 	}
+	elseif($site ==2) {
+		$results = nzbmatrix($q, $nzbusername, $nzbapi,$saburl,$sabapikey);		
+	}
 	else{
+		$_GET['type'] = 42;
 		$results = nzbmatrix($q, $nzbusername, $nzbapi,$saburl,$sabapikey);		
 	}
 	echo (!empty($results))? $tablebody.$results."</tbody></table></div>" : "<h1>Nothing found!</h1>";
@@ -35,15 +39,15 @@ function nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl){
 	$table = "";
 	foreach($content as &$array){
 		//print_r($array);
-		$id = $array[guid];
-		$name = $array[name];
-		$cat = $array[category_name];
-		$size = $array[size];
-		$postdate = "<p>Date Posted: ".$array[postdate]."</p>";
-		$coments = "<p>Coments: ".$array[comments]."</p>";
-		$group_name = "<p> Group name: ".$array[group_name]."</p>";
-		$grabs = "<p> Grabs: ".$array[grabs]."</p>";
-		(!empty($array[seriesfull]))?($seriesfull=("<p>Episode info: ".$array[seriesfull]." ".$array[tvtitle]." ".$array[tvairdate]."</p>")):($seriesfull="");
+		$id = $array['guid'];
+		$name = $array['name'];
+		$cat = $array['category_name'];
+		$size = $array['size'];
+		$postdate = "<p>Date Posted: ".$array['postdate']."</p>";
+		$coments = "<p>Coments: ".$array['comments']."</p>";
+		$group_name = "<p> Group name: ".$array['group_name']."</p>";
+		$grabs = "<p> Grabs: ".$array['grabs']."</p>";
+		(!empty($array['seriesfull']))?($seriesfull=("<p>Episode info: ".$array['seriesfull']." ".$array['tvtitle']." ".$array['tvairdate']."</p>")):($seriesfull="");
 
 		$url="http://nzb.su/getnzb/".$id.".nzb".$nzbsudl;
 		$addToSab = $saburl.'api?mode=addurl&name='.urlencode($url).'&apikey='.$sabapikey;

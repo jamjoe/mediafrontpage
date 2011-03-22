@@ -13,7 +13,7 @@ function widgetSearch() {
                   onclick="catDropDown(this.value)"> nzb.su <input type="radio"
                   name="site"
                   value="2"
-                  onclick="catDropDown(this.value)"> NZBMatrix <select name="type" style="visibility:hidden;"
+                  onclick="catDropDown(this.value)"> NZBMatrix <select name="type" style="display:none;"
                   id="type">
             </select> <input type="button"
                   id="searchbutton"
@@ -21,7 +21,8 @@ function widgetSearch() {
                   onclick="results()"> <input type="button"
                   id="clearbutton"
                   value="Clear"
-                  onclick="clearResults()"></div>
+                  onclick="clearResults()"
+                  ondblclick="resetWidget()"></div>
         <div id="resultstable"></div>
 BODY;
 }
