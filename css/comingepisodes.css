@@ -1,8 +1,14 @@
-    div#header, #MainMenu, #SubMenu, .h2footer, .footer, .plotInfo, div.ep_summary, img.ep_summaryTrigger {
-        display: none !important;
+	div#header, #MainMenu, #SubMenu, .h2footer, .footer, .plotInfo, img.ep_summaryTrigger {
+		display: none !important;
 		visibility: hidden !important;
 }
 
+	div.ep_summary { 
+		display: block !important;
+		visibility: visible; !important;
+		color: #666; !important;
+		font-size: 12px !important;
+}
 	#comingepisodeswrapper, #insideWrapper  {
 		/* max-height: 250px; */
 
