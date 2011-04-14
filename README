@@ -1,4 +1,4 @@
-1. Download ie: 'git clone git://github.com/gugahoi/mediafrontpage.git'
+1. Download ie: 'git clone git://github.com/nick8888/mediafrontpage.git'
 2. Copy all files to the web server directory eg /var/www/ 
 3. Open default-config.php with gedit and edit appropriately
 4. Rename default-config.php to config.php
@@ -8,3 +8,102 @@
 
 OPTIONAL
 8. Create a folder named 'sbpcache' and allow write access (for caching sickbeard posters)
+
+-----------------------------
+List of Categories for nzb.su
+value=     Everything
+value=1000 Console
+value=1010 NDS  
+value=1080 PS3  
+value=1020 PSP  
+value=1030 Wii  
+value=1060 WiiWare/VC 
+value=1070 XBOX 360 DLC  
+value=1040 Xbox  
+value=1050 Xbox 360  
+value=2000 Movies  
+value=2010 Foreign  
+value=2040 HD  
+value=2020 Other  
+value=2030 SD 
+value=3000 Audio  
+value=3030 Audiobook  
+value=3040 Lossless  
+value=3010 MP3  
+value=3020 Video  
+value=4000 PC  
+value=4010 0day  
+value=4050 Games  
+value=4020 ISO  
+value=4030 Mac  
+value=4040 Phone 
+value=5000 TV  
+value=5020 Foreign  
+value=5040 HD  
+value=5050 Other  
+value=5030 SD  
+value=5060 Sport  
+value=6000 XXX  
+value=6010 DVD  
+value=6020 WMV  
+value=6030 XviD  
+value=6040 x264  
+value=7000 Other  
+value=7030 Comics  
+value=7020 Ebook  
+value=7010 Misc
+
+List of Categories for NZBMatrix.com
+
+value=0 	Everything
+value=1		Movies: DVD
+value=2 	Movies: Divx/Xvid
+value=54 	Movies: BRRip
+value=42 	Movies: HD (x264)
+value=50	Movies: HD (Image)
+value=48	Movies: WMV-HD
+value=3 	Movies: SVCD/VCD
+value=4 	Movies: Other
+value=5 	TV: DVD
+value=6		TV: Divx/Xvid
+value=41 	TV: HD
+value=7 	TV: Sport/Ent
+value=8 	TV: Other
+value=9 	Documentaries: STD
+value=53 	Documentaries: HD
+value=10 	Games: PC
+value=11 	Games: PS2
+value=43 	Games: PS3
+value=12 	Games: PSP
+value=13 	Games: Xbox
+value=14 	Games: Xbox360
+value=56 	Games: Xbox360 (Other)
+value=15 	Games: PS1
+value=16 	Games: Dreamcast
+value=44 	Games: Wii
+value=51 	Games: Wii VC
+value=45	Games: DS
+value=46	Games: GameCube
+value=17	Games: Other
+value=18 	Apps: PC
+value=19 	Apps: Mac
+value=52 	Apps: Portable
+value=20 	Apps: Linux
+value=55 	Apps: Phone
+value=21 	Apps: Other 
+value=22 	Music: MP3 Albums
+value=47 	Music: MP3 Singles
+value=23 	Music: Lossless
+value=24 	Music: DVD
+value=25 	Music: Video
+value=27 	Music: Other
+value=28 	Anime: ALL
+value=49 	Other: Audio Books
+value=33 	Other: Emulation
+value=34 	Other: PPC/PDA
+value=26 	Other: Radio
+value=36 	Other: E-Books
+value=37 	Other: Images
+value=38 	Other: Mobile Phone
+value=39 	Other: Extra Pars/Fills
+value=40 	Other: Other

@@ -1,7 +1,7 @@
 <?php
 function main() {
 	require_once "../../config.php";
-
+	
 	$q=$_GET["q"];
 	$site = $_GET["site"];
 	$tablebody = "<div style=\"overflow: auto; max-height: 70%; max-width: 100%;\"><table id=\"myTable\" class=\"tablesorter\" style=\"height:70%;overflow:auto;\">
@@ -17,12 +17,25 @@ function main() {
 	if ($site == 1){
 		$results = nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl);
 	}
-	elseif($site ==2) {
+	elseif($site == 2) {
 		$results = nzbmatrix($q, $nzbusername, $nzbapi,$saburl,$sabapikey);		
 	}
 	else{
-		$_GET['type'] = 42;
-		$results = nzbmatrix($q, $nzbusername, $nzbapi,$saburl,$sabapikey);		
+	$_GET['type'] = $preferredCategories;
+	switch ($preferredSearch){
+		case '0':
+			//$_GET['type'] = '';
+			//$results = nzbmatrix($q, $nzbusername, $nzbapi,$saburl,$sabapikey);
+			//$results .= nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl);
+			$results = "Need to choose default Site and Category";
+			break;
+		case '1':
+			$results = nzbmatrix($q, $nzbusername, $nzbapi,$saburl,$sabapikey);
+			break;
+		case '2':
+			$results = nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl);
+			break;
+			}
 	}
 	echo (!empty($results))? $tablebody.$results."</tbody></table></div>" : "<h1>Nothing found!</h1>";
 }
