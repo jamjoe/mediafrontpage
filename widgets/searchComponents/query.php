@@ -27,7 +27,7 @@ function main() {
 			//$_GET['type'] = '';
 			//$results = nzbmatrix($q, $nzbusername, $nzbapi,$saburl,$sabapikey);
 			//$results .= nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl);
-			$results = "Need to choose default Site and Category";
+			$results = "<h1>Need to choose default Site and Category</h1>";
 			break;
 		case '1':
 			$results = nzbmatrix($q, $nzbusername, $nzbapi,$saburl,$sabapikey);
@@ -83,20 +83,20 @@ function nzbmatrix($item, $nzbusername, $nzbapi,$saburl,$sabapikey) {
 
 	$type = (!empty($_GET['type']))?("&catid=".$_GET['type']):"";
 
-	$search = "http://api.nzbmatrix.com/v1.1/search.php?search=".urlencode($item).$type."&username=".$nzbusername."&apikey=".$nzbapi;
+	$search = "https://api.nzbmatrix.com/v1.1/search.php?search=".urlencode($item).$type."&username=".$nzbusername."&apikey=".$nzbapi;
 	$content = file_get_contents($search);
 	$itemArray = explode('|',$content);
 
 	$table = "";
 	foreach($itemArray as &$item){
 		$item = explode(';',$item);
-		/*
+/*
 					foreach($item as &$value){
 					echo $value;
 					echo "</br>";
 					}
 */
-		$id = $item[0];
+		$id = "ID: ".substr($item[0],6);
 		$name = substr($item[1],9);
 		$link = "http://www.".substr($item[2], 6);
 		$size = 0+substr($item[3], 6);
@@ -104,12 +104,15 @@ function nzbmatrix($item, $nzbusername, $nzbapi,$saburl,$sabapikey) {
 		$cat = substr($item[6],10);
 		$addToSab=$saburl."api?mode=addurl&name=http://www.".substr($link,6)."&nzbname=".urlencode($name)."&apikey=".$sabapikey;
 
-		$indexdate = $item[4];
-		$group = $item[7];
-		$comments = $item[8];
-		$hits = (string)$item[9];
-		$nfo = $item[10];
-		$item_desc = "Not yet implemented";
+		$indexdate = "Index Date: ".substr($item[4], 12);
+		$group = "Group: ".substr($item[7],7);
+		$comments = "Comments: ".substr($item[8],10);
+		$hits = "Hits: ".substr($item[9],6);
+		$nfo = "NFO: ".substr($item[10], 5);
+		$image = "<img src=".substr($item[13],7).">";
+		$item_desc = "<p>".$id."</p><p>".$group."</p><p>".$comments."</p><p>".$hits."</p><p>".$nfo."</p><p>".$indexdate."</p>";
+		$item_desc .= (substr($item[13],7)!="")?$image:"";
+		
 
 		$addToSab = addCategory($cat,$addToSab);
 
