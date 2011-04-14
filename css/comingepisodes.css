@@ -1,5 +1,5 @@
-	div#header, #MainMenu, #SubMenu, .h2footer, .footer, .plotInfo {
-		display: none !important;
+    div#header, #MainMenu, #SubMenu, .h2footer, .footer, .plotInfo, div.ep_summary, img.ep_summaryTrigger {
+        display: none !important;
 		visibility: hidden !important;
 }
 
@@ -11,6 +11,8 @@
 }
 
 	/* Remove border from images --needed for all 3 views */
+    /* fix possible alignment issues */
+    div.tvshowDiv > table tr td { width: 100%; }
 	div.tvshowDiv > table tr th img, td > a > img{
 		border:0 !important;
 		margin:0 !important;
