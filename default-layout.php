@@ -41,9 +41,13 @@ $arrLayout = array(
 				"title" => "Recent Movies",
 				"display" => ""
 			),
-                        "wRSS" => array(
-                                "title" => "RSS Feed",
-                                "display" => ""
+                "wRSS" => array(
+                     "title" => "RSS Feed",
+                     "display" => ""
+			),
+                "wuTorrent" => array(
+                     "title" => "uTorrent",
+                     "display" => ""
                         )
 		)
 	);
