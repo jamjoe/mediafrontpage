@@ -70,6 +70,7 @@ $navlink["Sickbeard"] = "/sickbeard";
 $navlink["Couch Potato"] = "/couchpotato";
 $navlink["TV Headend"] = "/tvheadend";
 $navlink["Sabnzbd"] = "/sabnzbd";
+$navlink["Transmission"] = "http://localhost:9091/transmission/web/";
 
 // enter shortcut links for control section
 $shortcut;
