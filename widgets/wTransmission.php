@@ -50,41 +50,36 @@ $uploaded_bytes = ByteSize2($current_stats->uploadedBytes);
 
 	
 	echo ($active_torrents!=0)?"<a href='".$cmdpath."stop=all' target='nothing'>Downloading</a>":"<a href='".$cmdpath."start=all' target='nothing'>Paused</a>";
+	echo "<p>D: ".$downloaded_bytes.$download_speed." - U: ".$uploaded_bytes.$upload_speed."</p>";
+	echo "<p></p>";
 
-
-	echo "<table border=\"1\" width='100%'>\n";
+/*	echo "<table border=\"1\" width='100%'>\n";
 	echo "\t<col><col><col><col><col>\n";
 	echo "\t<tr>\n";
-/*	echo "\t\t<th>Total Torrents</th>\n";
+	echo "\t\t<th>Total Torrents</th>\n";
 	echo "\t\t<th>Active</th>\n";
 	echo "\t\t<th>Paused</th>\n";
-*/	echo "\t\t<th>Downloaded</th>\n";
+	echo "\t\t<th>Downloaded</th>\n";
 	echo "\t\t<th>Uploaded</th>\n";
 	echo "\t</tr>\n";
 	echo "\t<tr>\n";
-/*	echo "\t\t<td>".$total_torrents."</td>\n";
+	echo "\t\t<td>".$total_torrents."</td>\n";
 	echo "\t\t<td>".$active_torrents."</td>\n";
 	echo "\t\t<td>".$paused_torrents."</td>\n";
-*/	echo "\t\t<td>".$downloaded_bytes.$download_speed."</td>\n";
+	echo "\t\t<td>".$downloaded_bytes.$download_speed."</td>\n";
 	echo "\t\t<td>".$uploaded_bytes.$upload_speed."</td>\n";
 	echo "\t</tr>\n";
 	echo "</table>\n";	
+*/
 
 $torrents = $rpc->get();
 if($torrents->result == 'success' && (!empty($torrents->arguments->torrents))){
 	//print_r($torrents);
 
-	echo "<table border=\"1\"><tr>";
-	echo "<th>ID</th>";
-	echo "<th>Name</th>";
-	echo "<th>Progress</th>";
-	echo "<th>Status</th>";
-	echo "<th>Size</th>";
-	echo "<th>DL Rate</th>";
-	echo "<th>UP Rate</th>";
-	echo "<th>Resume</th>";
-	echo "<th>Pause</th>";
-	echo "<th>Delete</th>";
+	echo "<table border=\"0\" width='100%' style='table-layout:fixed;'><tr>";
+	echo "<th style='width:30%; overflow:hidden;'>Name</th>";
+	echo "<th width='50%'>Progress</th>";
+	echo "<th></th>";
 	echo "</tr>";
 	foreach ($torrents->arguments->torrents as $item){
 		
@@ -100,43 +95,49 @@ if($torrents->result == 'success' && (!empty($torrents->arguments->torrents))){
 		
 		$popup = "<p>Ratio: ".$ratio."</p>";
 		$popup .= "<p>Download Directory: ".$dl_dir."</p>";
-
+		$popup .= "<p>ID: ".$id."</p>";
+		$popup .= "<p>DL Speed: ".$dl_rate."</p>";
+		$popup .= "<p>UL Speed: ".$ul_rate."</p>";
+		
+		$colour = "";
+		$playpausebtn = "stop=";
 		switch($status){
 			case 1:
 				$status = "Waiting in queue to check files";
+				$colour = "#FFFC17";	//Yellow1 
 				break;
 			case 2:
 				$status = "Checking Files";
+				$colour = "#FFFC17";	//Yellow1
 				break;
 			case 4:
 				$status = "Downloading";
+				$colour = "#347C17";	//Green4 #FFFC17
 				break;
 			case 8:
 				$status = "Seeding";
+				$colour = "#347C17";	//Green4
 				break;
 			case 16:
 				$status = "Paused";
+				$colour = "#FF0000";	//Red
+				$playpausebtn = "start=";
 				break;
 		}
 
+		$popup .= "<p>Status: ".$status."</p>";
 		
 		echo "<tr>";
-		echo "<td>".$id."</td>";
-		echo "<td onMouseOver=\"ShowPopupBox('".$popup."');\" onMouseOut=\"HidePopupBox();\">".$name."</td>";
-		echo "<td><div class=\"queueitem\">\n";
-		echo "\t\t\t\t<div class=\"progressbar\">\n";
-		echo "\t\t\t\t\t<div class=\"progress\" style=\"width:".$progress."\"></div>\n";
-		echo "\t\t\t\t\t<div class=\"progresslabel\">".$progress."</div>\n";
-		echo "\t\t\t\t</div><!-- .progressbar -->\n";
-		echo "\t\t\t</div><!-- .queueitem -->\n";
-		echo "</td>\n";
-		echo "<td>".$status."</td>";
-		echo "<td>".$size."</td>";
-		echo "<td>".$dl_rate."</td>";
-		echo "<td>".$ul_rate."</td>";
-		echo "<td><a href='".$cmdpath."start=".$id."' target='nothing'><img src='media/btnPlayPause.png' width='20px'/></a></td>";
-		echo "<td><a href='".$cmdpath."stop=".$id."' target='nothing'><img src='media/btnPlayPause.png' width='20px'/></a></td>";
-		echo "<td><a href='".$cmdpath."remove=".$id."' target='nothing'><img src='media/btnQueueDelete.png' width='20px'/></a></td>";
+		echo "<td onMouseOver=\"ShowPopupBox('".$popup."');\" onMouseOut=\"HidePopupBox();\"><font color=".$colour.">".$name."</font></td>";
+		echo "<td><div class=\"queueitem\">";
+		echo "\t\t\t\t<div class=\"progressbar\">";
+		echo "\t\t\t\t\t<div class=\"progress\" style=\"width:".$progress."\"></div>";
+		echo "\t\t\t\t\t<div class=\"progresslabel\" style='text-align: center;'>".$progress." of ".$size."</div>";
+		echo "\t\t\t\t</div><!-- .progressbar -->";
+		echo "\t\t\t</div><!-- .queueitem -->";
+		echo "</td>";
+		echo "<td><a href='".$cmdpath.$playpausebtn.$id."' target='nothing'><img src='media/btnPlayPause.png' width='20px'/></a>";
+		echo "<a href='".$cmdpath."remove=".$id."' target='nothing'><img src='media/btnQueueDelete.png' width='20px'/></a></td>";
 		echo "</tr>";
 		}	
 		echo "</table>\n";
