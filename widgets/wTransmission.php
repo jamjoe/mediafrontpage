@@ -40,18 +40,22 @@ $rpc->password = $transmission_pass;
 
 $session = $rpc->getSession(null)->arguments;
 $current_stats = $session->current_stats;
-$upload_speed = "@".ByteSize2($session->uploadSpeed)."/s";
-$download_speed = "@".ByteSize2($session->downloadSpeed)."/s";
+$upload_speed = ByteSize2($session->uploadSpeed)."/s";
+$download_speed = ByteSize2($session->downloadSpeed)."/s";
 $active_torrents = $session->activeTorrentCount;
 $paused_torrents = $session->pausedTorrentCount;
 $total_torrents = $session->torrentCount;
 $downloaded_bytes = ByteSize2($current_stats->downloadedBytes);
 $uploaded_bytes = ByteSize2($current_stats->uploadedBytes);
 
-	
-	echo ($active_torrents!=0)?"<a href='".$cmdpath."stop=all' target='nothing'>Downloading</a>":"<a href='".$cmdpath."start=all' target='nothing'>Paused</a>";
-	echo "<p>D: ".$downloaded_bytes.$download_speed." - U: ".$uploaded_bytes.$upload_speed."</p>";
-	echo "<p></p>";
+	if($active_torrents!=0){
+		echo "<a href='".$cmdpath."stop=all' target='nothing'>Downloading</a>";
+		echo "<p>D: ".$download_speed." - U: ".$upload_speed."</p>";
+	}
+	else {
+		echo "<a href='".$cmdpath."start=all' target='nothing'>Paused</a>";
+	}
+	//echo ($active_torrents!=0)?"<a href='".$cmdpath."stop=all' target='nothing'>Downloading</a>":"<a href='".$cmdpath."start=all' target='nothing'>Paused</a>";
 
 /*	echo "<table border=\"1\" width='100%'>\n";
 	echo "\t<col><col><col><col><col>\n";
@@ -76,9 +80,9 @@ $torrents = $rpc->get();
 if($torrents->result == 'success' && (!empty($torrents->arguments->torrents))){
 	//print_r($torrents);
 
-	echo "<table border=\"0\" width='100%' style='table-layout:fixed;'><tr>";
-	echo "<th style='width:30%; overflow:hidden;'>Name</th>";
-	echo "<th width='50%'>Progress</th>";
+	echo "<table border=\"0\" width='100%' style='table-layout:fixed;' cellspacing='0' cellpadding='0'><tr>";
+	echo "<th style='width:30%;'></th>";
+	echo "<th width='50%'></th>";
 	echo "<th></th>";
 	echo "</tr>";
 	foreach ($torrents->arguments->torrents as $item){
@@ -93,7 +97,8 @@ if($torrents->result == 'success' && (!empty($torrents->arguments->torrents))){
 		$ratio		=	$item->uploadRatio;
 		$progress	=	($item->percentDone*100).'%';
 		
-		$popup = "<p>Ratio: ".$ratio."</p>";
+		$popup = "<p>Name: ".$name."</p>";
+		$popup .= "<p>Ratio: ".$ratio."</p>";
 		$popup .= "<p>Download Directory: ".$dl_dir."</p>";
 		$popup .= "<p>ID: ".$id."</p>";
 		$popup .= "<p>DL Speed: ".$dl_rate."</p>";
@@ -128,7 +133,8 @@ if($torrents->result == 'success' && (!empty($torrents->arguments->torrents))){
 		$popup .= "<p>Status: ".$status."</p>";
 		
 		echo "<tr>";
-		echo "<td onMouseOver=\"ShowPopupBox('".$popup."');\" onMouseOut=\"HidePopupBox();\"><font color=".$colour.">".$name."</font></td>";
+		echo "<td onMouseOver=\"ShowPopupBox('".$popup."');\" onMouseOut=\"HidePopupBox();\"><font color=".$colour."><div style='text-overflow:ellipsis;
+overflow:hidden; white-space: nowrap;'>".$name."</div></font></td>";
 		echo "<td><div class=\"queueitem\">";
 		echo "\t\t\t\t<div class=\"progressbar\">";
 		echo "\t\t\t\t\t<div class=\"progress\" style=\"width:".$progress."\"></div>";
