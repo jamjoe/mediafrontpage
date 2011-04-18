@@ -56,7 +56,7 @@ $preferredSearch = '2';			// Set to 1 for NZBMatrix and 2 for nzb.su
 $preferredCategories = '0'; 	// Check README for a list of options. Make sure the option is for the appropriate site.
 
 //uTorrent info
-$utorrent_url = "http://localhost:8081/" //url including port eg:http://localhost:8081/
+$utorrent_url = "http://localhost:8081/"; //url including port eg:http://localhost:8081/
 
 // enter navigation bar links
 $navlink;
