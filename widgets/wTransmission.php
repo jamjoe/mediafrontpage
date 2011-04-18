@@ -204,13 +204,13 @@ if(!empty($_GET['style']) && ($_GET['style'] == "w")) {
 	</head>
 	<body>
 <?php
-		widgetTransmission($count);
+		widgetTransmission();
 ?>
 	</body>
 </html>
 <?php
 	} else {
-		widgetTransmission($count);
+		widgetTransmission();
 	}
 }
 ?>
