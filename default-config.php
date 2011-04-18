@@ -65,6 +65,7 @@ $navlink["Sickbeard"] = "/sickbeard";
 $navlink["Couch Potato"] = "/couchpotato";
 $navlink["TV Headend"] = "/tvheadend";
 $navlink["Sabnzbd"] = "/sabnzbd";
+$navlink["uTorrent"] = "http://localhost:8081/gui/";
 
 // enter shortcut links for control section
 $shortcut;
