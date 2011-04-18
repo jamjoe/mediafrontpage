@@ -45,7 +45,7 @@ $sabapikey = '';                             // SABnzbd's API Key found in Confi
 
 //enter NZBmatrix login
 $nzbusername = 'your nzb matrix username';		//username
-$nzbapi = 'your nzb matrix api';           //api
+$nzbapi = 'your nzb matrix api';				//api
 
 //enter nzb.su login
 $nzbsuapi = 'your nzb.su api';                // find this in http://nzb.su/profile 
@@ -57,6 +57,11 @@ $preferredCategories = '0'; 	// Check README for a list of options. Make sure th
 
 //uTorrent info
 $utorrent_url = "http://localhost:8081/"; //url including port eg:http://localhost:8081/
+
+//Transmission info
+$transmission_url 	= "http://localhost:9091/transmission/rpc";	// The url for transmission webserver
+$transmission_admin	= "";	// The username for trasmission webui
+$transmission_pass 	= "";	// The password for the webui
 
 // enter navigation bar links
 $navlink;
