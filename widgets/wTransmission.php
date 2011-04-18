@@ -1,5 +1,6 @@
 <?php
 $wIndex["wTransmission"] = array("name" => "Transmission", "type" => "ajax", "block" => "transmissionwrapper", "headerfunction" => "widgetTransmissionHeader();", "call" => "widgets/wTransmission.php?style=w", "interval" => 5000);
+
 function widgetTransmissionHeader() {
 	echo <<< TRANSMISSIONHEADER
 		<script type="text/javascript" language="javascript">
@@ -28,24 +29,14 @@ TRANSMISSIONHEADER;
 
 function widgetTransmission(){ 
 	global $transmission_url, $transmission_admin, $transmission_pass;
-
-require_once('transmission_api.php' );
+$cmdpath = 'widgets/TransmissionComponents/transmission_commands?';
+require_once('TransmissionComponents/transmission_api.php' );
     echo '<div id="transmission_body" width="100%" overflow="hidden">';
 $rpc = new TransmissionRPC($transmission_url);
 
 $rpc->username = $transmission_admin;
 $rpc->password = $transmission_pass;
 //$rpc->debug = true;
-
-
-if($_GET['stop']=='all'){
-	$rpc->stop(array());
-	echo 'Stopped';
-} 
-if($_GET['start']=='all'){
-	$rpc->start(array());
-	echo 'Resumed';
-} 
 
 $session = $rpc->getSession(null)->arguments;
 $current_stats = $session->current_stats;
@@ -58,7 +49,7 @@ $downloaded_bytes = ByteSize2($current_stats->downloadedBytes);
 $uploaded_bytes = ByteSize2($current_stats->uploadedBytes);
 
 	
-	echo ($active_torrents!=0)?"<a href='?stop=all'>Downloading</a>":"<a href='?start=all'>PAUSED</a>";
+	echo ($active_torrents!=0)?"<a href='".$cmdpath."stop=all' target='nothing'>Downloading</a>":"<a href='".$cmdpath."start=all' target='nothing'>Paused</a>";
 
 
 	echo "<table border=\"1\" width='100%'>\n";
@@ -91,11 +82,10 @@ if($torrents->result == 'success' && (!empty($torrents->arguments->torrents))){
 	echo "<th>Size</th>";
 	echo "<th>DL Rate</th>";
 	echo "<th>UP Rate</th>";
-	echo "<th>Ratio</th>";
 	echo "<th>Resume</th>";
 	echo "<th>Pause</th>";
 	echo "<th>Delete</th>";
-	echo "<th>DL Directory</th></tr>";
+	echo "</tr>";
 	foreach ($torrents->arguments->torrents as $item){
 		
 		$name		= 	$item->name;
@@ -107,17 +97,9 @@ if($torrents->result == 'success' && (!empty($torrents->arguments->torrents))){
 		$ul_rate	=	ByteSize2($item->rateUpload).'/s';
 		$ratio		=	$item->uploadRatio;
 		$progress	=	($item->percentDone*100).'%';
-
-		if($_GET['start']==$id){
-			$rpc->start($id);
-		}
-
-		if($_GET['stop']==$id){
-			$rpc->stop($id);
-		}
-		if($_GET['remove']==$id){
-			$rpc->remove($id);
-		}
+		
+		$popup = "<p>Ratio: ".$ratio."</p>";
+		$popup .= "<p>Download Directory: ".$dl_dir."</p>";
 
 		switch($status){
 			case 1:
@@ -140,7 +122,7 @@ if($torrents->result == 'success' && (!empty($torrents->arguments->torrents))){
 		
 		echo "<tr>";
 		echo "<td>".$id."</td>";
-		echo "<td>".$name."</td>";
+		echo "<td onMouseOver=\"ShowPopupBox('".$popup."');\" onMouseOut=\"HidePopupBox();\">".$name."</td>";
 		echo "<td><div class=\"queueitem\">\n";
 		echo "\t\t\t\t<div class=\"progressbar\">\n";
 		echo "\t\t\t\t\t<div class=\"progress\" style=\"width:".$progress."\"></div>\n";
@@ -152,11 +134,9 @@ if($torrents->result == 'success' && (!empty($torrents->arguments->torrents))){
 		echo "<td>".$size."</td>";
 		echo "<td>".$dl_rate."</td>";
 		echo "<td>".$ul_rate."</td>";
-		echo "<td>".$ratio."</td>";
-		echo "<td><a href='?start=".$id."'><img src='media/btnPlayPause.png' width='20px'/></a></td>";
-		echo "<td><a href='?stop=".$id."'><img src='media/btnPlayPause.png' width='20px'/></a></td>";
-		echo "<td><a href='?remove=".$id."'><img src='media/btnQueueDelete.png' width='20px'/></a></td>";
-		echo "<td>".$dl_dir."</td>";
+		echo "<td><a href='".$cmdpath."start=".$id."' target='nothing'><img src='media/btnPlayPause.png' width='20px'/></a></td>";
+		echo "<td><a href='".$cmdpath."stop=".$id."' target='nothing'><img src='media/btnPlayPause.png' width='20px'/></a></td>";
+		echo "<td><a href='".$cmdpath."remove=".$id."' target='nothing'><img src='media/btnQueueDelete.png' width='20px'/></a></td>";
 		echo "</tr>";
 		}	
 		echo "</table>\n";
@@ -203,6 +183,7 @@ if(!empty($_GET['style']) && ($_GET['style'] == "w")) {
 		<link rel='stylesheet' type='text/css' href='css/front.css'>
 	</head>
 	<body>
+					<iframe name="nothing" height="0" width="0" style="visibility:hidden;display:none"></iframe>
 <?php
 		widgetTransmission();
 ?>
