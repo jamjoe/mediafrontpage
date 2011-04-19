@@ -13,7 +13,12 @@ if($_GET['stop']=='all'){
 } 
 if($_GET['start']=='all'){
 	$rpc->start(array());
-} 
+}
+
+if(!empty($_GET['dllimit'])){
+	$rpc->sessionSet(array(),array('speed-limit-down'=>intval($_GET['dllimit'])));
+	echo "Download speed set to ".$_GET['dllimit'];
+}
 
 
 $torrents = $rpc->get();
@@ -29,10 +34,8 @@ if(!empty($torrents->arguments->torrents)){
 			$rpc->stop($id);
 		}
 		if($_GET['remove']==$id){
-			$rpc->remove($id);
+			$rpc->remove($id,true);
 		}
-
-
 	}
 }
 ?>

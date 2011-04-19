@@ -1,5 +1,5 @@
 <?php
-$wIndex["wTransmission"] = array("name" => "Transmission", "type" => "ajax", "block" => "transmissionwrapper", "headerfunction" => "widgetTransmissionHeader();", "call" => "widgets/wTransmission.php?style=w", "interval" => 5000);
+$wIndex["wTransmission"] = array("name" => "Transmission", "type" => "ajax", "block" => "transmissionwrapper", "headerfunction" => "widgetTransmissionHeader();", "call" => "widgets/wTransmission.php?style=w", "interval" => 10000);
 
 function widgetTransmissionHeader() {
 	echo <<< TRANSMISSIONHEADER
@@ -32,6 +32,7 @@ function widgetTransmission(){
 	$cmdpath = 'widgets/TransmissionComponents/transmission_commands?';
 	require_once('TransmissionComponents/transmission_api.php' );
 	echo '<div id="transmission_body" width="100%" overflow="hidden">';
+	
 	try{
 		$rpc = new TransmissionRPC($transmission_url);
 		$rpc->username = $transmission_admin;
@@ -47,6 +48,9 @@ function widgetTransmission(){
 		$total_torrents = $session->torrentCount;
 		$downloaded_bytes = ByteSize2($current_stats->downloadedBytes);
 		$uploaded_bytes = ByteSize2($current_stats->uploadedBytes);
+		$dl_speed_limit = $rpc->getSessionInfo(null)->arguments->speed_limit_down;
+		
+		echo "<form target='nothing' style='float: right;' action='".$cmdpath."' method='get'><input type='text'  value='".$dl_speed_limit."' id='dllimit' name='dllimit' size='1' /></form>";
 
 		if($active_torrents!=0){
 			echo "<a href='".$cmdpath."stop=all' target='nothing'>Downloading</a>";
@@ -55,6 +59,7 @@ function widgetTransmission(){
 		else {
 			echo "<a href='".$cmdpath."start=all' target='nothing'>Paused</a>";
 		}
+
 
 		$torrents = $rpc->get();
 		if($torrents->result == 'success' && (!empty($torrents->arguments->torrents))){

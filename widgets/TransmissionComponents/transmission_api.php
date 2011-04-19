@@ -162,7 +162,7 @@ class TransmissionRPC
   public function get ( $ids = array(), $fields = array() )
   {
     if ( !is_array( $ids ) ) $ids = array( $ids );	// Convert $ids to an array if only a single id was passed
-    if ( count( $fields ) == 0 ) $fields = array( "id", "name", "status", "uploadRatio", "haveValid", "totalSize", "rateUpload", "rateDownload", "downloadDir", "percentDone");
+    if ( count( $fields ) == 0 ) $fields = array( "id", "name", "status", "uploadRatio", "haveValid", "totalSize", "rateUpload", "rateDownload", "downloadDir", "percentDone","eta");
     $request = array(
       "fields" => $fields,
       "ids" => $ids
@@ -180,6 +180,20 @@ class TransmissionRPC
 		if ( !is_array( $ids ) ) $ids = array( $ids );	// Convert $ids to an array if only a single id was passed
 		$request = array( "ids" => $ids );
 		return $this->request( "session-stats", $request ); 
+  }
+
+  public function getSessionInfo($request){
+		if ( !is_array( $ids ) ) $ids = array( $ids );	// Convert $ids to an array if only a single id was passed
+		$request = array( "ids" => $ids );
+		return $this->request( "session-get", $request ); 
+  }
+
+  public function sessionSet ( $ids = array(), $arguments = array() )
+  {
+    // See https://trac.transmissionbt.com/browser/trunk/doc/rpc-spec.txt for available fields
+    if ( !is_array( $ids ) ) $ids = array( $ids );	// Convert $ids to an array if only a single id was passed
+    if ( !isset( $arguments['ids'] ) ) $arguments['ids'] = $ids;	// Any $ids given in $arguments overrides the method parameter
+    return $this->request( "session-set", $arguments );
   }
 
   /**
