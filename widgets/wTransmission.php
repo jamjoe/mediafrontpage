@@ -52,8 +52,8 @@ function widgetTransmission(){
 		$ul_speed_limit = $rpc->getSessionInfo(null)->arguments->speed_limit_up;
 		
 		echo "<form target='nothing' style='float: right;' action='".$cmdpath."' method='get'>";
-		echo "<input type='text'  value='".$dl_speed_limit."' id='dllimit' name='dllimit' size='1' />";
-		echo "<input type='text'  value='".$ul_speed_limit."' id='ullimit' name='ullimit' size='1' />";
+		echo "<input type='text'  value='".$dl_speed_limit."' id='dllimit' name='dllimit' size='1' /><img src='media/btnDown.png' width='10px' height='20px' style='vertical-align:bottom;' />";
+		echo "<input type='text'  value='".$ul_speed_limit."' id='ullimit' name='ullimit' size='1' /><img src='media/btnUp.png' width='10px' height='20px' style='vertical-align:bottom;' />";
 		echo "<input type='submit' style='position: absolute; left: -9999px'/>";
 		echo "</form>";
 
