@@ -5,22 +5,45 @@ function widgetTransmissionHeader() {
 	echo <<< TRANSMISSIONHEADER
 		<script type="text/javascript" language="javascript">
 		<!--
-			function cmdTransmission(requesturl) {
-
-				//alert(requesturl);
-
-				var cmdTransmissionRequest = new ajaxRequest();
-				cmdTransmissionRequest.open("GET", requesturl, true);
-				cmdTransmissionRequest.onreadystatechange = function() {
-					if (cmdTransmissionRequest.readyState==4) {
-						if (cmdTransmissionRequest.status==200 || window.location.href.indexOf("http")==-1) {
-							document.getElementById("transmissionwrapper").innerHTML = cmdTransmissionRequest.responseText;
+			function sendArgument(method){
+				var xmlhttp=null;
+				var url = "widgets/TransmissionComponents/transmission_commands.php?";
+				if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+					xmlhttp=new XMLHttpRequest();
+				}
+				else{// code for IE6, IE5
+					xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				xmlhttp.onreadystatechange = function() {
+					if (xmlhttp.readyState==4) {
+						if (xmlhttp.status==200 || window.location.href.indexOf("http")==-1) {
+							document.getElementById("load").innerHTML = "...";
+							updateTransmission();
 						} else {
-							//alert("An error has occurred making the request");
+							//alert("An error has occured making the request");
 						}
 					}
 				}
-				cmdTransmissionRequest.send(null);
+				xmlhttp.open("GET", url+method, true);
+				xmlhttp.send(null);
+			}
+			
+			function updateTransmission(){
+				var xmlhttp=null;
+				var url = "widgets/wTransmission.php?style=w";
+				if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+					xmlhttp=new XMLHttpRequest();
+				}
+				else{// code for IE6, IE5
+					xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+				}				
+				xmlhttp.onreadystatechange=function(){
+					if (xmlhttp.readyState==4 && xmlhttp.status==200){
+						document.getElementById("transmissionwrapper").innerHTML=xmlhttp.responseText;
+					}
+				}
+				xmlhttp.open("GET", url, true);
+				xmlhttp.send(null);
 			}
 		-->
 		</script>
@@ -58,13 +81,13 @@ function widgetTransmission(){
 		echo "</form>";
 
 		if($active_torrents!=0){
-			echo "<a href='".$cmdpath."stop=all' target='nothing'>Downloading</a>";
+			echo "<a href='#' target='nothing' onclick=\"sendArgument('stop=all');\">Downloading</a>";
 			echo "<p>D: ".$download_speed." - U: ".$upload_speed."</p>";
 		}
 		else {
-			echo "<a href='".$cmdpath."start=all' target='nothing'>Paused</a>";
+			echo "<a href='#' target='nothing' onclick=\"sendArgument('start=all');\">Paused</a>";
 		}
-
+		echo "<div id='load'></div>";
 
 		$torrents = $rpc->get();
 		if($torrents->result == 'success' && (!empty($torrents->arguments->torrents))){
@@ -139,8 +162,8 @@ overflow:hidden; white-space: nowrap;'>".$name."</div></font></td>";
 				echo "\t\t\t\t</div><!-- .progressbar -->";
 				echo "\t\t\t</div><!-- .queueitem -->";
 				echo "</td>";
-				echo "<td><a href='".$cmdpath.$playpausebtn.$id."' target='nothing'><img src='media/btnPlayPause.png' width='20px'/></a>";
-				echo "<a href='".$cmdpath."remove=".$id."' target='nothing'><img src='media/btnQueueDelete.png' width='20px'/></a></td>";
+				echo "<td><a href='#' target='nothing' onclick=\"sendArgument('".$playpausebtn.$id."');\"><img src='media/btnPlayPause.png' width='20px'/></a>";
+				echo "<a href='#' target='nothing' onclick=\"sendArgument('remove=".$id."');\"><img src='media/btnQueueDelete.png' width='20px'/></a></td>";
 				echo "</tr>";
 			}
 			echo "</table>\n";
@@ -188,7 +211,7 @@ if(!empty($_GET['style']) && ($_GET['style'] == "w")) {
 ?>
 <html>
 	<head>
-		<title>Media Front Page - SABnzbd Status</title>
+		<title>Media Front Page - Transmission</title>
 		<link rel='stylesheet' type='text/css' href='css/front.css'>
 	</head>
 	<body>
