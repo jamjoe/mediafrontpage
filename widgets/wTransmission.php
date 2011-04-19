@@ -49,8 +49,13 @@ function widgetTransmission(){
 		$downloaded_bytes = ByteSize2($current_stats->downloadedBytes);
 		$uploaded_bytes = ByteSize2($current_stats->uploadedBytes);
 		$dl_speed_limit = $rpc->getSessionInfo(null)->arguments->speed_limit_down;
+		$ul_speed_limit = $rpc->getSessionInfo(null)->arguments->speed_limit_up;
 		
-		echo "<form target='nothing' style='float: right;' action='".$cmdpath."' method='get'><input type='text'  value='".$dl_speed_limit."' id='dllimit' name='dllimit' size='1' /></form>";
+		echo "<form target='nothing' style='float: right;' action='".$cmdpath."' method='get'>";
+		echo "<input type='text'  value='".$dl_speed_limit."' id='dllimit' name='dllimit' size='1' />";
+		echo "<input type='text'  value='".$ul_speed_limit."' id='ullimit' name='ullimit' size='1' />";
+		echo "<input type='submit' style='position: absolute; left: -9999px'/>";
+		echo "</form>";
 
 		if($active_torrents!=0){
 			echo "<a href='".$cmdpath."stop=all' target='nothing'>Downloading</a>";

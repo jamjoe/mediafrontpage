@@ -16,8 +16,12 @@ if($_GET['start']=='all'){
 }
 
 if(!empty($_GET['dllimit'])){
-	$rpc->sessionSet(array(),array('speed-limit-down'=>intval($_GET['dllimit'])));
+	$rpc->sessionSet(array(),array('speed-limit-down'=>intval($_GET['dllimit']),'speed-limit-down-enabled'=>true));
 	echo "Download speed set to ".$_GET['dllimit'];
+}
+if(!empty($_GET['ullimit'])){
+	$rpc->sessionSet(array(),array('speed-limit-up'=>intval($_GET['ullimit']),'speed-limit-up-enabled'=>true));
+	echo "Upload speed set to ".$_GET['ullimit'];
 }
 
 
