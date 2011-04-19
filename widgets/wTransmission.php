@@ -67,23 +67,30 @@ function widgetTransmission(){
 			echo "</tr>";
 			foreach ($torrents->arguments->torrents as $item){
 
-				$name  =  $item->name;
-				$status  =  $item->status;
-				$size  =  ByteSize2($item->totalSize);
-				$id   = $item->id;
-				$dl_dir  = $item->downloadDir;
-				$dl_rate = ByteSize2($item->rateDownload).'/s';
-				$ul_rate = ByteSize2($item->rateUpload).'/s';
-				$ratio  = $item->uploadRatio;
-				$progress = ($item->percentDone*100).'%';
-
+				$name		=	$item->name;
+				$status		=	$item->status;
+				$size		=	ByteSize2($item->totalSize);
+				$id   		= 	$item->id;
+				$dl_dir  	= 	$item->downloadDir;
+				$dl_rate 	= 	ByteSize2($item->rateDownload).'/s';
+				$ul_rate 	= 	ByteSize2($item->rateUpload).'/s';
+				$ratio  	=	$item->uploadRatio;
+				$progress	=	($item->percentDone*100).'%';
+				
+				$eta 		= 	$item->eta;
+				$eta_hr		=	floor($eta/60/60);
+				$eta_min 	= 	($eta<60)?$eta:floor($eta/60-$eta_hr*60);
+				
 				$popup = "<p>Name: ".$name."</p>";
 				$popup .= "<p>Ratio: ".$ratio."</p>";
 				$popup .= "<p>Download Directory: ".$dl_dir."</p>";
 				$popup .= "<p>ID: ".$id."</p>";
 				$popup .= "<p>DL Speed: ".$dl_rate."</p>";
 				$popup .= "<p>UL Speed: ".$ul_rate."</p>";
-
+				$popup .= "<p>ETA: ";
+				$popup .= ($eta>0)?$eta_hr.":".$eta_min:"Unknown";
+				$popup .= "</p>";
+				
 				$colour = "";
 				$playpausebtn = "stop=";
 				switch($status){
