@@ -1,54 +1,58 @@
 <?php
 $arrLayout = array(
 		"section1" => array(
-			"wControl" => array(
-				"title" => "Control",
-				"display" => ""
-			),
 			"wRecentTV" => array(
 				"title" => "Recent TV",
+				"display" => ""
+			),
+			"wSabnzbd" => array(
+				"title" => "Sabnzbd",
 				"display" => ""
 			),
 			"wXBMCLibrary" => array(
 				"title" => "XBMC Library",
 				"display" => ""
 			),
-			"wSabnzbd" => array(
-				"title" => "Sabnzbd",
+			"wControl" => array(
+				"title" => "Control",
+				"display" => ""
+			),
+			"wNowPlaying" => array(
+				"title" => "Now Playing",
 				"display" => ""
 			)
 		),
 		"section2" => array(
+			"wSearch" => array(
+				"title" => "Search",
+				"display" => ""
+			),
 			"wComingEpisodes" => array(
 				"title" => "Coming Episodes",
 				"display" => ""
 			),
-				"wSearch" => array(
-				"title" => "Search",
+			"wuTorrent" => array(
+				"title" => "uTorrent",
 				"display" => ""
 			)
 		),
 		"section3" => array(
-			"wNowPlaying" => array(
-				"title" => "Now Playing",
+			"wRecentMovies" => array(
+				"title" => "Recent Movies",
+				"display" => ""
+			),
+			"wTransmission" => array(
+				"title" => "Transmission",
 				"display" => ""
 			),
 			"wHardDrives" => array(
 				"title" => "Hard Drives",
 				"display" => ""
 			),
-			"wRecentMovies" => array(
-				"title" => "Recent Movies",
+			"wRSS" => array(
+				"title" => "RSS Feed",
 				"display" => ""
-			),
-                "wRSS" => array(
-                     "title" => "RSS Feed",
-                     "display" => ""
-			),
-                "wuTorrent" => array(
-                     "title" => "uTorrent",
-                     "display" => ""
-                        )
+			)
 		)
 	);
 /*
@@ -58,3 +62,4 @@ $arrLayout = array(
 			)
 */
 ?>
+
