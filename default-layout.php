@@ -31,6 +31,10 @@ $arrLayout = array(
 				"title" => "Coming Episodes",
 				"display" => ""
 			),
+			"wjDownloader" => array(
+				"title" => "jDownloader",
+				"display" => ""
+			),
 			"wuTorrent" => array(
 				"title" => "uTorrent",
 				"display" => ""

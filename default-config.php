@@ -63,6 +63,9 @@ $transmission_url 	= "http://localhost:9091/transmission/rpc";	// The url for tr
 $transmission_admin	= "";	// The username for trasmission webui
 $transmission_pass 	= "";	// The password for the webui
 
+//jDownloader info
+$jd_url = "http://0.0.0.0:10025/";	// url to jDownloader Remote Control port
+
 // enter navigation bar links
 $navlink;
 $navlink["XBMC"] = "http://localhost:8080";
