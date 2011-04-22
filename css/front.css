@@ -34,9 +34,6 @@ table {
 	font-size:1.2em;
 	text-align:center;
 }
-tr.row:hover {
-	background-color: #FFFFFF;
-} 
 td {
 	vertical-align:top;
 }
@@ -264,6 +261,10 @@ table.popupwrapper tr {
 .odd {
 	background-color: #383838;
 }
+tr.row:hover {
+	background-color: #FFFFFF;
+} 
+
 
 /* wTransmission */
 .btnDown {

@@ -109,15 +109,14 @@ function nzbmatrix($item, $nzbusername, $nzbapi,$saburl,$sabapikey) {
 		$comments = "Comments: ".substr($item[8],10);
 		$hits = "Hits: ".substr($item[9],6);
 		$nfo = "NFO: ".substr($item[10], 5);
-		$image = "<img src=".substr($item[13],7).">";
+		$image = substr($item[13],7);
 		$item_desc = "<p>".$id."</p><p>".$group."</p><p>".$comments."</p><p>".$hits."</p><p>".$nfo."</p><p>".$indexdate."</p>";
-		$item_desc .= (substr($item[13],7)!="")?$image:"";
 		
 
 		$addToSab = addCategory($cat,$addToSab);
 
 		if(strlen($name)!=0){
-			$table .= printTable($name,$cat,$size,$addToSab,$link,$item_desc);
+			$table .= printTable($name,$cat,$size,$addToSab,$link,$item_desc,$image);
 		}
 	}
 	return $table;
@@ -134,10 +133,13 @@ function getform(){
 				<input type=\"submit\" name=\"submit\" value=\"Search\" />
 			</form>";
 }
-function printTable($name,$cat,$size,$addToSab,$nzblink,$item_desc){
-	return "	<tr class=\"row\">
-					<td><a href=$addToSab; target='nothing';><img class=\"sablink\" src=\"./media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
-					<td style='width:60%';><a href=$nzblink target='_blank'; onMouseOver=\"ShowPopupBox('".$item_desc."');\" onMouseOut=\"HidePopupBox();\">$name</a></td>
+function printTable($name,$cat,$size,$addToSab,$nzblink,$item_desc, $image="" ){
+	if($image!=""){
+	$image = "<a href=".$image." class=\"highslide\" onclick=\"return hs.expand(this)\"><img style='float: left;' height='30em' width='20em' src='".$image."' /></a>";
+	}
+	return "	<tr class=\"row\" style=\"height:3em;\">
+					<td><a href=\"#\";  onclick=\"sabAddUrl('".htmlentities($addToSab)."'); return false;\"><img class=\"sablink\" src=\"./media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
+					<td style='width:60%';>".$image."<a href='".$nzblink."' target='_blank'; onMouseOver=\"ShowPopupBox('".$item_desc."');\" onMouseOut=\"HidePopupBox();\">$name</a></td>
 					<td class='filesize'>".ByteSize($size)."</td>
 					<td style='width:20%'>$cat</td>
 				</tr>";
