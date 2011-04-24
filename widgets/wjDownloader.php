@@ -1,57 +1,89 @@
 <?php
-$wIndex["wjDownloader"]  = array("name" => "jDownloader", "type" => "ajax", "block" => "jdownloaderwrapper", "call" => "widgets/wjDownloader.php?style=w", "interval" => 2000);
+$wIndex["wjDownloader"]  = array("name" => "jDownloader", "type" => "ajax", "block" => "jdownloaderwrapper", "headerfunction" => "widgetjDHeader();", "call" => "widgets/wjDownloader.php?style=w", "interval" => 10000);
+function widgetjDHeader() {
+	echo <<< JDHEADER
+		<script type="text/javascript" language="javascript">
+		<!--
+
+			function toggle(subitem){
+
+				var array = document.getElementsByName(subitem);
+				
+				for( var c = 0; c < array.length; c++){
+					if (array[c].style.display == 'none'){
+						array[c].style.display = 'table-row';
+					}
+					else{
+						array[c].style.display = 'none';
+					}
+				}
+			
+
+
+			}
+
+		-->
+		</script>
+JDHEADER;
+}
 
 function widgetjDownloader(){
 	global $jd_url;
 	$jd = $jd_url;
 
-	$speed   = file_get_contents($jd."get/speed");
-	$status  = file_get_contents($jd."get/downloadstatus");
+	try{
+		$speed   = @file_get_contents($jd."get/speed");
+		$status  = @file_get_contents($jd."get/downloadstatus");
 
-	$speedLimit = file_get_contents($jd."get/speedlimit");
+		$speedLimit = @file_get_contents($jd."get/speedlimit");
 
-	$dlCount  = file_get_contents($jd."get/downloads/currentcount");
-	$dlList  =  new SimpleXMLElement(file_get_contents($jd."get/downloads/currentlist"));
+		$dlCount  = @file_get_contents($jd."get/downloads/currentcount");
+		$dlList  =  new SimpleXMLElement(@file_get_contents($jd."get/downloads/currentlist"));
 
-	// echo "<pre>";
-	// print_r($dlList);
-	// echo "</pre>";
+		$finished  = new SimpleXMLElement (@file_get_contents($jd."get/downloads/finishedlist"));
+		$finishedCount = @file_get_contents($jd."get/downloads/finishedcount");
 
-	$finished  = file_get_contents($jd."get/downloads/finishedlist");
-	$finishedCount = file_get_contents($jd."get/downloads/finishedcount");
+		$allCount = @file_get_contents($jd."get/downloads/allcount");
+		$allList = new SimpleXMLElement(@file_get_contents($jd."get/downloads/alllist"));
 
-	$allCount = file_get_contents($jd."get/downloads/allcount");
-	$allList = file_get_contents($jd."get/downloads/alllist");
+		$dllimi = @file_get_contents($jd."get/speedlimit");
+		$dllimit = @file_get_contents($jd."get/speedlimit");
 
-	$dllimi = file_get_contents($jd."get/speedlimit");
-	$dllimit = file_get_contents($jd."get/speedlimit");
+		$setdllimit = $jd."action/set/download/limit/";
 
-	$action="";
 
-	switch($status){
-	case 'RUNNING':
-		$status="Downloading @".$speed." kb/s";
-		$action = $jd."action/stop";
-		break;
-	case 'STOPPING':
-		$status="Stopping";
-		break;
-	case 'NOT_RUNNING':
-		$status="Stopped";
-		$action = $jd."action/start";
-		break;
-	}
+		//echo "<pre>";
+		//print_r($allList);
+		//echo "</pre>";
 
-	echo "<a href='".$action."' target='nothing'>".$status."</a>";
-	echo "<p>Speed Limit: ".$speedLimit;
-	echo " kb/s</p>";
+
+
+		echo "<input type='text'  class='btnDown' style='float: right;' value='".$speedLimit."' id='dllimit' size='1' />";
+
+		$action="";
+
+		switch($status){
+		case 'RUNNING':
+			$status="Downloading @".$speed." kB/s";
+			$action = $jd."action/stop";
+			break;
+		case 'STOPPING':
+			$status="Stopping";
+			break;
+		case 'NOT_RUNNING':
+			$status="Stopped";
+			$action = $jd."action/start";
+			break;
+		}
+
+		echo "<a href='".$action."' target='nothing'>".$status."</a>";
 		echo "<table border=\"0\" width='100%' style='table-layout:fixed;' cellspacing='0' cellpadding='0'><tr>";
-		echo "<th style='width:30%;'></th>";
+		echo "<th width='10%'></th>";
+		echo "<th width='40%'></th>";
 		echo "<th width='50%'></th>";
-		echo "<th></th>";
 		echo "</tr>";
 
-		foreach($dlList as $item){
+		foreach($allList as $item){
 			$eta    = $item->attributes()->package_ETA;
 			$links_progress = $item->attributes()->package_linksinprogress;
 			$links_total = $item->attributes()->package_linkstotal;
@@ -61,44 +93,73 @@ function widgetjDownloader(){
 			$percent  = $item->attributes()->package_percent;
 			$speed    = $item->attributes()->package_speed;
 			$to_do    = $item->attributes()->package_todo;
-			if($links_progress!=0){
-				$hoster   = $item->file->attributes()->file_hoster;
-				$to_do    = $item->attributes()->package_todo;
-			}
-			$color = "red";
-
 
 			$popup  = "";
-			$popup .= "<p>".$links_progress." of ".$links_total."</p>";
+			$popup .= "<p>Name: ".$name."</p>";
+			$popup .= "<p>Links: ".$links_progress." of ".$links_total."</p>";
 			$popup .= "<p>Progress: ".$percent."% (".$downloaded."/".$total_size.")</p>";
+			
+			$color = "red";
+
 			if($links_progress!=0){
+				$hoster = $item->file->attributes()->file_hoster;
+				$to_do	= $item->attributes()->package_todo;
 				$popup .= "<p>Hoster: ".$hoster."</p>";
-				$color = "green";
+				$color  = "green";
 			}
 
+
+
 			echo "<tr>";
-			echo "<td onMouseOver=\"ShowPopupBox('".$popup."');\" onMouseOut=\"HidePopupBox();\"><font color=".$color."><div style='text-overflow:ellipsis;overflow:hidden; white-space: nowrap;'>".$name."</div></font></td>";
+			echo "<td><img width='10px' src='media/btnAdd.png' style:'vertical-align:middle;' onClick=\"toggle('".$name."');\" /></td>";
+			echo "<td><font color=".$color."><div style='text-overflow:ellipsis;overflow:hidden; white-space:nowrap;' onMouseOver=\"ShowPopupBox('".$popup."');\" onMouseOut=\"HidePopupBox();\">".$name."</div></font></td>";
 			echo "<td><div class=\"queueitem\">";
 			echo "\t\t\t\t<div class=\"progressbar\">";
-			echo "\t\t\t\t\t<div class=\"progress\" style=\"width:".$percent."\"></div>";
+			echo "\t\t\t\t\t<div class=\"progress\" style=\"width:".$percent."%\"></div>";
 			echo "\t\t\t\t\t<div class=\"progresslabel\" style='text-align: center;'>".$to_do." left @ ".$speed." - ".$eta."</div>";
 			echo "\t\t\t\t</div><!-- .progressbar -->";
 			echo "\t\t\t</div><!-- .queueitem -->";
 			echo "</td>";
-			echo "<td><a href='#' target='nothing' onclick=\"sendArgument('".$playpausebtn.$id."');\"><img src='media/btnPlayPause.png' width='20px'/></a>";
-			echo "<a href='#' target='nothing' onclick=\"sendArgument('remove=".$id."');\"><img src='media/btnQueueDelete.png' width='20px'/></a></td>";
 			echo "</tr>";
+
+
+			if(sizeof($item->file)>1){
+				foreach($item->file as $subitem){
+
+					$subitem  = $subitem->attributes();
+					$subname  = $subitem->file_name;
+					$subpercent = $subitem->file_percent;
+					$substatus = $subitem->file_status;
+					$subhoster = $subitem->file_hoster;
+
+					$subcolor = (!empty($substatus))?"green":"red";
+
+					echo "<tr style='display:none;' name='".$name."'>";
+					echo "<td></td>";
+					echo "<td><font color=".$color."><div style='text-overflow:ellipsis;overflow:hidden; white-space: nowrap;'>".$subname."</div></font></td>";
+					echo "<td><div class=\"queueitem\">";
+					echo "\t\t\t\t<div class=\"progressbar\">";
+					echo "\t\t\t\t\t<div class=\"progress\" style=\"width:".$subpercent."%\"></div>";
+					echo "\t\t\t\t\t<div class=\"progresslabel\" style='text-align: center;'>".$substatus."</div>";
+					echo "\t\t\t\t</div><!-- .progressbar -->";
+					echo "\t\t\t</div><!-- .queueitem -->";
+					echo "</td>";
+					echo "</tr>";
+				}
+
+			}
+				/*
+				echo "<pre>";
+	 			print_r(sizeof($item->file));
+	 			echo "</pre>";
+				*/
+
 		}
 		echo "</table>\n";
-	if(intval($finishedCount)!=0){
-		echo "<p>Finished Count: ".$finishedCount."</p>";
-		echo "<p>Finished: ".$finished."</p>";
 	}
-/*
-	echo "<p>All Count: ".$allList."</p>";
-	echo "<p>All list: ".$allList."</p>";
-	echo "<p>Finished: ".$finished."</p>";
-*/
+	catch(Exception $e){
+		echo "Ooops, something went wrong! Is jDownloader open? Check <a href='".$jd."'>HERE</a>";
+	}
 }
 /*
 JDRemoteControl 9568
