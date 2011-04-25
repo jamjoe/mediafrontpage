@@ -20,6 +20,10 @@ function main() {
 	elseif($site == 2) {
 		$results = nzbmatrix($q, $nzbusername, $nzbapi,$saburl,$sabapikey);		
 	}
+	elseif($site == 3) {
+		$tablebody="";
+		$results = imdb();		
+	}
 	else{
 	$_GET['type'] = $preferredCategories;
 	switch ($preferredSearch){
@@ -104,20 +108,138 @@ function nzbmatrix($item, $nzbusername, $nzbapi,$saburl,$sabapikey) {
 		$cat = substr($item[6],10);
 		$addToSab=$saburl."api?mode=addurl&name=http://www.".substr($link,6)."&nzbname=".urlencode($name)."&apikey=".$sabapikey;
 
-		$indexdate = "Index Date: ".substr($item[4], 12);
-		$group = "Group: ".substr($item[7],7);
-		$comments = "Comments: ".substr($item[8],10);
-		$hits = "Hits: ".substr($item[9],6);
-		$nfo = "NFO: ".substr($item[10], 5);
-		$image = substr($item[13],7);
-		$item_desc = "<p>".$id."</p><p>".$group."</p><p>".$comments."</p><p>".$hits."</p><p>".$nfo."</p><p>".$indexdate."</p>";
+		$indexdate 	= "Index Date: ".substr($item[4], 12);
+		$group 		= "Group: ".substr($item[7],7);
+		$comments 	= "Comments: ".substr($item[8],10);
+		$hits 		= "Hits: ".substr($item[9],6);
+		$nfo 		= "NFO: ".substr($item[10], 5);
+		$weblink 	= substr($item[11], 9);
+		$image 		= substr($item[13],7);
+		$item_desc	= "<p>".$id."</p><p>".$group."</p><p>".$comments."</p><p>".$hits."</p><p>".$nfo."</p><p>".$indexdate."</p>";
 		//$item_desc .= (substr($item[13],7)!="")?"Pic: ".$image:"";
 		
 
 		$addToSab = addCategory($cat,$addToSab);
 
 		if(strlen($name)!=0){
-			$table .= printTable($name,$cat,$size,$addToSab,$link,$item_desc,$image);
+			$table .= printTable($name,$cat,$size,$addToSab,$link,$item_desc,$image, $weblink);
+		}
+	}
+	return $table;
+}
+function imdb(){
+	include("./imdbphp2/imdb.class.php");
+	include("./imdbphp2/imdbsearch.class.php");
+	$table = "";
+	
+	if( !empty($_GET['q']) || !empty($_GET['imdbid']) ){
+		if(!empty($_GET['q'])){
+	
+			$name = $_GET['q'];              // the name will usually be dynamically set
+	
+			$search = new imdbsearch();           // create an instance of the search class. For Moviepilot: $search = new pilotsearch();
+			$search->setsearchname($name);        // tell the class what to search for (case insensitive)
+			$results = $search->results();
+	
+	
+			/*
+			echo "<pre>";
+			print_r($results);
+			echo "</pre>";
+			*/
+	
+	
+			foreach ($results as $res) {
+				$mid  = $res->imdbid();
+				$name = $res->title();
+				$year = $res->year();
+				$table .= "<p><a href='#' onclick=\"showMovie('".$mid."');\">$mid: $name ($year)</a></p>";
+			}
+		}
+	
+		if(!empty($_GET['imdbid'])){
+	
+			$table .= "ID: ".$_GET['imdbid'];
+			
+			$movie   = new imdb($_GET['imdbid']);	// create an instance of the class and pass it the IMDB ID
+	
+	
+	
+			$title   = $movie->title();				// retrieve the movie title
+			$year    = $movie->year();         		// obtain the year of production
+			$runtime = $movie->runtime();      		// runtime in minutes
+			$rating  = $movie->mpaa();         		// array[country=>rating] of ratings
+			$trailer = $movie->trailers();     		// array of trailers
+			//$comment = $movie->comment();
+			$tagline = $movie->tagline();
+			//$plot	 = $movie->plotoutline();
+			$thumb	 = $movie->photo();
+			//$alt_name= $movie->alsoknow();
+			$cast	 = $movie->cast();
+			//$writer	 = $movie->writing();
+			
+			if(!empty($thumb)){
+				$thumb = "<img src='".$thumb."' style='float: left;'/>";
+			}
+	
+			$table .= "<div>";
+			$table .= "<p>Title: ".$title."</p>";
+			$table .= "<p>Year: ".$year."</p>";
+			$table .= "<p>Runtime: ".$runtime." minutes</p></div>";
+		
+/*
+			if(!empty($rating)){
+				$table .= "<pre>";
+				print_r($rating);
+				$table .= "</pre>";
+			}
+*/
+/*
+			if(!empty($trailer)){
+				$table .= "<pre>";
+				$table .=$trailer;
+				$table .= "</pre>";
+			}
+*/
+/*
+			if(!empty($$comment)){
+				echo "<pre>";
+				print_r($comment);
+				echo "</pre>";
+			}		
+*/
+/*
+			if(!empty($tagline)){
+				echo "<pre>";
+				print_r($tagline);
+				echo "</pre>";
+			}
+*/
+/*
+			if(!empty($plot)){
+				echo "<pre>";
+				print_r($plot);
+				echo "</pre>";
+			}
+*/
+/*
+			if(!empty($alt_name)){
+				echo "<pre>";
+				print_r($alt_name);
+				echo "</pre>";
+			}
+*/
+	
+			if(!empty($cast)){
+				$table .= "<p onclick='displayCast();'>|+|</p>";
+				$table .= "<div id='cast' style='display: none;'>";
+				foreach($cast as $item){
+					//item['imdb'] item['photo']
+					$table .= "<p><img src='".$item['thumb']."'style='float: left;' />Name: ".$item['name']."<br>Role: ".$item['role']."</p>";
+				}
+				$table .= "</div>";
+
+			}	
 		}
 	}
 	return $table;
@@ -134,13 +256,22 @@ function getform(){
 				<input type=\"submit\" name=\"submit\" value=\"Search\" />
 			</form>";
 }
-function printTable($name,$cat,$size,$addToSab,$nzblink,$item_desc, $image="" ){
+
+function printTable($name,$cat,$size,$addToSab,$nzblink,$item_desc, $image="", $weblink="" ){
 	if($image!=""){
 	$image = "<a href=".$image." class=\"highslide\" onclick=\"return hs.expand(this)\"><img style='float: left;' width='20px' src='".$image."' /></a>";
 	}
+	if($weblink!=""){
+		if(strpos($weblink,'imdb')!==false){
+			$weblink = "<a href=".$weblink."><img style='float: right;' width='20px' src='./media/imdb.gif' /></a>";
+		}
+		else{
+			$weblink = "";
+		}
+	}
 	return "	<tr class=\"row\" style=\"height:3em;\">
 					<td><a href=\"#\";  onclick=\"sabAddUrl('".htmlentities($addToSab)."'); return false;\"><img class=\"sablink\" src=\"./media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
-					<td style='width:60%';>".$image."<a href='".$nzblink."' target='_blank'; onMouseOver=\"ShowPopupBox('".$item_desc."');\" onMouseOut=\"HidePopupBox();\">$name</a></td>
+					<td style='width:60%';>".$image.$weblink."<a href='".$nzblink."' target='_blank'; onMouseOver=\"ShowPopupBox('".$item_desc."');\" onMouseOut=\"HidePopupBox();\">$name</a></td>
 					<td class='filesize'>".ByteSize($size)."</td>
 					<td style='width:20%'>$cat</td>
 				</tr>";
