@@ -56,15 +56,15 @@ $preferredSearch = '2';			// Set to 1 for NZBMatrix and 2 for nzb.su
 $preferredCategories = '0'; 	// Check README for a list of options. Make sure the option is for the appropriate site.
 
 //uTorrent info
-$utorrent_url = "http://localhost:8081/"; //url including port eg:http://localhost:8081/
+$utorrent_url = "http://user:password@COMPUTER:PORT/"; //url including port eg:http://localhost:8081/
 
 //Transmission info
-$transmission_url 	= "http://localhost:9091/transmission/rpc";	// The url for transmission webserver
+$transmission_url 	= "http://user:password@COMPUTER:PORT/transmission/rpc";	// The url for transmission webserver
 $transmission_admin	= "";	// The username for trasmission webui
 $transmission_pass 	= "";	// The password for the webui
 
 //jDownloader info
-$jd_url = "http://0.0.0.0:10025/";	// url to jDownloader Remote Control port
+$jd_url = "http://COMPUTER:PORT/";	// url to jDownloader Remote Control port, don't forget the trailing slash '/'
 
 // enter navigation bar links
 $navlink;
@@ -73,8 +73,9 @@ $navlink["Sickbeard"] = "/sickbeard";
 $navlink["Couch Potato"] = "/couchpotato";
 $navlink["TV Headend"] = "/tvheadend";
 $navlink["Sabnzbd"] = "/sabnzbd";
-$navlink["Transmission"] = "http://localhost:9091/transmission/web/";
-$navlink["uTorrent"] = "http://localhost:8081/gui/";
+$navlink["Transmission"] = "http://user:password@COMPUTER:PORT/transmission/web/";
+$navlink["uTorrent"] = "http://user:password@COMPUTER:PORT/gui/";
+$navlink["jDownloader"] = "http://user:password@COMPUTER:PORT/";			// url to JD Web Interface
 
 // enter shortcut links for control section
 $shortcut;

@@ -158,7 +158,7 @@ function widgetjDownloader(){
 		echo "</table>\n";
 	}
 	catch(Exception $e){
-		echo "Ooops, something went wrong! Is jDownloader open? Check <a href='".$jd."'>HERE</a>";
+		echo "Ooops, something went wrong! Is jDownloader open? Check <a href='".$jd."help'>HERE</a>";
 	}
 }
 /*
