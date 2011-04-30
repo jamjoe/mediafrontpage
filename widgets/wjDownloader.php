@@ -17,9 +17,6 @@ function widgetjDHeader() {
 						array[c].style.display = 'none';
 					}
 				}
-			
-
-
 			}
 
 		-->
@@ -42,6 +39,10 @@ function widgetjDownloader(){
 
 		$dlList = str_replace("</jdownloader>", "", $dlList);
 		$dlList = str_replace("<jdownloader>", "", $dlList);
+		
+		//these 2 lines are to help with the Nightly versions of JD where they use plural instaed of singular
+		$dlList = str_replace("<packages", "<package" , $dlList);
+		$dlList = str_replace("</packages>", "</package>" , $dlList);
 		
 		$dlList = str_replace("<package ", "|" , $dlList);
 		$dlList = str_replace(">\n<file", "" , $dlList);
