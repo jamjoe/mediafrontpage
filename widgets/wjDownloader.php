@@ -28,9 +28,8 @@ JDHEADER;
 }
 
 function widgetjDownloader(){
-	//global $jd_url;
-	//$jd = $jd_url;
-	$jd = "http://localhost:10025/";
+	global $jd_url;
+	$jd = $jd_url;
 
 	try{
 		$speed   = @file_get_contents($jd."get/speed");
