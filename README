@@ -25,6 +25,8 @@ Transmission
 uTorrent
 JDownloader (WIP)
 
+There is an Example widget inside the Widget folder that gives an idea on how to create your own. 
+
 -----------------------------
 List of Categories for nzb.su
 value=     Everything
