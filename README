@@ -9,6 +9,22 @@
 OPTIONAL
 8. Create a folder named 'sbpcache' and allow write access (for caching sickbeard posters)
 
+--------------------------------------
+List of available Widgets 5th May 2011
+
+XBMC Control
+XBMC Library
+Coming Episodes
+Hard Drive Status
+Now Playing
+RSS Feed
+SabNZBd Status
+NZB Search
+TrakT Last Watched
+Transmission
+uTorrent
+JDownloader (WIP)
+
 -----------------------------
 List of Categories for nzb.su
 value=     Everything
