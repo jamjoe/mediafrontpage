@@ -151,3 +151,68 @@ function byteSizeOrdering()
         type: 'numeric'
     });
 }
+function getExtra(id)
+{
+
+	if (window.XMLHttpRequest)
+    {
+        xhr = new XMLHttpRequest();
+    }
+    else
+    {
+        if (window.ActiveXObject)
+        {
+            try
+            {
+                xhr = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            catch (e)
+            {
+            }
+        }
+    }
+
+    if (xhr)
+    {
+        xhr.onreadystatechange = showExtra;
+        xhr.open("GET", url + "?id=" + id);
+        xhr.send();
+    }
+    else
+    {
+        alert("Sorry, but I couldn't create an XMLHttpRequest");
+    }	
+}
+function showExtra()
+{
+    if (xhr.readyState == 4)
+    {
+        if (xhr.status == 200)
+        {
+            var outMsg = xhr.responseText;
+        }
+        else
+        {
+            var outMsg = "There was a problem with the request " + xhr.status;
+        }
+	   	document.getElementById("resultstable").style.display = "none";
+        document.getElementById("extra_info").style.display = "inline";
+        document.getElementById("extra_info").innerHTML = outMsg;
+	}
+}
+function closeExtra()
+{
+
+    	document.getElementById("extra_info").style.display = "none";	
+		document.getElementById("resultstable").style.display = "inline";
+
+}
+function toggleCast(){
+	if(document.getElementById("cast").style.display == "none"){
+		document.getElementById("cast").style.display = "inline";
+	}
+	else{
+		document.getElementById("cast").style.display = "none";
+	}
+
+}

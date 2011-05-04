@@ -33,6 +33,10 @@ function main() {
 						<tbody>";
 		$results = imdb($q,$cp_url);		
 	}
+	elseif(!empty($_GET['id'])){
+		getInfo($_GET['id'],$cp_url);
+		return false;
+	}
 	else{
 	$_GET['type'] = $preferredCategories;
 	switch ($preferredSearch){
@@ -157,6 +161,7 @@ function imdb($item,$cp){
 			$name		= $e->name;
 			$alt_name	= $e->alternative_name;
 			$type		= $e->type;
+			$id			= $e->id;
 			$imdb_id	= $e->imdb_id;
 			$votes		= $e->votes;
 			$rating		= $e->rating;
@@ -188,7 +193,7 @@ function imdb($item,$cp){
 			
 			$table .= "<tr class=\"row\" style=\"height:2em;\">";
 			$table .= "<td><a href='".$cp_add."' target='_blank'><img class=\"couchpotato\" height='20px' src=\"./media/couch.png\" alt=\"Add to CouchPotato Queue\"/></a></td>";
-			$table .= "<td>".$image.$imdb."<a href='".$url."' target='_blank'; onMouseOver=\"ShowPopupBox('$item_desc');\" onMouseOut=\"HidePopupBox();\">$name</a></td><td style='width:10%'>$rating</td>";
+			$table .= "<td>".$image.$imdb."<a href='#' onMouseOver=\"ShowPopupBox('$item_desc');\" onMouseOut=\"HidePopupBox();\" onClick=\"getExtra('".$id."')\">$name</a></td><td style='width:10%'>$rating</td>";
 			$table .= "<td style='width:20%'>$released</td></tr>";
 
 	}
@@ -251,6 +256,103 @@ function addCategory($cat,$url){
 	}
 	return $url;
 }
+
+
+function getInfo($id,$cp)
+{
+	echo "<button type='button' onclick='closeExtra();'><-Back</button>";
+
+	$search = "http://api.themoviedb.org/2.1/Movie.getInfo/en/json/1b0319774deb9c07ca72ecafa8f13f8f/".$id;
+	$json = @file_get_contents($search);
+	$result = json_decode($json);
+
+	//echo "<pre>";print_r($result[0]);echo "</pre>";
+	
+	
+	$m = $result[0];
+	$overview = $m->overview;
+	$famous   = $m->popularity;
+	$rating	  = $m->rating;
+	$tag	  = $m->tagline;
+	$cert	  = $m->certification;
+	$runtime  = $m->runtime;
+	$budget	  = $m->budget;
+	$revenue  = $m->revenue;
+	$homepage = $m->homepage;
+	$trailer  = $m->trailer;
+	$votes	  = $m->votes;
+	/*
+	$	  = $m->;
+	$	  = $m->;
+	$	  = $m->;
+	$	  = $m->;
+	$	  = $m->;
+	$	  = $m->;
+	$	  = $m->;
+*/
+	$x=0;
+	foreach($m->genres as $c){
+		$genre_name[$x] = $c->name;
+		$x++;
+	}
+
+
+	$x=0;
+	foreach($m->studios as $c){
+		$studio_name[$x] = $c->name;
+		//echo $studio_name[$x];
+		$x++;
+	}
+
+	$x=0;
+	foreach($m->keywords as $c){
+		$keywords[$x] = $c;
+		//echo $keywords[$x];
+		$x++;
+	}
+
+	$x=0;
+	foreach($m->posters as $c){
+		if($c->image->height>150 && $c->image->height<250){
+			$poster[$x] = $c->image->url;
+			$x++;
+		}
+	}
+
+	$x=0;
+	foreach($m->backdrops as $c){
+		if($c->image->size == 'poster'){
+			$backdrop[$x] = $c->image->url;
+			$x++;
+		}
+	}
+
+
+
+
+
+
+
+
+	echo "<button type='button' onclick='toggleCast();'>Cast</button>";
+	echo "<div id='cast' style='display:none;'>";
+	echo "<table>";
+	foreach($m->cast as $c){
+		$actor_name = $c->name;
+		$actor_job	= $c->job;
+		$actor_char	= $c->character;
+		$actor_url 	= $c->url;
+		$actor_thumb= $c->profile;
+		
+		
+		echo "<tr><td><img src='$actor_thumb' height='37px'></td><td>Name: $actor_name </td><td> Job: $actor_job </td><td> Character: $actor_char</td></tr>";
+				
+	}
+	echo "</table>";
+	echo "</div>";
+
+}
+
 
 function ByteSize($bytes)
 {

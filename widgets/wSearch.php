@@ -23,6 +23,8 @@ function widgetSearch() {
                   onclick="clearResults()"
                   ondblclick="resetWidget()"></div>
         <div id="resultstable"></div>
+        <div id='extra_info'></div> 
+
 BODY;
 }
 
