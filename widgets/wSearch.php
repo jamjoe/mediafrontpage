@@ -7,8 +7,8 @@ function widgetSearch() {
             <div><input type="text"
                   value=""
                   id="searchterm"
-                  onkeydown="if (event.keyCode == 13) document.getElementById('searchbutton').click()">  <select onchange="catDropDown(this.value);">
-                  <option value="0">Default</option>
+                  onkeydown="if (event.keyCode == 13) document.getElementById('searchbutton').click()">  <select id='provider' onchange="catDropDown(this.value);">
+                  <option value="0" selected>Default</option>
                   <option value="1">nzb.su</option>
                   <option value="2">NZB Matrix</option>
                   <option value="3">TMDB</option>

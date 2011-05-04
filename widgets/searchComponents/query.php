@@ -163,12 +163,13 @@ function imdb($item,$cp){
 			$certific	= $e->certification;
 			$overview	= $e->overview;
 			$released	= $e->released;
-			$poster		= $e->posters['0']->image->url;
+			$poster_th	= $e->posters['2']->image->url;
+			$poster_lg	= $e->posters['1']->image->url;
 			$last_mod	= $e->last_modified_at;
 			$backdrops	= $e->backdrops;
 			$url 		= $e->url;
 			
-			$image = "<a href=".$poster." class=\"highslide\" onclick=\"return hs.expand(this)\"><img style='float: left;' width='20px' src='".$poster."' /></a>";
+			$image = "<a href=".$poster_lg." class=\"highslide\" onclick=\"return hs.expand(this)\"><img style='float: left;' width='20px' src='".$poster_th."' /></a>";
 			$imdb  = "<a href='http://www.imdb.com/title/".$imdb_id."' target='_blank'><img style='float: right;' width='20px' src='./media/imdb.gif' /></a>";
 			
 			
@@ -185,7 +186,10 @@ function imdb($item,$cp){
 			
 			$cp_add = $cp."movie/imdbAdd/?id=".$imdb_id;
 			
-			$table .= "<tr class=\"row\" style=\"height:2em;\"><td><a href='".$cp_add."' target='_blank'><img class=\"couchpotato\" height='20px' src=\"./media/couch.png\" alt=\"Add to CouchPotato Queue\"/></a></td><td>".$image.$imdb."<a href='".$url."' target='_blank'; onMouseOver=\"ShowPopupBox('$item_desc');\" onMouseOut=\"HidePopupBox();\">$name</a></td><td style='width:10%'>$rating</td><td style='width:30%'>$released</td></tr>";
+			$table .= "<tr class=\"row\" style=\"height:2em;\">";
+			$table .= "<td><a href='".$cp_add."' target='_blank'><img class=\"couchpotato\" height='20px' src=\"./media/couch.png\" alt=\"Add to CouchPotato Queue\"/></a></td>";
+			$table .= "<td>".$image.$imdb."<a href='".$url."' target='_blank'; onMouseOver=\"ShowPopupBox('$item_desc');\" onMouseOut=\"HidePopupBox();\">$name</a></td><td style='width:10%'>$rating</td>";
+			$table .= "<td style='width:20%'>$released</td></tr>";
 
 	}
 	
@@ -277,7 +281,6 @@ function ByteSize($bytes)
 	}
 	return $size;
 }
-
 ?>
 		<html>
 			<head>

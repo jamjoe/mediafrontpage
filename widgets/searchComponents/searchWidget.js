@@ -72,7 +72,6 @@ function showContents()
         }
         document.getElementById("resultstable").innerHTML = outMsg;
         $("tr:odd").addClass("odd");
-        // $("#myTable").tablesorter(headers: {
         byteSizeOrdering();
         $("#myTable").tablesorter(
         {
@@ -82,7 +81,7 @@ function showContents()
                 }
             }
         });
-    }
+	}
 }
 
 function clearResults()
@@ -119,6 +118,7 @@ function resetWidget()
     document.getElementById("resultstable").innerHTML = "";
     $("input:radio").attr("checked", false);
     document.getElementById('searchterm').value = "";
+    document.getElementById('provider')[0].selected = true;
 }
 
 function byteSizeOrdering()
@@ -150,50 +150,4 @@ function byteSizeOrdering()
         },
         type: 'numeric'
     });
-}
-
-
-function showMovie(requesturl)
-{
-    document.getElementById("resultstable").innerHTML = "Loading...";
-    var item = 'widgets/searchComponents/query.php?site=3&imdbid=' + requesturl;
-	//alert(item);
-    if (window.XMLHttpRequest)
-    {
-        xhr = new XMLHttpRequest();
-    }
-    else
-    {
-        if (window.ActiveXObject)
-        {
-            try
-            {
-                xhr = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-            catch (e)
-            {
-            }
-        }
-    }
-
-    if (xhr)
-    {
-        xhr.onreadystatechange = showContents;
-        xhr.open("GET", item, true);
-        xhr.send();
-    }
-    else
-    {
-        alert("Sorry, but I couldn't create an XMLHttpRequest");
-    }
-
-
-}
-function displayCast(){
-	if(document.getElementById('cast').style.display == 'none'){
-		document.getElementById('cast').style.display = 'inline';
-	}
-	else{
-		document.getElementById('cast').style.display = 'none';
-	}
 }
