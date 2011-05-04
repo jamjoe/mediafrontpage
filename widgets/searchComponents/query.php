@@ -173,11 +173,15 @@ function imdb($item,$cp){
 			
 			
 			$item_desc = "";
-			$item_desc .= ($orig_name!='null'||$orig_name!="")? "<p><b>Original Name: ".$orig_name."</b></p>":"";
-			$item_desc .= ($type!='null'||$type!="")? "<p><b>Type: ".$type."</b></p>":"";
-			$item_desc .= ($overview!='null'||$overview!="")? "<p><b>Overview</b>: ".$overview."</p>":"";
+			$item_desc .= ((!empty($orig_name))&&($orig_name!='null'||$orig_name!=""))? "<p><b>Original Name</b>: ".$orig_name."</p>":"";
+			$item_desc .= ((!empty($type))&&($type!='null'||$type!=""))? "<p><b>Type</b>: ".urlencode($type)."</p>":"";
+			$item_desc .= "<p><b>Overview</b>: ".$overview."</p>";
+			$item_desc .= (!empty($certific))? "<p><b>Rated</b>: ".$certific."</p>":"";
 			//$item_desc .= (!empty($orig_name))? "<p>Original Name:".$orig_name."</p>":"";
 			//$item_desc .= (!empty($orig_name))? "<p>Original Name:".$orig_name."</p>":"";
+			
+			$item_desc = str_replace("\"", " - ", $item_desc);		
+			$item_desc = str_replace("'", "|", $item_desc);		
 			
 			$cp_add = $cp."movie/imdbAdd/?id=".$imdb_id;
 			
