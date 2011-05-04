@@ -13,7 +13,10 @@ function widgetSearch() {
                   onclick="catDropDown(this.value)"> nzb.su <input type="radio"
                   name="site"
                   value="2"
-                  onclick="catDropDown(this.value)"> NZBMatrix <select name="type" style="display:none;"
+                  onclick="catDropDown(this.value)"> NZBMatrix <input type="radio"
+                  name="site"
+                  value="3"
+                  onclick="catDropDown(this.value)"> TMDB <select name="type" style="display:none;"
                   id="type">
             </select> <input type="button"
                   id="searchbutton"

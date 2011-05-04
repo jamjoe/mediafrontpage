@@ -43,6 +43,9 @@ $sickbeardurl = "http://user:password@COMPUTER:PORT/sickbeard/";
 $saburl = 'http://localhost:8080/sabnzbd/';  // The full URL you use to access SABnzbd.
 $sabapikey = '';                             // SABnzbd's API Key found in Config>General.
 
+//CouchPotato home page url
+$cp_url =  "http://user:password@COMPUTER:PORT/";		//eg.: http://admin:password@192.168.0.5:5000/
+
 //enter NZBmatrix login
 $nzbusername = 'your nzb matrix username';		//username
 $nzbapi = 'your nzb matrix api';				//api

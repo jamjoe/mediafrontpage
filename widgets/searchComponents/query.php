@@ -21,8 +21,17 @@ function main() {
 		$results = nzbmatrix($q, $nzbusername, $nzbapi,$saburl,$sabapikey);		
 	}
 	elseif($site == 3) {
-		$tablebody="";
-		$results = imdb();		
+		$tablebody = "<div style=\"overflow: auto; max-height: 70%; max-width: 100%;\"><table id=\"myTable\" class=\"tablesorter\" style=\"height:70%;overflow:auto;\">
+						<thead>
+							<tr>
+    							<th></th>
+    							<th onclick=\"setTimeout('updateRows()',50);\"><a href=#>Name <img src=\"./media/arrow.png\"/></a></th>
+    							<th onclick=\"setTimeout('updateRows()',50);\"><a href=#>Rating <img src=\"./media/arrow.png\"/></a></th>
+    							<th onclick=\"setTimeout('updateRows()',50);\"><a href=#>Date Released <img src=\"./media/arrow.png\"/></a></th>
+							</tr>
+						</thead>
+						<tbody>";
+		$results = imdb($q,$cp_url);		
 	}
 	else{
 	$_GET['type'] = $preferredCategories;
@@ -127,126 +136,59 @@ function nzbmatrix($item, $nzbusername, $nzbapi,$saburl,$sabapikey) {
 	}
 	return $table;
 }
-function imdb(){
-	include("./imdbphp2/imdb.class.php");
-	include("./imdbphp2/imdbsearch.class.php");
-	$table = "";
-	
-	if( !empty($_GET['q']) || !empty($_GET['imdbid']) ){
-		if(!empty($_GET['q'])){
-	
-			$name = $_GET['q'];              // the name will usually be dynamically set
-	
-			$search = new imdbsearch();           // create an instance of the search class. For Moviepilot: $search = new pilotsearch();
-			$search->setsearchname($name);        // tell the class what to search for (case insensitive)
-			$results = $search->results();
-	
-	
-			/*
-			echo "<pre>";
-			print_r($results);
-			echo "</pre>";
-			*/
-	
-	
-			foreach ($results as $res) {
-				$mid  = $res->imdbid();
-				$name = $res->title();
-				$year = $res->year();
-				$table .= "<p><a href='#' onclick=\"showMovie('".$mid."');\">$mid: $name ($year)</a></p>";
-			}
-		}
-	
-		if(!empty($_GET['imdbid'])){
-	
-			$table .= "ID: ".$_GET['imdbid'];
-			
-			$movie   = new imdb($_GET['imdbid']);	// create an instance of the class and pass it the IMDB ID
-	
-	
-	
-			$title   = $movie->title();				// retrieve the movie title
-			$year    = $movie->year();         		// obtain the year of production
-			$runtime = $movie->runtime();      		// runtime in minutes
-			$rating  = $movie->mpaa();         		// array[country=>rating] of ratings
-			$trailer = $movie->trailers();     		// array of trailers
-			//$comment = $movie->comment();
-			$tagline = $movie->tagline();
-			//$plot	 = $movie->plotoutline();
-			$thumb	 = $movie->photo();
-			//$alt_name= $movie->alsoknow();
-			$cast	 = $movie->cast();
-			//$writer	 = $movie->writing();
-			
-			if(!empty($thumb)){
-				$thumb = "<img src='".$thumb."' style='float: left;'/>";
-			}
-	
-			$table .= "<div>";
-			$table .= "<p>Title: ".$title."</p>";
-			$table .= "<p>Year: ".$year."</p>";
-			$table .= "<p>Runtime: ".$runtime." minutes</p></div>";
-		
-/*
-			if(!empty($rating)){
-				$table .= "<pre>";
-				print_r($rating);
-				$table .= "</pre>";
-			}
-*/
-/*
-			if(!empty($trailer)){
-				$table .= "<pre>";
-				$table .=$trailer;
-				$table .= "</pre>";
-			}
-*/
-/*
-			if(!empty($$comment)){
-				echo "<pre>";
-				print_r($comment);
-				echo "</pre>";
-			}		
-*/
-/*
-			if(!empty($tagline)){
-				echo "<pre>";
-				print_r($tagline);
-				echo "</pre>";
-			}
-*/
-/*
-			if(!empty($plot)){
-				echo "<pre>";
-				print_r($plot);
-				echo "</pre>";
-			}
-*/
-/*
-			if(!empty($alt_name)){
-				echo "<pre>";
-				print_r($alt_name);
-				echo "</pre>";
-			}
-*/
-	
-			if(!empty($cast)){
-				$table .= "<p onclick='displayCast();'>|+|</p>";
-				$table .= "<div id='cast' style='display: none;'>";
-				foreach($cast as $item){
-					//item['imdb'] item['photo']
-					$table .= "<p><img src='".$item['thumb']."'style='float: left;' />Name: ".$item['name']."<br>Role: ".$item['role']."</p>";
-				}
-				$table .= "</div>";
 
-			}	
-		}
+function imdb($item,$cp){
+	
+	$api = '1b0319774deb9c07ca72ecafa8f13f8f';
+	$search = 'http://api.themoviedb.org/2.1/Movie.search/en/json/'.$api.'/'.urlencode($item);
+	$json = @file_get_contents($search);
+	$result = json_decode($json);
+
+	//echo "<pre>";print_r($result);echo "</pre>";
+
+	$table = "";
+	foreach($result as $e){
+			$score		= $e->score;
+			$popularity	= $e->popularity;
+			$translated = $e->translated;
+			$adult		= $e->adult;
+			$lang		= $e->language;
+			$orig_name	= $e->original_name;
+			$name		= $e->name;
+			$alt_name	= $e->alternative_name;
+			$type		= $e->type;
+			$imdb_id	= $e->imdb_id;
+			$votes		= $e->votes;
+			$rating		= $e->rating;
+			$certific	= $e->certification;
+			$overview	= $e->overview;
+			$released	= $e->released;
+			$poster		= $e->posters['0']->image->url;
+			$last_mod	= $e->last_modified_at;
+			$backdrops	= $e->backdrops;
+			$url 		= $e->url;
+			
+			$image = "<a href=".$poster." class=\"highslide\" onclick=\"return hs.expand(this)\"><img style='float: left;' width='20px' src='".$poster."' /></a>";
+			$imdb  = "<a href='http://www.imdb.com/title/".$imdb_id."' target='_blank'><img style='float: right;' width='20px' src='./media/imdb.gif' /></a>";
+			
+			
+			$item_desc = "";
+			$item_desc .= ($orig_name!='null'||$orig_name!="")? "<p><b>Original Name: ".$orig_name."</b></p>":"";
+			$item_desc .= ($type!='null'||$type!="")? "<p><b>Type: ".$type."</b></p>":"";
+			$item_desc .= ($overview!='null'||$overview!="")? "<p><b>Overview</b>: ".$overview."</p>":"";
+			//$item_desc .= (!empty($orig_name))? "<p>Original Name:".$orig_name."</p>":"";
+			//$item_desc .= (!empty($orig_name))? "<p>Original Name:".$orig_name."</p>":"";
+			
+			$cp_add = $cp."movie/imdbAdd/?id=".$imdb_id;
+			
+			$table .= "<tr class=\"row\" style=\"height:2em;\"><td><a href='".$cp_add."' target='_blank'><img class=\"couchpotato\" height='20px' src=\"./media/couch.png\" alt=\"Add to CouchPotato Queue\"/></a></td><td>".$image.$imdb."<a href='".$url."' target='_blank'; onMouseOver=\"ShowPopupBox('$item_desc');\" onMouseOut=\"HidePopupBox();\">$name</a></td><td style='width:10%'>$rating</td><td style='width:30%'>$released</td></tr>";
+
 	}
+	
 	return $table;
 }
 
 function getform(){
-	//($variable == X) ? "true statement" : "false statement";
 	return "<form method=\"post\"><input type=\"text\" name=\"search\" id=\"search\" value=\"".$_POST['search']."\"/>
 				<input type=\"radio\" name=\"site\" value=1 onclick=\"catDropDown(this.value)\"> nzb.su</input>
 				<input type=\"radio\" name=\"site\" value=2 onclick=\"catDropDown(this.value)\"> NZBMatrix</input>
@@ -263,7 +205,7 @@ function printTable($name,$cat,$size,$addToSab,$nzblink,$item_desc, $image="", $
 	}
 	if($weblink!=""){
 		if(strpos($weblink,'imdb')!==false){
-			$weblink = "<a href=".$weblink."><img style='float: right;' width='20px' src='./media/imdb.gif' /></a>";
+			$weblink = "<a href=".$weblink." target='_blank'><img style='float: right;' width='20px' src='./media/imdb.gif' /></a>";
 		}
 		else{
 			$weblink = "";
