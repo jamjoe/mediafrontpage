@@ -270,6 +270,7 @@ function getInfo($id,$cp)
 	
 	
 	$m = $result[0];
+	$name	  = $m->name; 
 	$overview = $m->overview;
 	$famous   = $m->popularity;
 	$rating	  = $m->rating;
@@ -329,14 +330,15 @@ function getInfo($id,$cp)
 
 
 
-
-
+	echo "<p><img src='".$poster[0]."' style='float: left;'> <h1>$name <i style='float:right; size:10;'>$rating ($votes votes)</i></h1><p style='background-image: url(".$backdrop[0].");'><p>$overview</p>";
+	echo "<p>Runtime: $runtime</p><p>Budget: $$budget</p><p>Revenue: $$revenue</p><p><a href='".((!empty($homepage))?$homepage:"#")."'>Homepage</a></p><p><a target='_blank' href='".((!empty($trailer))?$trailer:"#")."'>Trailer</a></p><p><b>Rated</b>: $cert</p><p></p></p></p>";
+	
 
 
 
 	echo "<button type='button' onclick='toggleCast();'>Cast</button>";
 	echo "<div id='cast' style='display:none;'>";
-	echo "<table>";
+	echo "<table><tr><th></th><th> Name</th><th>Job</th><th>Character</th></tr>";
 	foreach($m->cast as $c){
 		$actor_name = $c->name;
 		$actor_job	= $c->job;
@@ -345,7 +347,7 @@ function getInfo($id,$cp)
 		$actor_thumb= $c->profile;
 		
 		
-		echo "<tr><td><img src='$actor_thumb' height='37px'></td><td>Name: $actor_name </td><td> Job: $actor_job </td><td> Character: $actor_char</td></tr>";
+		echo "<tr><td><img src='$actor_thumb' height='37px'></td><td> $actor_name </td><td> $actor_job </td><td> $actor_char</td></tr>";
 				
 	}
 	echo "</table>";
