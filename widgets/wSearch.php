@@ -7,16 +7,12 @@ function widgetSearch() {
             <div><input type="text"
                   value=""
                   id="searchterm"
-                  onkeydown="if (event.keyCode == 13) document.getElementById('searchbutton').click()">  <input type="radio"
-                  name="site"
-                  value="1"
-                  onclick="catDropDown(this.value)"> nzb.su <input type="radio"
-                  name="site"
-                  value="2"
-                  onclick="catDropDown(this.value)"> NZBMatrix <input type="radio"
-                  name="site"
-                  value="3"
-                  onclick="catDropDown(this.value)"> TMDB <select name="type" style="display:none;"
+                  onkeydown="if (event.keyCode == 13) document.getElementById('searchbutton').click()">  <select onchange="catDropDown(this.value);">
+                  <option value="0">Default</option>
+                  <option value="1">nzb.su</option>
+                  <option value="2">NZB Matrix</option>
+                  <option value="3">TMDB</option>
+    			  </select> <select name="type" style="display:none;"
                   id="type">
             </select> <input type="button"
                   id="searchbutton"
