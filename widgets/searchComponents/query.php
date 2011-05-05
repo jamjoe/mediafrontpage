@@ -4,7 +4,7 @@ function main() {
 	
 	$q=$_GET["q"];
 	$site = $_GET["site"];
-	$tablebody = "<div style=\"overflow: auto; max-height: 70%; max-width: 100%;\"><table id=\"myTable\" class=\"tablesorter\" style=\"height:70%;overflow:auto;\">
+	$tablebody = "<div style=\"overflow: auto; max-height: 70%; max-width: 100%;\"><table id=\"myTable\" class=\"tablesorter\" style=\"overflow:auto;\">
 						<thead>
 							<tr>
     							<th></th>
@@ -21,7 +21,7 @@ function main() {
 		$results = nzbmatrix($q, $nzbusername, $nzbapi,$saburl,$sabapikey);		
 	}
 	elseif($site == 3) {
-		$tablebody = "<div style=\"overflow: auto; max-height: 70%; max-width: 100%;\"><table id=\"myTable\" class=\"tablesorter\" style=\"height:70%;overflow:auto;\">
+		$tablebody = "<div style=\"overflow: auto; max-height: 70%; max-width: 100%;\"><table id=\"myTable\" class=\"tablesorter\" style=\"overflow:auto;\">
 						<thead>
 							<tr>
     							<th></th>
@@ -343,7 +343,7 @@ function getInfo($id,$cp)
 
 	$cp_add = $cp."movie/imdbAdd/?id=".$imdb_id;
 	$homepage_tag = ((!empty($homepage))?("<a href='".$homepage."' target='_blank' >"):("<a>"));
-	$trailer_tag  = ((!empty($trailer))?("<a href='".$trailer."' onclick='toggleTrailer()'>"):("<a>"));
+	$trailer_tag  = ((!empty($trailer))?("<a href='#' onclick='toggleTrailer()'>"):("<a>"));
 	
 	//<a href='#' onClick=\"getExtra('".$imdb_id."');\"><img height='12px' src='./media/couch.png' style='float: left;'/></a>
 	
@@ -401,7 +401,7 @@ function getInfo($id,$cp)
 	echo "<div id='addcp'></div>";
 	echo "<div style='clear:both;'></div>";
 	$trailer_id = substr($trailer,31);
-	echo "<div id='videoTrailer' style='display: none'><iframe width='100%' height='300' src='http://www.youtube.com/embed/$trailer_id' frameborder='0' allowfullscreen></iframe></div>";
+	echo "<div id='videoTrailer' style='display: none;'><iframe width='100%' height='300' src='http://www.youtube.com/embed/$trailer_id' frameborder='0' allowfullscreen></iframe></div>";
 	echo "</div>";
 }
 function getCP($id,$cp)
