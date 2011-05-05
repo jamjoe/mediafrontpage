@@ -269,7 +269,7 @@ function addCategory($cat,$url){
 function getInfo($id,$cp)
 {
 	echo "<button type='button' onclick='closeExtra();'><-Back</button>";
-
+	echo "<div>";
 	$search = "http://api.themoviedb.org/2.1/Movie.getInfo/en/json/1b0319774deb9c07ca72ecafa8f13f8f/".$id;
 	$json = @file_get_contents($search);
 	$result = json_decode($json);
@@ -325,7 +325,8 @@ function getInfo($id,$cp)
 			$x++;
 		}
 	}
-
+	
+	$poster[0] = (empty($poster[0]))?"./media/no_poster.png":$poster[0];
 
 	setlocale(LC_MONETARY, 'en_US');
 	$budget = money_format('%(#0n', $budget);
@@ -342,7 +343,7 @@ function getInfo($id,$cp)
 	echo "<a href='http://www.imdb.com/title/".$imdb_id."' target='_blank'><img style='float: left; padding-right:4px;' width='18px' height='10px' src='./media/imdb.gif' /></a>";
 	echo "<a href='$url' target='_blank'><img style='float: left; padding-right:4px;' height='13px' width='16px' src='./media/moviedb.png' /></a></p>";
 	echo "<h1>$name <i style='float:right; size:10;'>$rating ($votes votes)</i></h1>";
-	echo "<div style='float: left; width:28%;'><p><img src='".$poster[0]."' padding-right:6px;'></p><p>$orig_name</p><p>Date Released: $released</p><p>$tag</p></div>";
+	echo "<div style='float: left; width:28%;'><p><img src='".$poster[0]."' width='100%' padding-right:6px;'></p><p>$orig_name</p><p>Date Released: $released</p><p>$tag</p></div>";
 	
 	echo "<table width='70%'>";
 	echo "<tr><td><h3>Overview</h3></td><td align='justify'>$overview</td></tr>";
@@ -355,8 +356,8 @@ function getInfo($id,$cp)
 	}
 	echo "</td></tr>";
 	
-	echo "<tr><td><b> Trailer</b></a></b></td><td>$trailer_tag $trailer</a></td></tr>";
-	echo "<tr><td><b>Homepage</b></td><td>$homepage_tag $homepage</a></td></tr>";
+	echo "<tr><td><b> Trailer</b>:</a></b></td><td>$trailer_tag $trailer</a></td></tr>";
+	echo "<tr><td><b>Homepage</b>:</td><td>$homepage_tag $homepage</a></td></tr>";
 	echo "<tr><td><b>Runtime</b>:</td><td> $runtime minutes</td></tr><tr><td><b>Budget</b>:</td><td> $budget</td></tr><tr><td><b>Revenue</b>:</td><td> $revenue</td></tr>";
 	echo "<tr><td><b>Rated</b>:</td><td> $cert</td></tr><tr><td><b>IMDB ID</b>:</td><td> $imdb_id</td></tr>";
 	echo "<tr><td><b>Keywords</b>:</td><td> ";
@@ -378,15 +379,18 @@ function getInfo($id,$cp)
 		$actor_char	= $c->character;
 		$actor_url 	= $c->url;
 		$actor_thumb= $c->profile;
-		
+
+		$bg = ($x%2)?"style='background-color:#303030;'":"";
+		$x++;
 		$actor_thumb = (!empty($actor_thumb))?$actor_thumb:"./media/no_face.png";
-		echo "<tr><td><img src='$actor_thumb' height='37px'></td><td> $actor_name </td><td> $actor_job </td><td> $actor_char</td></tr>";
+		echo "<tr $bg><td width='25px'><img src='$actor_thumb' height='37px' width='25px'></td><td valign='middle'> $actor_name </td><td> $actor_job </td><td> $actor_char</td></tr>";
 				
 	}
 	echo "</table>";
 	echo "</div>";
 	echo "<div id='addcp'></div>";
-
+	echo "<div style='clear:both;'></div>";
+	echo "</div>";
 }
 function getCP($id,$cp)
 {
