@@ -281,6 +281,7 @@ function getInfo($id,$cp)
 	$name	  = $m->name; 
 	$overview = $m->overview;
 	$famous   = $m->popularity;
+	$orig_name= $m->original_name;
 	$rating	  = $m->rating;
 	$tag	  = $m->tagline;
 	$cert	  = $m->certification;
@@ -341,7 +342,7 @@ function getInfo($id,$cp)
 	echo "<a href='http://www.imdb.com/title/".$imdb_id."' target='_blank'><img style='float: left; padding-right:4px;' width='18px' height='10px' src='./media/imdb.gif' /></a>";
 	echo "<a href='$url' target='_blank'><img style='float: left; padding-right:4px;' height='13px' width='16px' src='./media/moviedb.png' /></a></p>";
 	echo "<h1>$name <i style='float:right; size:10;'>$rating ($votes votes)</i></h1>";
-	echo "<div style='float: left;'><p><img src='".$poster[0]."' padding-right:6px;'></p><p>Date Released: $released</p><p>$tag</p></div>";
+	echo "<div style='float: left; width:28%;'><p><img src='".$poster[0]."' padding-right:6px;'></p><p>$orig_name</p><p>Date Released: $released</p><p>$tag</p></div>";
 	
 	echo "<table width='70%'>";
 	echo "<tr><td><h3>Overview</h3></td><td align='justify'>$overview</td></tr>";
@@ -378,7 +379,7 @@ function getInfo($id,$cp)
 		$actor_url 	= $c->url;
 		$actor_thumb= $c->profile;
 		
-		
+		$actor_thumb = (!empty($actor_thumb))?$actor_thumb:"./media/no_face.png";
 		echo "<tr><td><img src='$actor_thumb' height='37px'></td><td> $actor_name </td><td> $actor_job </td><td> $actor_char</td></tr>";
 				
 	}
