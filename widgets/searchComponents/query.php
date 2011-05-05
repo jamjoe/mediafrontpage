@@ -181,7 +181,15 @@ function imdb($item,$cp){
 				$backdrops	= $e->backdrops;
 				$url 		= $e->url;
 				
-				$image = "<a href=".$poster_lg." class=\"highslide\" onclick=\"return hs.expand(this)\"><img style='float: left;' width='20px' src='".$poster_th."' /></a>";
+				if(!empty($poster_th))
+				{
+					$image = "<a href=".$poster_lg." class=\"highslide\" onclick=\"return hs.expand(this)\"><img style='float: left;' width='20px' src='".$poster_th."' /></a>";			
+				}
+				else
+				{
+					$image = "<img style='float: left;' width='20px' src='./media/no_poster.jpg' />";			
+
+				}
 				$imdb  = "<a href='http://www.imdb.com/title/".$imdb_id."' target='_blank'><img style='float: right;' width='20px' src='./media/imdb.gif' /></a>";
 				
 				
