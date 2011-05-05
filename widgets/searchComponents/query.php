@@ -326,7 +326,7 @@ function getInfo($id,$cp)
 		}
 	}
 	
-	$poster[0] = (empty($poster[0]))?"./media/no_poster.png":$poster[0];
+	$poster[0] = (empty($poster[0]))?"./media/no_poster.jpg":$poster[0];
 
 	setlocale(LC_MONETARY, 'en_US');
 	$budget = money_format('%(#0n', $budget);
@@ -347,7 +347,7 @@ function getInfo($id,$cp)
 	
 	echo "<table width='70%'>";
 	echo "<tr><td><h3>Overview</h3></td><td align='justify'>$overview</td></tr>";
-	echo "<tr><td><b>Genre</b>:</td><td> ";
+	echo "<tr><td align='right'><b>Genre</b>:</td><td> ";
 	$x=0;
 	foreach($m->genres as $c){
 		$genre_name[$x] = $c->name;
@@ -356,21 +356,25 @@ function getInfo($id,$cp)
 	}
 	echo "</td></tr>";
 	
-	echo "<tr><td><b> Trailer</b>:</a></b></td><td>$trailer_tag $trailer</a></td></tr>";
-	echo "<tr><td><b>Homepage</b>:</td><td>$homepage_tag $homepage</a></td></tr>";
-	echo "<tr><td><b>Runtime</b>:</td><td> $runtime minutes</td></tr><tr><td><b>Budget</b>:</td><td> $budget</td></tr><tr><td><b>Revenue</b>:</td><td> $revenue</td></tr>";
-	echo "<tr><td><b>Rated</b>:</td><td> $cert</td></tr><tr><td><b>IMDB ID</b>:</td><td> $imdb_id</td></tr>";
-	echo "<tr><td><b>Keywords</b>:</td><td> ";
+	echo "<tr><td align='right'><b> Trailer</b>:</a></b></td>";
+	echo "<td align='right'>$trailer_tag $trailer</a></td></tr>";
+	echo "<tr><td align='right'><b>Homepage</b>:</td><td>$homepage_tag $homepage</a></td></tr>";
+	echo "<tr><td align='right'><b>Runtime</b>:</td><td> $runtime minutes</td></tr>";
+	echo "<tr><td align='right'><b>Budget</b>:</td><td> $budget</td></tr>";
+	echo "<tr><td align='right'><b>Revenue</b>:</td><td> $revenue</td></tr>";
+	echo "<tr><td align='right'><b>Rated</b>:</td><td> $cert</td></tr>";
+	echo "<tr><td align='right'><b>IMDB ID</b>:</td><td> $imdb_id</td></tr>";
+	echo "<tr><td align='right'><b>Keywords</b>:</td><td> ";
 	$x=0;
 	foreach($m->keywords as $c){
 		$keywords[$x] = $c;
 		echo $keywords[$x]." | ";
 		$x++;
 	}
-	echo "</td></tr>";
+	echo "</td></tr></table>";
 
 
-	echo "<tr><td><button type='button' onclick='toggleCast();'>Cast</button></td></tr></table>";
+	echo "<div style='float: right;'><button type='button' onclick='toggleCast();'>Cast & Crew</button></div>";
 	echo "<div id='cast' style='display:none;'>";
 	echo "<table width='100%'><tr><th></th><th> Name</th><th>Job</th><th>Character</th></tr>";
 	foreach($m->cast as $c){
