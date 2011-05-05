@@ -34,8 +34,14 @@ function main() {
 		$results = imdb($q,$cp_url);		
 	}
 	elseif(!empty($_GET['id'])){
-		getInfo($_GET['id'],$cp_url);
-		return false;
+		if(intval($_GET['id'])!=0){
+			getInfo($_GET['id'],$cp_url);
+			return false;
+		}
+		else{
+			getCP($id, $cp_url);
+			return false;
+		}
 	}
 	else{
 	$_GET['type'] = $preferredCategories;
@@ -151,54 +157,56 @@ function imdb($item,$cp){
 	//echo "<pre>";print_r($result);echo "</pre>";
 
 	$table = "";
-	foreach($result as $e){
-			$score		= $e->score;
-			$popularity	= $e->popularity;
-			$translated = $e->translated;
-			$adult		= $e->adult;
-			$lang		= $e->language;
-			$orig_name	= $e->original_name;
-			$name		= $e->name;
-			$alt_name	= $e->alternative_name;
-			$type		= $e->type;
-			$id			= $e->id;
-			$imdb_id	= $e->imdb_id;
-			$votes		= $e->votes;
-			$rating		= $e->rating;
-			$certific	= $e->certification;
-			$overview	= $e->overview;
-			$released	= $e->released;
-			$poster_th	= $e->posters['2']->image->url;
-			$poster_lg	= $e->posters['1']->image->url;
-			$last_mod	= $e->last_modified_at;
-			$backdrops	= $e->backdrops;
-			$url 		= $e->url;
-			
-			$image = "<a href=".$poster_lg." class=\"highslide\" onclick=\"return hs.expand(this)\"><img style='float: left;' width='20px' src='".$poster_th."' /></a>";
-			$imdb  = "<a href='http://www.imdb.com/title/".$imdb_id."' target='_blank'><img style='float: right;' width='20px' src='./media/imdb.gif' /></a>";
-			
-			
-			$item_desc = "";
-			$item_desc .= ((!empty($orig_name))&&($orig_name!='null'||$orig_name!=""))? "<p><b>Original Name</b>: ".$orig_name."</p>":"";
-			$item_desc .= ((!empty($type))&&($type!='null'||$type!=""))? "<p><b>Type</b>: ".urlencode($type)."</p>":"";
-			$item_desc .= "<p><b>Overview</b>: ".$overview."</p>";
-			$item_desc .= (!empty($certific))? "<p><b>Rated</b>: ".$certific."</p>":"";
-			//$item_desc .= (!empty($orig_name))? "<p>Original Name:".$orig_name."</p>":"";
-			//$item_desc .= (!empty($orig_name))? "<p>Original Name:".$orig_name."</p>":"";
-			
-			$item_desc = str_replace("\"", " - ", $item_desc);		
-			$item_desc = str_replace("'", "|", $item_desc);		
-			
-			$cp_add = $cp."movie/imdbAdd/?id=".$imdb_id;
-			
-			$table .= "<tr class=\"row\" style=\"height:2em;\">";
-			$table .= "<td><a href='".$cp_add."' target='_blank'><img class=\"couchpotato\" height='20px' src=\"./media/couch.png\" alt=\"Add to CouchPotato Queue\"/></a></td>";
-			$table .= "<td>".$image.$imdb."<a href='#' onMouseOver=\"ShowPopupBox('$item_desc');\" onMouseOut=\"HidePopupBox();\" onClick=\"getExtra('".$id."')\">$name</a></td><td style='width:10%'>$rating</td>";
-			$table .= "<td style='width:20%'>$released</td></tr>";
-
-	}
+	if($result[0]!="Nothing found."){
+		foreach($result as $e){
+				$score		= $e->score;
+				$popularity	= $e->popularity;
+				$translated = $e->translated;
+				$adult		= $e->adult;
+				$lang		= $e->language;
+				$orig_name	= $e->original_name;
+				$name		= $e->name;
+				$alt_name	= $e->alternative_name;
+				$type		= $e->type;
+				$id			= $e->id;
+				$imdb_id	= $e->imdb_id;
+				$votes		= $e->votes;
+				$rating		= $e->rating;
+				$certific	= $e->certification;
+				$overview	= $e->overview;
+				$released	= $e->released;
+				$poster_th	= $e->posters['2']->image->url;
+				$poster_lg	= $e->posters['1']->image->url;
+				$last_mod	= $e->last_modified_at;
+				$backdrops	= $e->backdrops;
+				$url 		= $e->url;
+				
+				$image = "<a href=".$poster_lg." class=\"highslide\" onclick=\"return hs.expand(this)\"><img style='float: left;' width='20px' src='".$poster_th."' /></a>";
+				$imdb  = "<a href='http://www.imdb.com/title/".$imdb_id."' target='_blank'><img style='float: right;' width='20px' src='./media/imdb.gif' /></a>";
+				
+				
+				$item_desc = "";
+				$item_desc .= ((!empty($orig_name))&&($orig_name!='null'||$orig_name!=""))? "<p><b>Original Name</b>: ".$orig_name."</p>":"";
+				$item_desc .= ((!empty($type))&&($type!='null'||$type!=""))? "<p><b>Type</b>: ".urlencode($type)."</p>":"";
+				$item_desc .= "<p><b>Overview</b>: ".$overview."</p>";
+				$item_desc .= (!empty($certific))? "<p><b>Rated</b>: ".$certific."</p>":"";
+				//$item_desc .= (!empty($orig_name))? "<p>Original Name:".$orig_name."</p>":"";
+				//$item_desc .= (!empty($orig_name))? "<p>Original Name:".$orig_name."</p>":"";
+				
+				$item_desc = str_replace("\"", " - ", $item_desc);		
+				$item_desc = str_replace("'", "|", $item_desc);		
+				
+				$cp_add = $cp."movie/imdbAdd/?id=".$imdb_id;
+				
+				$table .= "<tr class=\"row\" style=\"height:2em;\">";
+				$table .= "<td><a href='".$cp_add."' target='_blank'><img class=\"couchpotato\" height='20px' src=\"./media/couch.png\" alt=\"Add to CouchPotato Queue\"/></a></td>";
+				$table .= "<td>".$image.$imdb."<a href='#' onMouseOver=\"ShowPopupBox('$item_desc');\" onMouseOut=\"HidePopupBox();\" onClick=\"getExtra('".$id."');\">$name</a></td><td style='width:10%'>$rating</td>";
+				$table .= "<td style='width:20%'>$released</td></tr>";
 	
-	return $table;
+			}
+			return $table;
+		}
+	return "";
 }
 
 function getform(){
@@ -282,8 +290,9 @@ function getInfo($id,$cp)
 	$homepage = $m->homepage;
 	$trailer  = $m->trailer;
 	$votes	  = $m->votes;
+	$imdb_id  = $m->imdb_id;
+	$url	  = $m->url;
 	/*
-	$	  = $m->;
 	$	  = $m->;
 	$	  = $m->;
 	$	  = $m->;
@@ -329,9 +338,24 @@ function getInfo($id,$cp)
 	}
 
 
+	setlocale(LC_MONETARY, 'en_US');
+	$budget = money_format('%i', $budget);
+	$revenue = money_format('%i', $revenue);
 
-	echo "<p><img src='".$poster[0]."' style='float: left;'> <h1>$name <i style='float:right; size:10;'>$rating ($votes votes)</i></h1><p style='background-image: url(".$backdrop[0].");'><p>$overview</p>";
-	echo "<p>Runtime: $runtime</p><p>Budget: $$budget</p><p>Revenue: $$revenue</p><p><a href='".((!empty($homepage))?$homepage:"#")."'>Homepage</a></p><p><a target='_blank' href='".((!empty($trailer))?$trailer:"#")."'>Trailer</a></p><p><b>Rated</b>: $cert</p><p></p></p></p>";
+
+	$cp_add = $cp."movie/imdbAdd/?id=".$imdb_id;
+	$homepage = ((!empty($homepage))?("<a href='".$homepage."' target='_blank' >"):("<a>"));
+	$trailer  = ((!empty($trailer))?("<a href='".$trailer."' target='_blank' >"):("<a>"));
+	
+	//<a href='#' onClick=\"getExtra('".$imdb_id."');\"><img height='12px' src='./media/couch.png' style='float: left;'/></a>
+	
+	echo "<p><a href='$cp_add' target='_blank'><img height='12px' src='./media/couch.png' style='float: left; padding-right:4px;'/></a>";
+	echo "<a href='http://www.imdb.com/title/".$imdb_id."' target='_blank'><img style='float: left; padding-right:4px;' width='18px' height='10px' src='./media/imdb.gif' /></a>";
+	echo "<a href='$url' target='_blank'><img style='float: left; padding-right:4px;' height='13px' width='16px' src='./media/moviedb.png' /></a></p>";
+	echo "<h1>$name <i style='float:right; size:10;'>$rating ($votes votes)</i></h1>";
+	echo "<p><img src='".$poster[0]."' style='float: left; padding-right:6px;'><p><h2>Overview</h2>$overview</p>";
+	echo "<p>Runtime: $runtime minutes</p><p>Budget: $$budget</p><p>Revenue: $$revenue</p><p>$homepage Homepage</a></p>";
+	echo "<p>$trailer Trailer</a></p><p><b>Rated</b>: $cert</p><p>IMDB ID: $imdb_id</p></p>";
 	
 
 
@@ -352,9 +376,17 @@ function getInfo($id,$cp)
 	}
 	echo "</table>";
 	echo "</div>";
+	echo "<div id='addcp'></div>";
 
 }
+function getCP($id,$cp)
+{
 
+	$x = file_get_contents($cp."movie/imdbAdd/?id=".$id);
+	
+	echo "<pre>";print_r($x);echo "</pre>";
+
+}
 
 function ByteSize($bytes)
 {

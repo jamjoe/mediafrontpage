@@ -153,7 +153,7 @@ function byteSizeOrdering()
 }
 function getExtra(id)
 {
-
+	//alert(id);
 	if (window.XMLHttpRequest)
     {
         xhr = new XMLHttpRequest();
@@ -174,8 +174,15 @@ function getExtra(id)
 
     if (xhr)
     {
-        xhr.onreadystatechange = showExtra;
-        xhr.open("GET", url + "?id=" + id);
+    	if(is_int(id))
+    	{
+        	xhr.onreadystatechange = showExtra;
+        }
+        else
+        {
+	        xhr.onreadystatechange = showCP;        
+        }
+        xhr.open("GET", url + "?id=" + id, true);
         xhr.send();
     }
     else
@@ -209,10 +216,34 @@ function closeExtra()
 }
 function toggleCast(){
 	if(document.getElementById("cast").style.display == "none"){
-		document.getElementById("cast").style.display = "inline";
+		document.getElementById("cast").style.display = "inline-block";
 	}
 	else{
 		document.getElementById("cast").style.display = "none";
 	}
 
+}
+function showCP()
+{
+if (xhr.readyState == 4)
+    {
+        if (xhr.status == 200)
+        {
+            var outMsg = xhr.responseText;
+        }
+        else
+        {
+            var outMsg = "There was a problem with the request " + xhr.status;
+        }
+        document.getElementById("addcp").innerHTML = outMsg;
+        document.getElementById("imdbAdd").style.padding = 0;
+	
+	}
+}
+function is_int(value){ 
+  if((parseFloat(value) == parseInt(value)) && !isNaN(value)){
+      return true;
+  } else { 
+      return false;
+  } 
 }
