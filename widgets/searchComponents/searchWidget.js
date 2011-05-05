@@ -24,7 +24,8 @@ function results()
 
 function getResults(item)
 {
-    document.getElementById("resultstable").innerHTML = "Loading...";
+   	document.getElementById("resultstable").style.display = "inline";
+	document.getElementById("resultstable").innerHTML = "Loading...";
 
     if (window.XMLHttpRequest)
     {
@@ -87,6 +88,9 @@ function showContents()
 function clearResults()
 {
     document.getElementById("resultstable").innerHTML = "";
+ 	document.getElementById("extra_info").innerHTML = "";	
+	document.getElementById("cast").innerHTML = "";	
+   	document.getElementById("resultstable").style.display = "inline";
 }
 
 
@@ -113,12 +117,12 @@ function catDropDown(str)
 
 function resetWidget()
 {
-
+	site = 0
     document.getElementById("type").style.display = "none";
-    document.getElementById("resultstable").innerHTML = "";
     $("input:radio").attr("checked", false);
     document.getElementById('searchterm').value = "";
     document.getElementById('provider')[0].selected = true;
+	clearResults();
 }
 
 function byteSizeOrdering()
