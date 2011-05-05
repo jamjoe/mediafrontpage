@@ -343,7 +343,7 @@ function getInfo($id,$cp)
 
 	$cp_add = $cp."movie/imdbAdd/?id=".$imdb_id;
 	$homepage_tag = ((!empty($homepage))?("<a href='".$homepage."' target='_blank' >"):("<a>"));
-	$trailer_tag  = ((!empty($trailer))?("<a href='".$trailer."' target='_blank' >"):("<a>"));
+	$trailer_tag  = ((!empty($trailer))?("<a href='".$trailer."' onclick='toggleTrailer()'>"):("<a>"));
 	
 	//<a href='#' onClick=\"getExtra('".$imdb_id."');\"><img height='12px' src='./media/couch.png' style='float: left;'/></a>
 	
@@ -352,10 +352,9 @@ function getInfo($id,$cp)
 	echo "<a href='$url' target='_blank'><img style='float: left; padding-right:4px;' height='13px' width='16px' src='./media/moviedb.png' /></a></p>";
 	echo "<h1>$name <i style='float:right; size:10;'>$rating ($votes votes)</i></h1>";
 	echo "<div style='float: left; width:28%;'><p><img src='".$poster[0]."' width='100%' padding-right:6px;'></p><p>$orig_name</p><p>Date Released: $released</p><p>$tag</p></div>";
-	
 	echo "<table width='70%'>";
-	echo "<tr><td><h3>Overview</h3></td><td align='justify'>$overview</td></tr>";
-	echo "<tr><td align='right'><b>Genre</b>:</td><td> ";
+	echo "<tr><td align='right'><b>Overview</b></td><td align='justify'>$overview</td></tr>";
+	echo "<tr><td align='right'><b>Genre</b>:</td><td align='left'> ";
 	$x=0;
 	foreach($m->genres as $c){
 		$genre_name[$x] = $c->name;
@@ -364,15 +363,14 @@ function getInfo($id,$cp)
 	}
 	echo "</td></tr>";
 	
-	echo "<tr><td align='right'><b> Trailer</b>:</a></b></td>";
-	echo "<td align='right'>$trailer_tag $trailer</a></td></tr>";
-	echo "<tr><td align='right'><b>Homepage</b>:</td><td>$homepage_tag $homepage</a></td></tr>";
-	echo "<tr><td align='right'><b>Runtime</b>:</td><td> $runtime minutes</td></tr>";
-	echo "<tr><td align='right'><b>Budget</b>:</td><td> $budget</td></tr>";
-	echo "<tr><td align='right'><b>Revenue</b>:</td><td> $revenue</td></tr>";
-	echo "<tr><td align='right'><b>Rated</b>:</td><td> $cert</td></tr>";
-	echo "<tr><td align='right'><b>IMDB ID</b>:</td><td> $imdb_id</td></tr>";
-	echo "<tr><td align='right'><b>Keywords</b>:</td><td> ";
+	echo "<tr><td align='right'><b> Trailer</b>:</a></b></td><td align='center'>$trailer_tag $trailer</a></td></tr>";
+	echo "<tr><td align='right'><b>Homepage</b>:</td><td align='left'>$homepage_tag $homepage</a></td></tr>";
+	echo "<tr><td align='right'><b>Runtime</b>:</td><td align='left'> $runtime minutes</td></tr>";
+	echo "<tr><td align='right'><b>Budget</b>:</td><td align='left'> $budget</td></tr>";
+	echo "<tr><td align='right'><b>Revenue</b>:</td><td align='left'> $revenue</td></tr>";
+	echo "<tr><td align='right'><b>Rated</b>:</td><td align='left'> $cert</td></tr>";
+	echo "<tr><td align='right'><b>IMDB ID</b>:</td><td align='left'> $imdb_id</td></tr>";
+	echo "<tr><td align='right'><b>Keywords</b>:</td><td align='left'> ";
 	$x=0;
 	foreach($m->keywords as $c){
 		$keywords[$x] = $c;
@@ -402,6 +400,8 @@ function getInfo($id,$cp)
 	echo "</div>";
 	echo "<div id='addcp'></div>";
 	echo "<div style='clear:both;'></div>";
+	$trailer_id = substr($trailer,31);
+	echo "<div id='videoTrailer' style='display: none'><iframe width='100%' height='300' src='http://www.youtube.com/embed/$trailer_id' frameborder='0' allowfullscreen></iframe></div>";
 	echo "</div>";
 }
 function getCP($id,$cp)

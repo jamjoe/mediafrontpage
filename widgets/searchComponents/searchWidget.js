@@ -178,14 +178,7 @@ function getExtra(id)
 
     if (xhr)
     {
-    	if(is_int(id))
-    	{
-        	xhr.onreadystatechange = showExtra;
-        }
-        else
-        {
-	        xhr.onreadystatechange = showCP;        
-        }
+       	xhr.onreadystatechange = showExtra;
         xhr.open("GET", url + "?id=" + id, true);
         xhr.send();
     }
@@ -216,7 +209,7 @@ function closeExtra()
 
     	document.getElementById("extra_info").style.display = "none";	
 		document.getElementById("resultstable").style.display = "inline";
-
+		document.getElementById("videoTrailer").innerHTML = "";
 }
 function toggleCast(){
 	if(document.getElementById("cast").style.display == "none"){
@@ -227,21 +220,13 @@ function toggleCast(){
 	}
 
 }
-function showCP()
+function toggleTrailer()
 {
-if (xhr.readyState == 4)
-    {
-        if (xhr.status == 200)
-        {
-            var outMsg = xhr.responseText;
-        }
-        else
-        {
-            var outMsg = "There was a problem with the request " + xhr.status;
-        }
-        document.getElementById("addcp").innerHTML = outMsg;
-        document.getElementById("imdbAdd").style.padding = 0;
-	
+	if(document.getElementById("videoTrailer").style.display =="none"){
+		document.getElementById("videoTrailer").style.display = "inline";
+	}
+	else{
+		document.getElementById("videoTrailer").style.display = "none";
 	}
 }
 function is_int(value){ 
