@@ -26,6 +26,7 @@ function getResults(item)
 {
    	document.getElementById("resultstable").style.display = "inline";
 	document.getElementById("resultstable").innerHTML = "Loading...";
+	document.getElementById("extra_info").innerHTML = "";	
 
     if (window.XMLHttpRequest)
     {
@@ -82,6 +83,7 @@ function showContents()
                 }
             }
         });
+		//$("a[rel^='prettyPhoto']").prettyPhoto({social_tools:false});
 	}
 }
 
@@ -202,11 +204,11 @@ function showExtra()
 	   	document.getElementById("resultstable").style.display = "none";
         document.getElementById("extra_info").style.display = "inline";
         document.getElementById("extra_info").innerHTML = outMsg;
+		$("a[rel^='prettyPhoto']").prettyPhoto({social_tools:false});
 	}
 }
 function closeExtra()
 {
-
     	document.getElementById("extra_info").style.display = "none";	
 		document.getElementById("resultstable").style.display = "inline";
 		document.getElementById("videoTrailer").innerHTML = "";
@@ -220,14 +222,17 @@ function toggleCast(){
 	}
 
 }
-function toggleTrailer()
+function toggleTrailer(item)
 {
-	if(document.getElementById("videoTrailer").style.display =="none"){
-		document.getElementById("videoTrailer").style.display = "inline";
-	}
-	else{
-		document.getElementById("videoTrailer").style.display = "none";
-	}
+	alert(item);
+	//$.prettyPhoto.open(item,'Title','Description');
+	alert('here');
+	//if(document.getElementById("videoTrailer").style.display =="none"){
+	//	document.getElementById("videoTrailer").style.display = "inline";
+	//}
+	//else{
+	//	document.getElementById("videoTrailer").style.display = "none";
+	//}
 }
 function is_int(value){ 
   if((parseFloat(value) == parseInt(value)) && !isNaN(value)){

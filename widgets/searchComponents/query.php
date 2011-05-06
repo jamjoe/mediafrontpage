@@ -207,7 +207,7 @@ function imdb($item,$cp){
 				$cp_add = $cp."movie/imdbAdd/?id=".$imdb_id;
 				
 				$table .= "<tr class=\"row\" style=\"height:2em;\">";
-				$table .= "<td><a href='".$cp_add."' target='_blank'><img class=\"couchpotato\" height='20px' src=\"./media/couch.png\" alt=\"Add to CouchPotato Queue\"/></a></td>";
+				$table .= "<td><a href='".$cp_add."?iframe=true&width=200&height=40'  rel='prettyPhoto'><img class=\"couchpotato\" height='20px' src=\"./media/couch.png\" alt=\"Add to CouchPotato Queue\"/></a></td>";
 				$table .= "<td>".$image.$imdb."<a href='#' onMouseOver=\"ShowPopupBox('$item_desc');\" onMouseOut=\"HidePopupBox();\" onClick=\"getExtra('".$id."');\">$name</a></td><td style='width:10%'>$rating</td>";
 				$table .= "<td style='width:20%'>$released</td></tr>";
 	
@@ -343,13 +343,13 @@ function getInfo($id,$cp)
 
 	$cp_add = $cp."movie/imdbAdd/?id=".$imdb_id;
 	$homepage_tag = ((!empty($homepage))?("<a href='".$homepage."' target='_blank' >"):("<a>"));
-	$trailer_tag  = ((!empty($trailer))?("<a href='#' onclick='toggleTrailer()'>"):("<a>"));
+	$trailer_tag  = ((!empty($trailer))?("<a href='".$trailer."' rel='prettyPhoto' >"):("<a>"));	//onclick='toggleTrailer(this)'
 	
 	//<a href='#' onClick=\"getExtra('".$imdb_id."');\"><img height='12px' src='./media/couch.png' style='float: left;'/></a>
 	
-	echo "<p><a href='$cp_add' target='_blank'><img height='12px' src='./media/couch.png' style='float: left; padding-right:4px;'/></a>";
-	echo "<a href='http://www.imdb.com/title/".$imdb_id."' target='_blank'><img style='float: left; padding-right:4px;' width='18px' height='10px' src='./media/imdb.gif' /></a>";
-	echo "<a href='$url' target='_blank'><img style='float: left; padding-right:4px;' height='13px' width='16px' src='./media/moviedb.png' /></a></p>";
+	echo "<p><a href='$cp_add?iframe=true&height=40&width=190' rel='prettyPhoto'><img height='12px' src='./media/couch.png' style='float: left; padding-right:4px;'/></a>";
+	echo "<a href='http://www.imdb.com/title/".$imdb_id."?iframe=true&height=95%&width=100%' rel='prettyPhoto'><img style='float: left; padding-right:4px;' width='18px' height='10px' src='./media/imdb.gif' /></a>";
+	echo "<a href='$url?iframe=true?iframe=true&height=95%&width=100%' rel='prettyPhoto'><img style='float: left; padding-right:4px;' height='13px' width='16px' src='./media/moviedb.png' /></a></p>";
 	echo "<h1>$name <i style='float:right; size:10;'>$rating ($votes votes)</i></h1>";
 	echo "<div style='float: left; width:28%;'><p><img src='".$poster[0]."' width='100%' padding-right:6px;'></p><p>$orig_name</p><p>Date Released: $released</p><p>$tag</p></div>";
 	echo "<table width='70%'>";
