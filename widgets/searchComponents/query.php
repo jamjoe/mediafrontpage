@@ -4,7 +4,7 @@ function main() {
 	
 	$q=$_GET["q"];
 	$site = $_GET["site"];
-	$tablebody = "<div style=\"overflow: auto; max-height: 70%; max-width: 100%;\"><table id=\"myTable\" class=\"tablesorter\" style=\"overflow:auto;\">
+	$tablebody = "<div style=\"overflow: auto; max-height: 70%; max-width: 100%;\" id='resultsX'><table id=\"myTable\" class=\"tablesorter\" style=\"overflow:auto;\">
 						<thead>
 							<tr>
     							<th></th>
@@ -21,7 +21,7 @@ function main() {
 		$results = nzbmatrix($q, $nzbusername, $nzbapi,$saburl,$sabapikey);		
 	}
 	elseif($site == 3) {
-		$tablebody = "<div style=\"overflow: auto; max-height: 70%; max-width: 100%;\"><table id=\"myTable\" class=\"tablesorter\" style=\"overflow:auto;\">
+		$tablebody = "<div style='overflow: auto; max-height: 70%; max-width: 100%;' id='resultsX'><table id=\"myTable\" class=\"tablesorter\" style=\"overflow:auto;\">
 						<thead>
 							<tr>
     							<th></th>
@@ -337,13 +337,14 @@ function getInfo($id,$cp)
 	$poster[0] = (empty($poster[0]))?"./media/no_poster.jpg":$poster[0];
 
 	setlocale(LC_MONETARY, 'en_US');
-	$budget = money_format('%(#0n', $budget);
-	$revenue = money_format('%(#0n', $revenue);
+	
+	$budget  = (!empty($budget))?money_format('%(#0n', $budget):"NaN";
+	$revenue = (!empty($revenue))?money_format('%(#0n', $revenue):"NaN";
 
 
 	$cp_add = $cp."movie/imdbAdd/?id=".$imdb_id;
-	$homepage_tag = ((!empty($homepage))?("<a href='".$homepage."' target='_blank' >"):("<a>"));
-	$trailer_tag  = ((!empty($trailer))?("<a href='".$trailer."' rel='prettyPhoto' >"):("<a>"));	//onclick='toggleTrailer(this)'
+	$homepage_tag = (!empty($homepage))?("<a href='".$homepage."' target='_blank' >$homepage</a>"):"<a>";
+	$trailer_tag  = (!empty($trailer))?("<a href='".$trailer."' rel='prettyPhoto' >$trailer</a>"):"";	//onclick='toggleTrailer(this)'
 	
 	//<a href='#' onClick=\"getExtra('".$imdb_id."');\"><img height='12px' src='./media/couch.png' style='float: left;'/></a>
 	
@@ -363,8 +364,8 @@ function getInfo($id,$cp)
 	}
 	echo "</td></tr>";
 	
-	echo "<tr><td align='right'><b> Trailer</b>:</a></b></td><td align='center'>$trailer_tag $trailer</a></td></tr>";
-	echo "<tr><td align='right'><b>Homepage</b>:</td><td align='left'>$homepage_tag $homepage</a></td></tr>";
+	echo "<tr><td align='right'><b> Trailer</b>:</a></b></td><td align='center'>$trailer_tag</td></tr>";
+	echo "<tr><td align='right'><b>Homepage</b>:</td><td align='left'>$homepage_tag</td></tr>";
 	echo "<tr><td align='right'><b>Runtime</b>:</td><td align='left'> $runtime minutes</td></tr>";
 	echo "<tr><td align='right'><b>Budget</b>:</td><td align='left'> $budget</td></tr>";
 	echo "<tr><td align='right'><b>Revenue</b>:</td><td align='left'> $revenue</td></tr>";

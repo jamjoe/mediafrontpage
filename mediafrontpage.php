@@ -25,6 +25,10 @@ if (empty ($arrLayout)) {
 		<script type="text/javascript" language="javascript" src="js/popuptext.js"></script>
 		<script type="text/javascript" src="http://jqueryjs.googlecode.com/files/jquery-1.2.6.min.js"></script>
 		<script type="text/javascript" src="js/highslide/highslide.js"></script>
+		<script type="text/javascript" src="js/jquery.js"></script>
+    	<script type="text/javascript" src="js/jquery.tablesorter.js"></script>
+    	<script type="text/javascript" src="js/prettyPhoto/jquery.prettyPhoto.js"></script>
+		<link rel="stylesheet" type="text/css" href="js/prettyPhoto/prettyPhoto.css" />
 		<link rel="stylesheet" type="text/css" href="js/highslide/highslide.css" />
 		<script type="text/javascript">
 			//<![CDATA[
@@ -104,8 +108,6 @@ if (empty ($arrLayout)) {
 		
 ?>
 		</div><!-- #main -->
-    	<script type="text/javascript" src="js/jquery.js"></script>
-    	<script type="text/javascript" src="js/jquery.tablesorter.js"></script>
     	<script type="text/javascript" src="js/widget.js"></script>
 		</body>
 </html>
