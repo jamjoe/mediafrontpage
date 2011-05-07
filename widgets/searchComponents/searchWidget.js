@@ -25,6 +25,7 @@ function results()
 
 function getResults(item)
 {
+	$.prettyLoader();
     $("div#resultstable").show();
     $("#extra_info").html("");
 	var type = $("#type").val();
@@ -34,7 +35,7 @@ function getResults(item)
 	  beforeSend:function(){
 	    // this is where we append a loading image
 	    //$('#ajax-panel').html('<div class="loading"><img src="/images/loading.gif" alt="Loading..." /></div>');
-		$("div#resultstable").html("Loading...");
+		$.prettyLoader.show();
 	  },
 	  success:function(data){
 	    // successful request; do something with the data
@@ -56,6 +57,7 @@ function getResults(item)
         else{
 	        $("#myTable").tablesorter();
         }
+  		$.prettyLoader.hide();
         //$("a[rel^='prettyPhoto']").prettyPhoto({social_tools:false});
 	  },
 	  error:function(){
@@ -145,7 +147,7 @@ function getExtra(id)
 	  beforeSend:function(){
 	    // this is where we append a loading image
 	    //$('#ajax-panel').html('<div class="loading"><img src="/images/loading.gif" alt="Loading..." /></div>');
-		//$("div#resultstable").html("Loading...");
+		$.prettyLoader.show();
 	  },
 	  success:function(data){
 	    // successful request; do something with the data
@@ -156,7 +158,7 @@ function getExtra(id)
         {
             social_tools: false
         });
-        //$("a[rel^='prettyPhoto']").prettyPhoto({social_tools:false});
+       	$.prettyLoader.hide();
 	  },
 	  error:function(){
 	    // failed request; give feedback to user
