@@ -241,7 +241,7 @@ function printTable($name,$cat,$size,$addToSab,$nzblink,$item_desc, $image="", $
 		}
 	}
 	return "	<tr class=\"row\" style=\"height:3em;\">
-					<td><a href=\"#\";  onclick=\"sabAddUrl('".htmlentities($addToSab)."'); return false;\"><img class=\"sablink\" src=\"./media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
+					<td><a href=\"#\";  onclick=\"addToSab('".htmlentities($addToSab)."'); return false;\"><img class=\"sablink\" src=\"./media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
 					<td style='width:60%';>".$image.$weblink."<a href='".$nzblink."' target='_blank'; onMouseOver=\"ShowPopupBox('".$item_desc."');\" onMouseOut=\"HidePopupBox();\">$name</a></td>
 					<td class='filesize'>".ByteSize($size)."</td>
 					<td style='width:20%'>$cat</td>
@@ -308,7 +308,7 @@ function getInfo($id,$cp)
 	$	  = $m->;
 	$	  = $m->;
 	$	  = $m->;
-*/
+	*/
 
 
 	$x=0;

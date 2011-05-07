@@ -1,6 +1,6 @@
 var xhr = false;
 var site = 0;
-var url = "widgets/searchComponents/query.php";
+/* var url = "widgets/searchComponents/query.php"; */
 
 function updateRows()
 {
@@ -28,10 +28,9 @@ function getResults(item)
     $("div#resultstable").show();
     $("#extra_info").html("");
 	var type = $("#type").val();
-	
 	$.ajax({
 	  type: 'GET',
-	  url: url + "?site=" + site + "&q=" + item + "&type=" + type,
+	  url: "widgets/searchComponents/query.php?site=" + site + "&q=" + item + "&type=" + type,
 	  beforeSend:function(){
 	    // this is where we append a loading image
 	    //$('#ajax-panel').html('<div class="loading"><img src="/images/loading.gif" alt="Loading..." /></div>');
@@ -139,57 +138,31 @@ function byteSizeOrdering()
 
 function getExtra(id)
 {
-    //alert(id);
-    if (window.XMLHttpRequest)
-    {
-        xhr = new XMLHttpRequest();
-    }
-    else
-    {
-        if (window.ActiveXObject)
-        {
-            try
-            {
-                xhr = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-            catch (e)
-            {
-            }
-        }
-    }
-
-    if (xhr)
-    {
-        xhr.onreadystatechange = showExtra;
-        xhr.open("GET", url + "?id=" + id, true);
-        xhr.send();
-    }
-    else
-    {
-        alert("Sorry, but I couldn't create an XMLHttpRequest");
-    }
-}
-
-function showExtra()
-{
-    if (xhr.readyState == 4)
-    {
-        if (xhr.status == 200)
-        {
-            var outMsg = xhr.responseText;
-        }
-        else
-        {
-            var outMsg = "There was a problem with the request " + xhr.status;
-        }
+	
+	$.ajax({
+	  type: 'GET',
+	  url:  "widgets/searchComponents/query.php?id=" + id,
+	  beforeSend:function(){
+	    // this is where we append a loading image
+	    //$('#ajax-panel').html('<div class="loading"><img src="/images/loading.gif" alt="Loading..." /></div>');
+		//$("div#resultstable").html("Loading...");
+	  },
+	  success:function(data){
+	    // successful request; do something with the data
         $("#resultstable").hide();
         $("#extra_info").show();
-        $("#extra_info").html(outMsg);
+        $("#extra_info").html(data);
         $("a[rel^='prettyPhoto']").prettyPhoto(
         {
             social_tools: false
         });
-    }
+        //$("a[rel^='prettyPhoto']").prettyPhoto({social_tools:false});
+	  },
+	  error:function(){
+	    // failed request; give feedback to user
+        alert("Sorry, but I couldn't create an XMLHttpRequest");
+	  }
+	});
 }
 
 function closeExtra()
@@ -212,20 +185,27 @@ function toggleCast()
 
 }
 
-/*
-function toggleTrailer(item)
-{
-    alert(item);
-    //$.prettyPhoto.open(item,'Title','Description');
-    alert('here');
-    //if($("#videoTrailer").style.display =="none"){
-    //	$("#videoTrailer").style.display = "inline";
-    //}
-    //else{
-    //	$("#videoTrailer").style.display = "none";
-    //}
+function addToSab(sablink){
+	alert(sablink);
+	$.ajax({
+	  type: 'POST',
+	  url:  sablink,
+	  success:function(data){
+	    // successful request; do something with the data
+		alert("Adding successfull");
+	  },
+	  error:function(data){
+	    // failed request; give feedback to user
+        alert(data)
+        if(data!="ok"){
+        	alert("Sorry, but I couldn't create an XMLHttpRequest");
+	  	}
+	  	else{
+	  		alert("Awesome");
+	  	}
+	  }
+	});
 }
-*/
 
 function is_int(value)
 {
