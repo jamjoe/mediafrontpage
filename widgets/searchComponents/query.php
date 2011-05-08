@@ -4,16 +4,9 @@ function main() {
 	
 	$q=$_GET["q"];
 	$site = $_GET["site"];
-	$tablebody = "<div style=\"overflow: auto; max-height: 70%; max-width: 100%;\" id='resultsX'><table id=\"myTable\" class=\"tablesorter\" style=\"overflow:auto;\">
-						<thead>
-							<tr>
-    							<th></th>
-    							<th onclick=\"setTimeout('updateRows()',50);\"><a href=#>Name <img src=\"./media/arrow.png\"/></a></th>
-    							<th class=\"header filesize\" onclick=\"setTimeout('updateRows()',50);\"><a href=#>Size <img src=\"./media/arrow.png\"/></a></th>
-    							<th onclick=\"setTimeout('updateRows()',50);\"><a href=#>Category <img src=\"./media/arrow.png\"/></a></th>
-							</tr>
-						</thead>
-						<tbody>";
+	$column2 = "class=\"header filesize\"><a href=#>Size ";
+	$column3 = "Category";
+	
 	if ($site == 1){
 		$results = nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl);
 	}
@@ -21,45 +14,60 @@ function main() {
 		$results = nzbmatrix($q, $nzbusername, $nzbapi,$saburl,$sabapikey);		
 	}
 	elseif($site == 3) {
-		$tablebody = "<div style='overflow: auto; max-height: 70%; max-width: 100%;' id='resultsX'><table id=\"myTable\" class=\"tablesorter\" style=\"overflow:auto;\">
-						<thead>
-							<tr>
-    							<th></th>
-    							<th onclick=\"setTimeout('updateRows()',50);\"><a href=#>Name <img src=\"./media/arrow.png\"/></a></th>
-    							<th onclick=\"setTimeout('updateRows()',50);\"><a href=#>Rating <img src=\"./media/arrow.png\"/></a></th>
-    							<th onclick=\"setTimeout('updateRows()',50);\"><a href=#>Date Released <img src=\"./media/arrow.png\"/></a></th>
-							</tr>
-						</thead>
-						<tbody>";
+		$column2 = "><a href=#>Rating ";
+		$column3 = "Year";
+
 		$results = imdb($q,$cp_url);		
 	}
-	elseif(!empty($_GET['id'])){
-		if(intval($_GET['id'])!=0){
+	elseif(!empty($_GET['id']))
+	{
+		if(intval($_GET['id'])!=0)
+		{
 			getInfo($_GET['id'],$cp_url);
 			return false;
 		}
-		else{
+		else
+		{
 			getCP($id, $cp_url);
 			return false;
 		}
 	}
-	else{
-	$_GET['type'] = $preferredCategories;
-	switch ($preferredSearch){
-		case '0':
-			//$_GET['type'] = '';
-			//$results = nzbmatrix($q, $nzbusername, $nzbapi,$saburl,$sabapikey);
-			//$results .= nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl);
-			$results = "<h1>Need to choose default Site and Category</h1>";
-			break;
-		case '1':
-			$results = nzbmatrix($q, $nzbusername, $nzbapi,$saburl,$sabapikey);
-			break;
-		case '2':
-			$results = nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl);
-			break;
-			}
+	else
+	{
+		$_GET['type'] = $preferredCategories;
+		switch ($preferredSearch)
+		{
+			case '0':
+				//$_GET['type'] = '';
+				//$results = nzbmatrix($q, $nzbusername, $nzbapi,$saburl,$sabapikey);
+				//$results .= nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl);
+				$results = "<h1>Need to choose default Site and Category</h1>";
+				break;
+			case '1':
+				$results = nzbmatrix($q, $nzbusername, $nzbapi,$saburl,$sabapikey);
+				break;
+			case '2':
+				$results = nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl);
+				break;
+			case '3':
+				$column2 = "><a href=#>Rating ";
+				$column3 = "Year";
+				$results = imdb($q,$cp_url);
+				break;
+		}
 	}
+	
+	$tablebody = "<div id='wSearch'><table id=\"search-Table\" class=\"tablesorter\">
+					<thead>
+						<tr>
+							<th></th>
+							<th onclick=\"setTimeout('updateRows()',50);\"><a href=#>Name <img src=\"./media/arrow.png\"/></a></th>
+							<th onclick=\"setTimeout('updateRows()',50);\"$column2<img src=\"./media/arrow.png\"/></a></th>
+							<th onclick=\"setTimeout('updateRows()',50);\"><a href=#>$column3 <img src=\"./media/arrow.png\"/></a></th>
+						</tr>
+					</thead>
+					<tbody>";
+
 	echo (!empty($results))? $tablebody.$results."</tbody></table></div>" : "<h1>Nothing found!</h1>";
 }
 
@@ -183,14 +191,14 @@ function imdb($item,$cp){
 				
 				if(!empty($poster_th))
 				{
-					$image = "<a href=".$poster_lg." class=\"highslide\" onclick=\"return hs.expand(this)\"><img style='float: left;' width='20px' src='".$poster_th."' /></a>";			
+					$image = "<a href=".$poster_lg." class=\"highslide\" onclick=\"return hs.expand(this)\"><img id='search-thumb' src='".$poster_th."' /></a>";			
 				}
 				else
 				{
-					$image = "<img style='float: left;' width='20px' src='./media/no_poster.jpg' />";			
+					$image = "<img id='search-thumb' src='./media/no_poster.jpg' />";			
 
 				}
-				$imdb  = "<a href='http://www.imdb.com/title/".$imdb_id."' target='_blank'><img style='float: right;' width='20px' src='./media/imdb.gif' /></a>";
+				$imdb  = "<a href='http://www.imdb.com/title/".$imdb_id."' target='_blank'><img id='imdb-badge' src='./media/imdb.gif' /></a>";
 				
 				
 				$item_desc = "";
@@ -206,10 +214,11 @@ function imdb($item,$cp){
 				
 				$cp_add = $cp."movie/imdbAdd/?id=".$imdb_id;
 				
-				$table .= "<tr class=\"row\" style=\"height:2em;\">";
-				$table .= "<td><a href='".$cp_add."?iframe=true&width=200&height=40'  rel='prettyPhoto'><img class=\"couchpotato\" height='20px' src=\"./media/couch.png\" alt=\"Add to CouchPotato Queue\"/></a></td>";
-				$table .= "<td>".$image.$imdb."<a href='#' onMouseOver=\"ShowPopupBox('$item_desc');\" onMouseOut=\"HidePopupBox();\" onClick=\"getExtra('".$id."');\">$name</a></td><td style='width:10%'>$rating</td>";
-				$table .= "<td style='width:20%'>$released</td></tr>";
+				$table .= "<tr class=\"row\">";
+				$table .= "<td><a href='".$cp_add."?iframe=true&width=200&height=40' rel='prettyPhoto'><img class=\"couchpotato\" height='20px' src=\"./media/couch.png\" alt=\"Add to CouchPotato Queue\"/></a></td>";
+				$table .= "<td>".$image.$imdb."<a href='#' onMouseOver=\"ShowPopupBox('$item_desc');\" onMouseOut=\"HidePopupBox();\" onClick=\"getExtra('".$id."');\">$name</a></td>";
+				$table .= "<td style='width:13%'>$rating</td>";
+				$table .= "<td style='width:10%'>".substr($released,0,4)."</td></tr>";
 	
 			}
 			return $table;
@@ -230,17 +239,17 @@ function getform(){
 
 function printTable($name,$cat,$size,$addToSab,$nzblink,$item_desc, $image="", $weblink="" ){
 	if($image!=""){
-	$image = "<a href=".$image." class=\"highslide\" onclick=\"return hs.expand(this)\"><img style='float: left;' width='20px' src='".$image."' /></a>";
+	$image = "<a href=".$image." class=\"highslide\" onclick=\"return hs.expand(this)\"><img id='search-thumb' src='".$image."' /></a>";
 	}
 	if($weblink!=""){
 		if(strpos($weblink,'imdb')!==false){
-			$weblink = "<a href=".$weblink." target='_blank'><img style='float: right;' width='20px' src='./media/imdb.gif' /></a>";
+			$weblink = "<a href=".$weblink." target='_blank'><img id='imdb-badge' src='./media/imdb.gif' /></a>";
 		}
 		else{
 			$weblink = "";
 		}
 	}
-	return "	<tr class=\"row\" style=\"height:3em;\">
+	return "	<tr class=\"row\">
 					<td><a href=\"#\";  onclick=\"addToSab('".htmlentities($addToSab)."'); return false;\"><img class=\"sablink\" src=\"./media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
 					<td style='width:60%';>".$image.$weblink."<a href='".$nzblink."' target='_blank'; onMouseOver=\"ShowPopupBox('".$item_desc."');\" onMouseOut=\"HidePopupBox();\">$name</a></td>
 					<td class='filesize'>".ByteSize($size)."</td>
@@ -345,16 +354,15 @@ function getInfo($id,$cp)
 	$cp_add = $cp."movie/imdbAdd/?id=".$imdb_id;
 	$homepage_tag = (!empty($homepage))?("<a href='".$homepage."' target='_blank' >$homepage</a>"):"<a>";
 	$trailer_tag  = (!empty($trailer))?("<a href='".$trailer."' rel='prettyPhoto' >$trailer</a>"):"";	//onclick='toggleTrailer(this)'
-	
-	//<a href='#' onClick=\"getExtra('".$imdb_id."');\"><img height='12px' src='./media/couch.png' style='float: left;'/></a>
-	
-	echo "<p><a href='$cp_add?iframe=true&height=40&width=190' rel='prettyPhoto'><img height='12px' src='./media/couch.png' style='float: left; padding-right:4px;'/></a>";
-	echo "<a href='http://www.imdb.com/title/".$imdb_id."?iframe=true&height=95%&width=100%' rel='prettyPhoto'><img style='float: left; padding-right:4px;' width='18px' height='10px' src='./media/imdb.gif' /></a>";
-	echo "<a href='$url?iframe=true?iframe=true&height=95%&width=100%' rel='prettyPhoto'><img style='float: left; padding-right:4px;' height='13px' width='16px' src='./media/moviedb.png' /></a></p>";
+		
+	echo "<a href='$cp_add?iframe=true&height=40&width=190' rel='prettyPhoto'><img id='movie-extra-badge' src='./media/couch.png' /></a>";
+	echo "<a href='http://www.imdb.com/title/".$imdb_id."?iframe=true&height=95%&width=100%' rel='prettyPhoto'><img id='movie-extra-badge' src='./media/imdb.gif' /></a>";
+	echo "<a href='$url?iframe=true?iframe=true&height=95%&width=100%' rel='prettyPhoto'><img id='movie-extra-badge' src='./media/moviedb.png' /></a>";
 	echo "<h1>$name <i style='float:right; size:10;'>$rating ($votes votes)</i></h1>";
+	echo "<div style='clear:both;'></div>";
 	echo "<div style='float: left; width:28%;'><p><img src='".$poster[0]."' width='100%' padding-right:6px;'></p><p>$orig_name</p><p>Date Released: $released</p><p>$tag</p></div>";
 	echo "<table width='70%'>";
-	echo "<tr><td align='right'><b>Overview</b></td><td align='justify'>$overview</td></tr>";
+	echo "<tr><td align='right'><b>Overview</b>:</td><td align='justify'>$overview</td></tr>";
 	echo "<tr><td align='right'><b>Genre</b>:</td><td align='left'> ";
 	$x=0;
 	foreach($m->genres as $c){
@@ -382,8 +390,8 @@ function getInfo($id,$cp)
 
 
 	echo "<div style='float: right;'><button type='button' onclick='toggleCast();'>Cast & Crew</button></div>";
-	echo "<div id='cast' style='display:none;'>";
-	echo "<table width='100%'><tr><th></th><th> Name</th><th>Job</th><th>Character</th></tr>";
+	echo "<div id='cast' style='display:none; width:100%;'>";
+	echo "<table width='100%'><tr width='100%'><th></th><th> Name</th><th>Job</th><th>Character</th></tr>";
 	foreach($m->cast as $c){
 		$actor_name = $c->name;
 		$actor_job	= $c->job;
@@ -402,18 +410,8 @@ function getInfo($id,$cp)
 	echo "<div id='addcp'></div>";
 	echo "<div style='clear:both;'></div>";
 	$trailer_id = substr($trailer,31);
-	echo "<div id='videoTrailer' style='display: none;'><iframe width='100%' height='300' src='http://www.youtube.com/embed/$trailer_id' frameborder='0' allowfullscreen></iframe></div>";
 	echo "</div>";
 }
-function getCP($id,$cp)
-{
-
-	$x = file_get_contents($cp."movie/imdbAdd/?id=".$id);
-	
-	echo "<pre>";print_r($x);echo "</pre>";
-
-}
-
 function ByteSize($bytes)
 {
 	$size = $bytes / 1024;
