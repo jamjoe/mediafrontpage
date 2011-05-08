@@ -61,9 +61,9 @@ function main() {
 					<thead>
 						<tr>
 							<th></th>
-							<th onclick=\"setTimeout('updateRows()',50);\"><a href=#>Name <img src=\"./media/arrow.png\"/></a></th>
-							<th onclick=\"setTimeout('updateRows()',50);\"$column2<img src=\"./media/arrow.png\"/></a></th>
-							<th onclick=\"setTimeout('updateRows()',50);\"><a href=#>$column3 <img src=\"./media/arrow.png\"/></a></th>
+							<th onclick=\"setTimeout('updateRows()',10);\"><a href=#>Name <img src=\"./media/arrow.png\"/></a></th>
+							<th onclick=\"setTimeout('updateRows()',10);\"$column2<img src=\"./media/arrow.png\"/></a></th>
+							<th onclick=\"setTimeout('updateRows()',10);\"><a href=#>$column3 <img src=\"./media/arrow.png\"/></a></th>
 						</tr>
 					</thead>
 					<tbody>";
@@ -198,7 +198,7 @@ function imdb($item,$cp){
 					$image = "<img id='search-thumb' src='./media/no_poster.jpg' />";			
 
 				}
-				$imdb  = "<a href='http://www.imdb.com/title/".$imdb_id."' target='_blank'><img id='imdb-badge' src='./media/imdb.gif' /></a>";
+				$imdb  = "<a href='http://www.imdb.com/title/".$imdb_id."' target='_blank'><img id='imdb-badge' src='./media/imdb.png' /></a>";
 				
 				
 				$item_desc = "";
@@ -215,7 +215,7 @@ function imdb($item,$cp){
 				$cp_add = $cp."movie/imdbAdd/?id=".$imdb_id;
 				
 				$table .= "<tr class=\"row\">";
-				$table .= "<td><a href='".$cp_add."?iframe=true&width=200&height=40' rel='prettyPhoto'><img class=\"couchpotato\" height='20px' src=\"./media/couch.png\" alt=\"Add to CouchPotato Queue\"/></a></td>";
+				$table .= "<td style='width:5%;'><a href='".$cp_add."?iframe=true&width=200&height=40' rel='prettyPhoto'><img class=\"couchpotato\" height='20px' src=\"./media/couchpotato.png\" alt=\"Add to CouchPotato Queue\"/></a></td>";
 				$table .= "<td>".$image.$imdb."<a href='#' onMouseOver=\"ShowPopupBox('$item_desc');\" onMouseOut=\"HidePopupBox();\" onClick=\"getExtra('".$id."');\">$name</a></td>";
 				$table .= "<td style='width:13%'>$rating</td>";
 				$table .= "<td style='width:10%'>".substr($released,0,4)."</td></tr>";
@@ -243,7 +243,7 @@ function printTable($name,$cat,$size,$addToSab,$nzblink,$item_desc, $image="", $
 	}
 	if($weblink!=""){
 		if(strpos($weblink,'imdb')!==false){
-			$weblink = "<a href=".$weblink." target='_blank'><img id='imdb-badge' src='./media/imdb.gif' /></a>";
+			$weblink = "<a href=".$weblink." target='_blank'><img id='imdb-badge' src='./media/imdb.png' /></a>";
 		}
 		else{
 			$weblink = "";
@@ -320,12 +320,6 @@ function getInfo($id,$cp)
 	*/
 
 
-	$x=0;
-	foreach($m->studios as $c){
-		$studio_name[$x] = $c->name;
-		//echo $studio_name[$x];
-		$x++;
-	}
 
 	$x=0;
 	foreach($m->posters as $c){
@@ -355,15 +349,14 @@ function getInfo($id,$cp)
 	$homepage_tag = (!empty($homepage))?("<a href='".$homepage."' target='_blank' >$homepage</a>"):"<a>";
 	$trailer_tag  = (!empty($trailer))?("<a href='".$trailer."' rel='prettyPhoto' >$trailer</a>"):"";	//onclick='toggleTrailer(this)'
 		
-	echo "<a href='$cp_add?iframe=true&height=40&width=190' rel='prettyPhoto'><img id='movie-extra-badge' src='./media/couch.png' /></a>";
-	echo "<a href='http://www.imdb.com/title/".$imdb_id."?iframe=true&height=95%&width=100%' rel='prettyPhoto'><img id='movie-extra-badge' src='./media/imdb.gif' /></a>";
+	echo "<p><a href='$cp_add?iframe=true&height=40&width=190' rel='prettyPhoto'><img id='movie-extra-badge' src='./media/couchpotato.png' /></a>";
+	echo "<a href='http://www.imdb.com/title/".$imdb_id."?iframe=true&height=95%&width=100%' rel='prettyPhoto'><img id='movie-extra-badge' src='./media/imdb.png' /></a>";
 	echo "<a href='$url?iframe=true?iframe=true&height=95%&width=100%' rel='prettyPhoto'><img id='movie-extra-badge' src='./media/moviedb.png' /></a>";
-	echo "<h1>$name <i style='float:right; size:10;'>$rating ($votes votes)</i></h1>";
-	echo "<div style='clear:both;'></div>";
-	echo "<div style='float: left; width:28%;'><p><img src='".$poster[0]."' width='100%' padding-right:6px;'></p><p>$orig_name</p><p>Date Released: $released</p><p>$tag</p></div>";
+	echo "<h1>$name <i id='movie-extra-rating'>$rating ($votes votes)</i></h1></p>";
+	echo "<div style='float: left; width:28%;'><p><img src='".$poster[0]."' id='movie-extra-poster'></p><p>$orig_name</p><p>Date Released: $released</p><p>$tag</p></div>";
 	echo "<table width='70%'>";
-	echo "<tr><td align='right'><b>Overview</b>:</td><td align='justify'>$overview</td></tr>";
-	echo "<tr><td align='right'><b>Genre</b>:</td><td align='left'> ";
+	echo "<tr><td align='right'><b>Overview</b>:</td><td id='movie-extra-overview'>$overview</td></tr>";
+	echo "<tr><td align='right'><b>Genre</b>:</td><td id='movie-extra-generalinfo'> ";
 	$x=0;
 	foreach($m->genres as $c){
 		$genre_name[$x] = $c->name;
@@ -372,18 +365,26 @@ function getInfo($id,$cp)
 	}
 	echo "</td></tr>";
 	
-	echo "<tr><td align='right'><b> Trailer</b>:</a></b></td><td align='center'>$trailer_tag</td></tr>";
-	echo "<tr><td align='right'><b>Homepage</b>:</td><td align='left'>$homepage_tag</td></tr>";
-	echo "<tr><td align='right'><b>Runtime</b>:</td><td align='left'> $runtime minutes</td></tr>";
-	echo "<tr><td align='right'><b>Budget</b>:</td><td align='left'> $budget</td></tr>";
-	echo "<tr><td align='right'><b>Revenue</b>:</td><td align='left'> $revenue</td></tr>";
-	echo "<tr><td align='right'><b>Rated</b>:</td><td align='left'> $cert</td></tr>";
-	echo "<tr><td align='right'><b>IMDB ID</b>:</td><td align='left'> $imdb_id</td></tr>";
-	echo "<tr><td align='right'><b>Keywords</b>:</td><td align='left'> ";
+	echo "<tr><td align='right'><b>Trailer</b>:</a></b></td><td id='movie-extra-generalinfo'>$trailer_tag</td></tr>";
+	echo "<tr><td align='right'><b>Homepage</b>:</td><td id='movie-extra-generalinfo'>$homepage_tag</td></tr>";
+	echo "<tr><td align='right'><b>Runtime</b>:</td><td id='movie-extra-generalinfo'> $runtime minutes</td></tr>";
+	echo "<tr><td align='right'><b>Budget</b>:</td><td id='movie-extra-generalinfo'> $budget</td></tr>";
+	echo "<tr><td align='right'><b>Revenue</b>:</td><td id='movie-extra-generalinfo'> $revenue</td></tr>";
+	echo "<tr><td align='right'><b>Rated</b>:</td><td id='movie-extra-generalinfo'> $cert</td></tr>";
+	echo "<tr><td align='right'><b>IMDB ID</b>:</td><td id='movie-extra-generalinfo'> $imdb_id</td></tr>";
+	echo "<tr><td align='right'><b>Keywords</b>:</td><td id='movie-extra-generalinfo'> ";
 	$x=0;
 	foreach($m->keywords as $c){
 		$keywords[$x] = $c;
 		echo $keywords[$x]." | ";
+		$x++;
+	}
+	echo "</td></tr>";
+	echo "<tr><td align='right'><b>Studios</b>:</td><td id='movie-extra-generalinfo'> ";
+	$x=0;
+	foreach($m->studios as $c){
+		$studio_name[$x] = $c->name;
+		echo $studio_name[$x]." | ";
 		$x++;
 	}
 	echo "</td></tr></table>";
@@ -399,15 +400,14 @@ function getInfo($id,$cp)
 		$actor_url 	= $c->url;
 		$actor_thumb= $c->profile;
 
-		$bg = ($x%2)?"style='background-color:#303030;'":"";
+		$bg = ($x%2)?"class='actor-odd'":"";
 		$x++;
 		$actor_thumb = (!empty($actor_thumb))?$actor_thumb:"./media/no_face.png";
-		echo "<tr $bg><td width='25px'><img src='$actor_thumb' height='37px' width='25px'></td><td valign='middle'> $actor_name </td><td> $actor_job </td><td> $actor_char</td></tr>";
+		echo "<tr $bg><td width='25px'><img src='$actor_thumb' id='actor-thumb'></td><td> $actor_name </td><td> $actor_job </td><td> $actor_char</td></tr>";
 				
 	}
 	echo "</table>";
 	echo "</div>";
-	echo "<div id='addcp'></div>";
 	echo "<div style='clear:both;'></div>";
 	$trailer_id = substr($trailer,31);
 	echo "</div>";

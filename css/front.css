@@ -279,19 +279,39 @@ div#wSearch #search-Table{
 
 #wSearch #imdb-badge{
 	float: right;
-	width: 20px;
+	width: 15px;
 }
 #wSearch tr.row{
 	height:2em;
 	overflow: hidden;
 }
 #wSearch #movie-extra-badge{
-	max-width: 80%;
-	max-height: 80%; 
+	max-width: 100%;
+	max-height: 100%; 
 	float: left; 
 	padding-right:4px;
 }
-
+#wSearch #movie-extra-rating{
+	float:right; 
+	size:10;
+}
+#wSearch #movie-extra-poster{
+	width:100%; 
+	padding-right:8px;
+}
+#wSearch #movie-extra-overview{
+	text-align: justify;
+}
+#wSearch #movie-extra-generalinfo{
+	text-align: left;
+}
+#wSearch #actor-thumb{
+	height:37px;
+	width:100%;
+}
+#wSearch .actor-odd{
+	background-color:#303030;
+}
 /* wTransmission */
 .btnDown {
 	background:#FFFFFF url(../media/btnDown_mini.png) no-repeat;

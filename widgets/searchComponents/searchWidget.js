@@ -92,6 +92,11 @@ function getResults(item)
 	        $("#search-Table").tablesorter();
         }
   		$.prettyLoader.hide();
+  		$("a[rel^='prettyPhoto']").prettyPhoto(
+        {
+            social_tools: false
+        });
+
 	  },
 	  error:function(){
 	    // failed request; give feedback to user
