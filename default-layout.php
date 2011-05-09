@@ -1,56 +1,59 @@
 <?php
 $arrLayout = array(
 		"section1" => array(
+			"wComingEpisodes" => array(
+				"title" => "Coming Episodes",
+				"display" => ""
+			)
+		),
+                "section2" => array(
+			"wControl" => array(
+				"title" => "Control",
+				"display" => ""
+			),
 			"wRecentTV" => array(
 				"title" => "Recent TV",
 				"display" => ""
 			),
-			"wSabnzbd" => array(
-				"title" => "Sabnzbd",
+			"wRecentMovies" => array(
+				"title" => "Recent Movies",
 				"display" => ""
-			),
+			)
+
+		),
+		"section3" => array(
 			"wXBMCLibrary" => array(
 				"title" => "XBMC Library",
-				"display" => ""
-			),
-			"wControl" => array(
-				"title" => "Control",
 				"display" => ""
 			),
 			"wNowPlaying" => array(
 				"title" => "Now Playing",
 				"display" => ""
-			)
-		),
-		"section2" => array(
+			),
 			"wSearch" => array(
 				"title" => "Search",
 				"display" => ""
 			),
-			"wComingEpisodes" => array(
-				"title" => "Coming Episodes",
+			"wRSS" => array(
+				"title" => "RSS Feed",
 				"display" => ""
 			),
-			"wuTorrent" => array(
-				"title" => "uTorrent",
+			"wHardDrives" => array(
+				"title" => "Hard Drives",
 				"display" => ""
 			)
 		),
-		"section3" => array(
-			"wRecentMovies" => array(
-				"title" => "Recent Movies",
+		"section4" => array(
+			"wSabnzbd" => array(
+				"title" => "Sabnzbd",
 				"display" => ""
 			),
 			"wTransmission" => array(
 				"title" => "Transmission",
 				"display" => ""
 			),
-			"wHardDrives" => array(
-				"title" => "Hard Drives",
-				"display" => ""
-			),
-			"wRSS" => array(
-				"title" => "RSS Feed",
+			"wuTorrent" => array(
+				"title" => "uTorrent",
 				"display" => ""
 			)
 		)
