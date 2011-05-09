@@ -94,7 +94,7 @@ function nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl){
 		(!empty($array['seriesfull']))?($seriesfull=("<p>Episode info: ".$array['seriesfull']." ".$array['tvtitle']." ".$array['tvairdate']."</p>")):($seriesfull="");
 
 		$url="http://nzb.su/getnzb/".$id.".nzb".$nzbsudl;
-		$addToSab = $saburl.'api?mode=addurl&name='.urlencode($url).'&apikey='.$sabapikey;
+		$addToSab = $saburl.'api?mode=addurl&name='.urlencode($url).'&output=json&apikey='.$sabapikey;
 		$nzblink = "http://nzb.su/details/".$id;
 		$name = str_replace(".", "\n", $name);
 		$name = str_replace(" ", "\n", $name);
@@ -133,7 +133,7 @@ function nzbmatrix($item, $nzbusername, $nzbapi,$saburl,$sabapikey) {
 		$size = 0+substr($item[3], 6);
 		$size = $size;
 		$cat = substr($item[6],10);
-		$addToSab=$saburl."api?mode=addurl&name=http://www.".substr($link,6)."&nzbname=".urlencode($name)."&apikey=".$sabapikey;
+		$addToSab=$saburl."api?mode=addurl&name=http://www.".substr($link,6)."&nzbname=".urlencode($name)."&output=json&apikey=".$sabapikey;
 
 		$indexdate 	= "Index Date: ".substr($item[4], 12);
 		$group 		= "Group: ".substr($item[7],7);
@@ -250,7 +250,7 @@ function printTable($name,$cat,$size,$addToSab,$nzblink,$item_desc, $image="", $
 		}
 	}
 	return "	<tr class=\"row\">
-					<td><a href=\"#\";  onclick=\"addToSab('".htmlentities($addToSab)."'); return false;\"><img class=\"sablink\" src=\"./media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
+					<td><a href=\"#\";  onclick=\"sabAddUrl('".htmlentities($addToSab)."'); return false;\"><img class=\"sablink\" src=\"./media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
 					<td style='width:60%';>".$image.$weblink."<a href='".$nzblink."' target='_blank'; onMouseOver=\"ShowPopupBox('".$item_desc."');\" onMouseOut=\"HidePopupBox();\">$name</a></td>
 					<td class='filesize'>".ByteSize($size)."</td>
 					<td style='width:20%'>$cat</td>

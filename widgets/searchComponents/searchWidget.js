@@ -199,28 +199,6 @@ function toggleCast()
 
 }
 
-function addToSab(sablink){
-	alert(sablink);
-	$.ajax({
-	  type: 'POST',
-	  url:  sablink,
-	  success:function(data){
-	    // successful request; do something with the data
-		alert("Adding successfull");
-	  },
-	  error:function(data){
-	    // failed request; give feedback to user
-        alert(data)
-        if(data!="ok"){
-        	alert("Sorry, but I couldn't create an XMLHttpRequest");
-	  	}
-	  	else{
-	  		alert("Awesome");
-	  	}
-	  }
-	});
-}
-
 function is_int(value)
 {
     if ((parseFloat(value) == parseInt(value)) && !isNaN(value))
