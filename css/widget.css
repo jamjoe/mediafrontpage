@@ -6,13 +6,16 @@
     height: auto !important; 
 }
 #main #section1 { 
-    width: 25%;
+    width: 33%;
 }
 #main #section2 { 
-    width: 50%;
+    width: 20%;
 }
 #main #section3 { 
-    width: 25%;
+    width: 20%;
+}
+#main #section4 { 
+    width: 27%;
 }
 #main .widget-placeholder { 
     border: 2px dashed #999;

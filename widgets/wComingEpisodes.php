@@ -6,7 +6,19 @@ $wIndex["wComingEpisodes"] = $wdgtComingEpisodes;
 function widgetComingEpisodes() {
 	global $sickbeardcomingepisodes;
 	
+// START Container for Scroller bar (Wraps comingepisodeswrapper before it created).	
+	echo "<div id=\"mcs3_container\">";
+	echo "<div class=\"customScrollBox\">";
+	echo "<div class=\"container\">";
+	echo "<div class=\"content\">";
+// END Container for Scroller bar (Wraps comingepisodeswrapper before it created).
+
 	echo "\t<div id=\"comingepisodeswrapper\"></div>\n";
+
+//START Container for Scroller bar (Close Divs and add Dragger).
+	echo "</div></div><div class=\"dragger_container\"><div class=\"dragger\"></div></div></div></div>";
+//END Container for Scroller bar (Close Divs and add Dragger).
+
 
 	if(strpos($sickbeardcomingepisodes, "http://")===false) {
 			$iFrameSource= 'widgets/wComingEpisodes.php?style=s';
