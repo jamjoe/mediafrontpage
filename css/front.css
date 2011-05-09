@@ -1,5 +1,5 @@
 html,body { 
-	height: 96%; -webkit-font-smoothing: antialiased;
+	height: 100%; -webkit-font-smoothing: antialiased;
 }
 body {
 	background:url(../media/background.png) #222528;
@@ -34,6 +34,9 @@ table {
 	font-size:1.2em;
 	text-align:center;
 }
+tr.row:hover {
+	background-color: #FFFFFF;
+} 
 td {
 	vertical-align:top;
 }
@@ -261,10 +264,6 @@ table.popupwrapper tr {
 .odd {
 	background-color: #383838;
 }
-tr.row:hover {
-	background-color: #FFFFFF;
-} 
-
 
 /* wTransmission */
 .btnDown {

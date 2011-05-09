@@ -109,15 +109,19 @@ function nzbmatrix($item, $nzbusername, $nzbapi,$saburl,$sabapikey) {
 		$comments = "Comments: ".substr($item[8],10);
 		$hits = "Hits: ".substr($item[9],6);
 		$nfo = "NFO: ".substr($item[10], 5);
-		$image = substr($item[13],7);
+		$image = "<img src=".substr($item[13],7).">";
 		$item_desc = "<p>".$id."</p><p>".$group."</p><p>".$comments."</p><p>".$hits."</p><p>".$nfo."</p><p>".$indexdate."</p>";
+<<<<<<< HEAD
 		//$item_desc .= (substr($item[13],7)!="")?"Pic: ".$image:"";
+=======
+		$item_desc .= (substr($item[13],7)!="")?$image:"";
+>>>>>>> parent of 0bf7e8d... Added highslide to Search Widget.
 		
 
 		$addToSab = addCategory($cat,$addToSab);
 
 		if(strlen($name)!=0){
-			$table .= printTable($name,$cat,$size,$addToSab,$link,$item_desc,$image);
+			$table .= printTable($name,$cat,$size,$addToSab,$link,$item_desc);
 		}
 	}
 	return $table;
@@ -134,6 +138,7 @@ function getform(){
 				<input type=\"submit\" name=\"submit\" value=\"Search\" />
 			</form>";
 }
+<<<<<<< HEAD
 function printTable($name,$cat,$size,$addToSab,$nzblink,$item_desc, $image="" ){
 	if($image!=""){
 	$image = "<a href=".$image." class=\"highslide\" onclick=\"return hs.expand(this)\"><img style='float: left;' width='20px' src='".$image."' /></a>";
@@ -141,6 +146,12 @@ function printTable($name,$cat,$size,$addToSab,$nzblink,$item_desc, $image="" ){
 	return "	<tr class=\"row\" style=\"height:3em;\">
 					<td><a href=\"#\";  onclick=\"sabAddUrl('".htmlentities($addToSab)."'); return false;\"><img class=\"sablink\" src=\"./media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
 					<td style='width:60%';>".$image."<a href='".$nzblink."' target='_blank'; onMouseOver=\"ShowPopupBox('".$item_desc."');\" onMouseOut=\"HidePopupBox();\">$name</a></td>
+=======
+function printTable($name,$cat,$size,$addToSab,$nzblink,$item_desc){
+	return "	<tr class=\"row\">
+					<td><a href=$addToSab; target='nothing';><img class=\"sablink\" src=\"./media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
+					<td style='width:60%';><a href=$nzblink target='_blank'; onMouseOver=\"ShowPopupBox('".$item_desc."');\" onMouseOut=\"HidePopupBox();\">$name</a></td>
+>>>>>>> parent of 0bf7e8d... Added highslide to Search Widget.
 					<td class='filesize'>".ByteSize($size)."</td>
 					<td style='width:20%'>$cat</td>
 				</tr>";

@@ -3,7 +3,7 @@
 MediaFrontPage is a HTPC Web Program Organiser.
 Your HTPC utilises a number of different programs to do certain tasks. What MediaFrontPage does is creates a user specific web page that will be your nerve centre for everything you will need.
 
-![preview thumb](http://i9.photobucket.com/albums/a88/DejaVuAtGesh/mfp-2.jpg)
+![preview thumb](http://img715.imageshack.us/img715/1564/screenshot20101118at120.png)
 
 MediaFrontPage can make use of, but is not limited to, the following projects:
 

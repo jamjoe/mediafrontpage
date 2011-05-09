@@ -23,8 +23,6 @@ if (empty ($arrLayout)) {
 		<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
 		<script type="text/javascript" language="javascript" src="js/ajax.js"></script>
 		<script type="text/javascript" language="javascript" src="js/popuptext.js"></script>
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="http://jqueryjs.googlecode.com/files/jquery-1.2.6.min.js"></script>
 		<script type="text/javascript" src="js/highslide/highslide.js"></script>
 		<link rel="stylesheet" type="text/css" href="js/highslide/highslide.css" />
@@ -71,13 +69,6 @@ if (empty ($arrLayout)) {
 
 		<!-- END: Dynamic Header Inserts From Widgets -->
 		<script type="text/javascript">InitPopupBox();</script>
-
- 		<!-- START: JQuery Scrollbar for Coming Episodes Widget, Javascript Entries -->
-        <link href="css/scrollbar.css" rel="stylesheet" type="text/css" />
-		<script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
-		<script type="text/javascript" src="js/jquery.mousewheel.min.js"></script>
- 		<!-- END: JQuery Scrollbar for Coming Episodes Widget, Javascript Entries -->
-
 	</head>
 
 	<body>
@@ -116,39 +107,5 @@ if (empty ($arrLayout)) {
     	<script type="text/javascript" src="js/jquery.js"></script>
     	<script type="text/javascript" src="js/jquery.tablesorter.js"></script>
     	<script type="text/javascript" src="js/widget.js"></script>
-
-  		<!-- START: JQuery Scrollbar for Coming Episodes Widget, Javascript Entries -->
-<script>
-	$(window).load(function() {
-			mCustomScrollbars();
-});
-
-function mCustomScrollbars(){
-	/* 
-	malihu custom scrollbar function parameters: 
-	1) scroll type (values: "vertical" or "horizontal")
-	2) scroll easing amount (0 for no easing) 
-	3) scroll easing type 
-	4) extra bottom scrolling space for vertical scroll type only (minimum value: 1)
-	5) scrollbar height/width adjustment (values: "auto" or "fixed")
-	6) mouse-wheel support (values: "yes" or "no")
-	7) scrolling via buttons support (values: "yes" or "no")
-	8) buttons scrolling speed (values: 1-20, 1 being the slowest)
-	*/
-	$("#mcs3_container").mCustomScrollbar("vertical",900,"easeOutCirc",1.05,"auto","yes","no",0); 
-}
-
-/* function to fix the -10000 pixel limit of jquery.animate */
-$.fx.prototype.cur = function(){
-    if ( this.elem[this.prop] != null && (!this.elem.style || this.elem.style[this.prop] == null) ) {
-      return this.elem[ this.prop ];
-    }
-    var r = parseFloat( jQuery.css( this.elem, this.prop ) );
-    return typeof r == 'undefined' ? 0 : r;
-}
-</script>
-        <script src="js/scrollbar.js"></script>
- 		<!-- END: JQuery Scrollbar for Coming Episodes Widget, Javascript Entries -->        
-
 		</body>
 </html>
