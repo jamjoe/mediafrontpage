@@ -1,8 +1,8 @@
-var xhr = false;
 var site = 0;
 
-function byteSizeOrdering() {
- 	jQuery.tablesorter.addParser(
+function byteSizeOrdering()
+{
+    jQuery.tablesorter.addParser(
     {
         id: 'filesize',
         is: function (s)
@@ -56,52 +56,53 @@ function results()
 
 function getResults(item)
 {
-	$.prettyLoader();
+    $.prettyLoader();
     $("div#resultstable").show();
     $("#extra_info").html("");
-	var type = $("#type").val();
-	$.ajax({
-	  type: 'GET',
-	  url: "widgets/searchComponents/query.php?site=" + site + "&q=" + item + "&type=" + type,
-	  beforeSend:function(){
-	    // this is where we append a loading image
-	    //$('#ajax-panel').html('<div class="loading"><img src="/images/loading.gif" alt="Loading..." /></div>');
-		$.prettyLoader.show();
-	  },
-	  success:function(data){
-	    // successful request; do something with the data
-        $("#resultstable").html(data);
-        $("table#search-Table tr:odd").addClass("odd");
-        if(site != 3)
+    var type = $("#type").val();
+    $.ajax(
+    {
+        type: 'GET',
+        url: "widgets/searchComponents/query.php?site=" + site + "&q=" + item + "&type=" + type,
+        beforeSend: function ()
         {
-	        byteSizeOrdering();
-	        $("#search-Table").tablesorter(
-	        {
-	            headers: 
-	            {
-	                2: 
-	                {
-	                    sorter: 'filesize'
-	                }
-	            }
-	        });
-        }
-        else
+            // this is where we append a loading image
+            $.prettyLoader.show();
+        },
+        success: function (data)
         {
-	        $("#search-Table").tablesorter();
-        }
-  		$.prettyLoader.hide();
-  		$("a[rel^='prettyPhoto']").prettyPhoto(
-        {
-            social_tools: false
-        });
+            // successful request; do something with the data
+            $("#resultstable").html(data);
+            $("table#search-Table tr:odd").addClass("odd");
+            if (site != 3)
+            {
+                byteSizeOrdering();
+                $("#search-Table").tablesorter(
+                {
+                    headers: {
+                        2: {
+                            sorter: 'filesize'
+                        }
+                    }
+                });
+            }
+            else
+            {
+                $("#search-Table").tablesorter();
+            }
+            $.prettyLoader.hide();
+            $("a[rel^='prettyPhoto']").prettyPhoto(
+            {
+                social_tools: false
+            });
 
-	  },
-	  error:function(){
-	    // failed request; give feedback to user
-        alert("Sorry, but I couldn't create an XMLHttpRequest");
-	  }
-	});
+        },
+        error: function ()
+        {
+            // failed request; give feedback to user
+            alert("Sorry, but I couldn't create an XMLHttpRequest");
+        }
+    });
 
 }
 
@@ -116,10 +117,10 @@ function clearResults()
 
 function catDropDown(str)
 {
-    if(str == 0)
+    if (str == 0)
     {
-    	site=0;
-    	$("#type").hide();
+        site = 0;
+        $("#type").hide();
     }
     else if (str == 1)
     {
@@ -151,31 +152,33 @@ function resetWidget()
 
 function getExtra(id)
 {
-	
-	$.ajax({
-	  type: 'GET',
-	  url:  "widgets/searchComponents/query.php?id=" + id,
-	  beforeSend:function(){
-	    // this is where we append a loading image
-	    //$('#ajax-panel').html('<div class="loading"><img src="/images/loading.gif" alt="Loading..." /></div>');
-		$.prettyLoader.show();
-	  },
-	  success:function(data){
-	    // successful request; do something with the data
-        $("#resultstable").hide();
-        $("#extra_info").show();
-        $("#extra_info").html(data);
-        $("a[rel^='prettyPhoto']").prettyPhoto(
+    $.ajax(
+    {
+        type: 'GET',
+        url: "widgets/searchComponents/query.php?id=" + id,
+        beforeSend: function ()
         {
-            social_tools: false
-        });
-       	$.prettyLoader.hide();
-	  },
-	  error:function(){
-	    // failed request; give feedback to user
-        alert("Sorry, but I couldn't create an XMLHttpRequest");
-	  }
-	});
+            // this is where we append a loading image
+            $.prettyLoader.show();
+        },
+        success: function (data)
+        {
+            // successful request; do something with the data
+            $("#resultstable").hide();
+            $("#extra_info").show();
+            $("#extra_info").html(data);
+            $("a[rel^='prettyPhoto']").prettyPhoto(
+            {
+                social_tools: false
+            });
+            $.prettyLoader.hide();
+        },
+        error: function ()
+        {
+            // failed request; give feedback to user
+            alert("Sorry, but I couldn't create an XMLHttpRequest");
+        }
+    });
 }
 
 function closeExtra()

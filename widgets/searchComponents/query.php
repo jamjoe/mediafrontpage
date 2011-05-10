@@ -408,7 +408,7 @@ function getInfo($id,$cp)
 	}
 	echo "</table>";
 	echo "</div>";
-	echo "<div style='clear:both;'></div>";
+	echo "<div class='clear-float'></div>";
 	$trailer_id = substr($trailer,31);
 	echo "</div>";
 }
