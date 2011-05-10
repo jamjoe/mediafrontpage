@@ -58,8 +58,8 @@ sudo apt-get install php5-curl
 
 Optional
 --------
-Sickbeard image cache to speed up image loading times.
-8
+8 - Sickbeard image cache to speed up image loading times.
+
 a) Create a folder named sbpcache 
  
 sudo mkdir /var/www/sbpcache
