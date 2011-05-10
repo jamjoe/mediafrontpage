@@ -31,7 +31,7 @@ This project is always being updated by like minded individuals and bugs will ex
 
 1 - SSH or Telnet into XBMCLive - or simply press CTRL F2 and login with you user details.
 
-2 - Clone the Git to your required directory, usually htdocs or www.
+2 - Clone the Git to the required directory, XBMCLive = /var/www.
 
 sudo git clone git://github.com/gugahoi/mediafrontpage.git "/var/www"
 
