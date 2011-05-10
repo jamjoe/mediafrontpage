@@ -5,6 +5,12 @@
     header('Location: m/');
     exit();
   }
+  $submenu = false;
+  require_once "config.php";
+	
+	if(!empty($subnavlink)||!empty($subnavlink_blank)||!empty($subnavselect)){
+		$submenu = true;
+	}
 ?>
 
 <html>
@@ -14,9 +20,9 @@
 	<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
   </head>
 
-  <frameset rows='38, *' frameborder=0 border=0 framespacing=0>
-    <frame src=nav.php name=nav noresize scrolling='no'>
-    <frame src=mediafrontpage.php name=main noresize>
+  <frameset rows="<?php echo ($submenu)?"9%":"5%";?>, *" frameborder="0" border="0" framespacing="0">
+    <frame src="nav.php" name="nav" noresize scrolling="no">
+    <frame src="mediafrontpage.php" name="main" noresize>
   </frameset>
   <noframes>
     <p>Your browser does not support frames</p>

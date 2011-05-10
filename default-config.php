@@ -76,6 +76,24 @@ $navlink["Sabnzbd"] = "/sabnzbd";
 $navlink["Transmission"] = "http://localhost:9091/transmission/web/";
 $navlink["uTorrent"] = "http://localhost:8081/gui/";
 
+
+//these links will be in the NavBar but will open on a new window.
+//$navlink_blank["Google"] = "http://google.com";
+
+//these links will populate on the dropdown menu in the nav bar
+//$navselect["Google"] = "http://google.com";
+
+
+//these links will be on the Nav SubMenu
+//--these will open inline in MFP
+//$subnavlink["Google"] = "http://google.com";
+//--these will open in a new Page
+//$subnavlink_blank["New Page Google"] = "http://google.com";
+//--these will populate in the drop downMenu sub-bar
+//$subnavselect["Google"] = "http://google.com";
+
+
+
 // enter shortcut links for control section
 $shortcut;
 $shortcut["Shutdown XBMC"] = array("cmd" => 'shutdown');
