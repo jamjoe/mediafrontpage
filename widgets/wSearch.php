@@ -7,13 +7,12 @@ function widgetSearch() {
             <div><input type="text"
                   value=""
                   id="searchterm"
-                  onkeydown="if (event.keyCode == 13) document.getElementById('searchbutton').click()">  <input type="radio"
-                  name="site"
-                  value="1"
-                  onclick="catDropDown(this.value)"> nzb.su <input type="radio"
-                  name="site"
-                  value="2"
-                  onclick="catDropDown(this.value)"> NZBMatrix <select name="type" style="display:none;"
+                  onkeydown="if (event.keyCode == 13) document.getElementById('searchbutton').click()">  <select id='provider' onchange="catDropDown(this.value);">
+                  <option value="0" selected>Default</option>
+                  <option value="1">nzb.su</option>
+                  <option value="2">NZB Matrix</option>
+                  <option value="3">TMDB</option>
+    			  </select> <select name="type" style="display:none;"
                   id="type">
             </select> <input type="button"
                   id="searchbutton"
@@ -24,6 +23,8 @@ function widgetSearch() {
                   onclick="clearResults()"
                   ondblclick="resetWidget()"></div>
         <div id="resultstable"></div>
+        <div id='extra_info'></div> 
+
 BODY;
 }
 
