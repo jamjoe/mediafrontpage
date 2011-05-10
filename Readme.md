@@ -29,28 +29,28 @@ This project is always being updated by like minded individuals and bugs will ex
 ## Install
 #Ubuntu Commandline/XBMCLive
 
-1. SSH or Telnet into XBMCLive - or simply press CTRL F2 and login with you user details.
-2. Clone the Git to your required directory, usually htdocs or www.
+1 - SSH or Telnet into XBMCLive - or simply press CTRL F2 and login with you user details.
+2 - Clone the Git to your required directory, usually htdocs or www.
 
 sudo git clone git://github.com/gugahoi/mediafrontpage.git "/var/www"
 
-3. Open default-config.php with gedit or nano and edit appropriately
+3 - Open default-config.php with gedit or nano and edit appropriately
 
 sudo nano /var/www/default-config.php
 
-4. Rename default-config.php to config.php
+4 - Rename default-config.php to config.php
 
 sudo mv /var/www/default-config.php /var/www/config.php
 
-5. Rename default-layout.php to layout.php
+5 - Rename default-layout.php to layout.php
 
 sudo mv /var/www/default-layout.php /var/www/layout.php
 
-6. Ensure file permissions allow web server to write to layout.php eg use chmod
+6 - Ensure file permissions allow web server to write to layout.php eg use chmod
 
 sudo chmod 777 /var/www/layout.php
 
-7. Install PHP-Curl
+7 - Install PHP-Curl
 
 sudo apt-get install php5-curl
 
@@ -58,7 +58,7 @@ sudo apt-get install php5-curl
 Optional
 --------
 Sickbeard image cache to speed up image loading times.
-8.
+8
 a) Create a folder named sbpcache 
  
 sudo mkdir /var/www/sbpcache
