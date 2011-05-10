@@ -168,6 +168,7 @@ overflow:hidden; white-space: nowrap;'>".$name."</div></font></td>";
 				echo "<a href='#' target='nothing' onclick=\"sendArgument('remove=".$id."');\"><img src='media/btnQueueDelete.png' width='20px'/></a></td>";
 				echo "</tr>";
 			}
+			echo "<div class='clear-float'></div>";
 			echo "</table>\n";
 		}
 	} catch(Exception $e){
