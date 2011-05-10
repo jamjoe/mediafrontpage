@@ -1,4 +1,4 @@
-###MediaFrontPage
+#MediaFrontPage
 
 MediaFrontPage is a HTPC Web Program Organiser.
 Your HTPC utilises a number of different programs to do certain tasks. What MediaFrontPage does is creates a user specific web page that will be your nerve centre for everything you will need.
@@ -27,9 +27,10 @@ MediaFrontPage requires aa Apache/PHP Webserver to be running on the machine or 
 This project is always being updated by like minded individuals and bugs will exist. If you find a bug, please report it at [XBMC Support Thread] (http://forum.xbmc.org/showthread.php?t=8330), and include as much information as possible.
 
 ## Install
-#Ubuntu Commandline/XBMCLive
+###Ubuntu Commandline/XBMCLive
 
 1 - SSH or Telnet into XBMCLive - or simply press CTRL F2 and login with you user details.
+
 2 - Clone the Git to your required directory, usually htdocs or www.
 
 sudo git clone git://github.com/gugahoi/mediafrontpage.git "/var/www"
