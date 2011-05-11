@@ -57,16 +57,17 @@ function main() {
 		}
 	}
 	
-	$tablebody = "<div id='wSearch'><table id=\"search-Table\" class=\"tablesorter\">
-					<thead>
-						<tr>
-							<th></th>
-							<th onclick=\"setTimeout('updateRows()',10);\"><a href=#>Name <img src=\"./media/arrow.png\"/></a></th>
-							<th onclick=\"setTimeout('updateRows()',10);\"$column2<img src=\"./media/arrow.png\"/></a></th>
-							<th onclick=\"setTimeout('updateRows()',10);\"><a href=#>$column3 <img src=\"./media/arrow.png\"/></a></th>
-						</tr>
-					</thead>
-					<tbody>";
+	$tablebody = "<div id='wSearch'>
+					<table id='search-Table' class='tablesorter' width='100%' style='table-layout:fixed;' cellspacing='0'>
+						<thead>
+							<tr>
+								<th style='width:3%;'></th>
+								<th style='width:60%;' onclick=\"setTimeout('updateRows()',10);\"><a href=#>Name <img src=\"./media/arrow.png\"/></a></th>
+								<th style='width:15%;'onclick=\"setTimeout('updateRows()',10);\"$column2<img src=\"./media/arrow.png\"/></a></th>
+								<th style='width:20%;' onclick=\"setTimeout('updateRows()',10);\"><a href=#>$column3 <img src=\"./media/arrow.png\"/></a></th>
+							</tr>
+						</thead>
+						<tbody>";
 
 	echo (!empty($results))? $tablebody.$results."</tbody></table></div>" : "<h1>Nothing found!</h1>";
 }
@@ -98,8 +99,10 @@ function nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl){
 		$nzblink = "http://nzb.su/details/".$id;
 		$name = str_replace(".", "\n", $name);
 		$name = str_replace(" ", "\n", $name);
-		$item_desc = $postdate.$coments.$group_name.$grabs.$seriesfull;
+		$item_desc = "<p>Name: $name</p>".$postdate.$coments.$group_name.$grabs.$seriesfull;
 		$item_desc = str_replace("\n", "<br>", $item_desc);
+		$item_desc = str_replace("\"", " - ", $item_desc);		
+		$item_desc = str_replace("'", "|", $item_desc);		
 
 		$addToSab = addCategory($cat,$addToSab);
 		if(strlen($name)!=0){
@@ -142,10 +145,8 @@ function nzbmatrix($item, $nzbusername, $nzbapi,$saburl,$sabapikey) {
 		$nfo 		= "NFO: ".substr($item[10], 5);
 		$weblink 	= substr($item[11], 9);
 		$image 		= substr($item[13],7);
-		$item_desc	= "<p>".$id."</p><p>".$group."</p><p>".$comments."</p><p>".$hits."</p><p>".$nfo."</p><p>".$indexdate."</p>";
-		//$item_desc .= (substr($item[13],7)!="")?"Pic: ".$image:"";
+		$item_desc	= "<p>Name: ".$name."</p><p>".$id."</p><p>".$group."</p><p>".$comments."</p><p>".$hits."</p><p>".$nfo."</p><p>".$indexdate."</p>";
 		
-
 		$addToSab = addCategory($cat,$addToSab);
 
 		if(strlen($name)!=0){
@@ -250,10 +251,10 @@ function printTable($name,$cat,$size,$addToSab,$nzblink,$item_desc, $image="", $
 		}
 	}
 	return "	<tr class=\"row\">
-					<td><a href=\"#\";  onclick=\"sabAddUrl('".htmlentities($addToSab)."'); return false;\"><img class=\"sablink\" src=\"./media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
-					<td style='width:60%';>".$image.$weblink."<a href='".$nzblink."' target='_blank'; onMouseOver=\"ShowPopupBox('".$item_desc."');\" onMouseOut=\"HidePopupBox();\">$name</a></td>
-					<td class='filesize'>".ByteSize($size)."</td>
-					<td style='width:20%'>$cat</td>
+					<td style='padding-top:5px;'><a href=\"#\";  onclick=\"sabAddUrl('".htmlentities($addToSab)."'); return false;\"><img class=\"sablink\" src=\"./media/sab2_16.png\" alt=\"Download with SABnzdd+\"/></a></td>
+					<td style='text-overflow:ellipsis;overflow:hidden; white-space: nowrap;'>".$image.$weblink."<a href='".$nzblink."' target='_blank'; onMouseOver=\"ShowPopupBox('".$item_desc."');\" onMouseOut=\"HidePopupBox();\"><div style='padding-top:4px;'>$name</div></a></td>
+					<td style='padding-top:4px;' class='filesize'>".ByteSize($size)."</td>
+					<td style='padding-top:4px;text-overflow:ellipsis;overflow:hidden; white-space: nowrap;'>$cat</td>
 				</tr>";
 }
 
