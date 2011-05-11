@@ -84,7 +84,7 @@ $navlink["uTorrent"] = "http://localhost:8081/gui/";
 //$navselect["Google"] = "http://google.com";
 
 
-//these links will be on the Nav SubMenu
+//these links will be on the Nav SubMenu if there are none the submenu will automatically hide.
 //--these will open inline in MFP
 //$subnavlink["Google"] = "http://google.com";
 //--these will open in a new Page
@@ -121,14 +121,16 @@ $drive["Sata 3"] = "/media/sata3/";
 $drive["Sata 4"] = "/media/sata4/";
 
 // enter rss feeds. Ensure sabnzbd > config > index sites is set. Supports cat, pp, script, priority as per the sabnzbd api.
-$rssfeeds["NZBMatrix - TV Shows (DivX)"]    = array("url" => "http://rss.nzbmatrix.com/rss.php?subcat=6", "cat" => "tv");
-$rssfeeds["NZBMatrix - TV Shows (HD x264)"] = array("url" => "http://rss.nzbmatrix.com/rss.php?subcat=41", "cat" => "tv");
-$rssfeeds["NZBMatrix - Movies (DivX)"]      = array("url" => "http://rss.nzbmatrix.com/rss.php?subcat=2", "cat" => "movies");
-$rssfeeds["NZBMatrix - Movies (HD x264)"]   = array("url" => "http://rss.nzbmatrix.com/rss.php?subcat=42", "cat" => "movies");
-$rssfeeds["NZBMatrix - Music (MP3)"]        = array("url" => "http://rss.nzbmatrix.com/rss.php?subcat=22", "cat" => "music");
-$rssfeeds["NZBMatrix - Music (Lossless)"]   = array("url" => "http://rss.nzbmatrix.com/rss.php?subcat=23", "cat" => "music");
-$rssfeeds["NZBMatrix - Sports"]             = array("url" => "http://rss.nzbmatrix.com/rss.php?subcat=7", "cat" => "sports");
-$rssfeeds["MediaFrontPage on Github"]       = array("url" => "https://github.com/nick8888/mediafrontpage/commits/master.atom", "type" => "atom");
+$rssfeeds["NZBMatrix - TV Shows (DivX)"]    	= array("url" => "http://rss.nzbmatrix.com/rss.php?subcat=6", "cat" => "tv");
+$rssfeeds["NZBMatrix - TV Shows (HD x264)"] 	= array("url" => "http://rss.nzbmatrix.com/rss.php?subcat=41", "cat" => "tv");
+$rssfeeds["NZBMatrix - Movies (DivX)"]      	= array("url" => "http://rss.nzbmatrix.com/rss.php?subcat=2", "cat" => "movies");
+$rssfeeds["NZBMatrix - Movies (HD x264)"]   	= array("url" => "http://rss.nzbmatrix.com/rss.php?subcat=42", "cat" => "movies");
+$rssfeeds["NZBMatrix - Music (MP3)"]        	= array("url" => "http://rss.nzbmatrix.com/rss.php?subcat=22", "cat" => "music");
+$rssfeeds["NZBMatrix - Music (Lossless)"]   	= array("url" => "http://rss.nzbmatrix.com/rss.php?subcat=23", "cat" => "music");
+$rssfeeds["NZBMatrix - Sports"]             	= array("url" => "http://rss.nzbmatrix.com/rss.php?subcat=7", "cat" => "sports");
+$rssfeeds["MediaFrontPage on Github"]       	= array("url" => "https://github.com/nick8888/mediafrontpage/commits/master.atom", "type" => "atom");
+$rssfeeds["MediaFrontPage on Github by gugahoi"]= array("url" => "https://github.com/gugahoi/mediafrontpage/commits/master.atom", "type" => "atom");
+$rssfeeds["MediaFrontPage on Github by DejaVu"] = array("url" => "https://github.com/DejaVu77/mediafrontpage/commits/master.atom", "type" => "atom");
 
 $customStyleSheet = "";
 //Example of how to use this
