@@ -91,6 +91,7 @@
 		height: 70px !important;
 		width: 354px !important;
 		padding-bottom: 2px;
+        box-shadow: 3px 3px 3px #000;
 }
 
 	.posterThumb {
@@ -135,11 +136,11 @@
 }
 
 	#main #wComingEpisodes.widget .widget-content {
-		max-height:97%;
+		max-height:96%;
 	
 	/* show vertical scrollbar only on overflow */
 		overflow-x:hidden;
-		overflow-y:scroll;
+		overflow-y:hidden;
 }
 
 	/* not sure what this is for, pulled it from comingepisodes.css */

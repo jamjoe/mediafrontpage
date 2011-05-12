@@ -20,7 +20,7 @@
 	<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
   </head>
 
-  <frameset rows="<?php echo ($submenu)?"9%":"5%";?>, *" frameborder="0" border="0" framespacing="0">
+  <frameset rows="<?php echo ($submenu)?"62px":"35px";?>, *" frameborder="0" border="0" framespacing="0">
     <frame src="nav.php" name="nav" noresize scrolling="no">
     <frame src="mediafrontpage.php" name="main" noresize>
   </frameset>

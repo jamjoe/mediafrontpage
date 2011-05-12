@@ -6,13 +6,16 @@
     height: auto !important; 
 }
 #main #section1 { 
-    width: 25%;
+    width: 24%;
 }
 #main #section2 { 
-    width: 50%;
+    width: 20%;
 }
 #main #section3 { 
-    width: 25%;
+    width: 33%;
+}
+#main #section4 { 
+    width: 23%;
 }
 #main .widget-placeholder { 
     border: 2px dashed #999;
@@ -31,8 +34,6 @@
     -moz-border-radius:6px 6px 6px 6px;
     border-radius:6px 6px 6px 6px;
     margin:10px 5px;
-	-moz-box-shadow: 3px 3px 3px #000;
-	-webkit-box-shadow: 3px 3px 3px #000;
     box-shadow: 3px 3px 3px #000;
 }
 #main .widget .widget-head {
