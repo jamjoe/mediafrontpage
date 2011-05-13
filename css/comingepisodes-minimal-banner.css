@@ -1,31 +1,6 @@
-/*	div.ep_summary { 
-		display: none;
-		visibility: none; !important;
+	#main #wComingEpisodes.widget .widget-content {
+		max-height:46%;
 }
-
-	#comingepisodeswrapper, #insideWrapper  {
-		max-height: 250px;
-
-	/* set max-width for using this widget on either side otherwise you can't see everything */
-		max-width: 100%;
-}*/
-
-	/* Remove border from images --needed for all 3 views */
-	div.tvshowDiv > table tr th img, td > a > img{
-		border:none !important;
-		margin:0 !important;
-}
-
-	/* fix list alignment problem */
-		table#showListTable > tbody > tr > td, table#showListTable > thead > tr > th {
-		padding-left: none;
-}
-/* END - specific to LIST view */
-
-
-
-/* START - specific to icon views */
-
 	/* centre align the tv show title */
 	div.tvshowDiv > table tr th > span.tvshowTitle a{
 		display: none;
@@ -49,13 +24,6 @@
 		max-width: 300px;
 }
 
-	.posterThumb {
-		width: 102px !important;
-		height: 150px !important;
-		padding: none;
-		float:left;
-}
-
 	/* adjust the ep #x## - title */
 	div.tvshowDiv > table > tbody > tr > td.next_episode {
 		display: none;
@@ -73,4 +41,7 @@
 		display: inline !important;
 		visibility: visible !important;
 		height      : 10px !important;
+}
+#mcs3_container {
+	height:50% !important;
 }
