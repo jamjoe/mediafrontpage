@@ -22,7 +22,7 @@
 
   <frameset rows="<?php echo ($submenu)?"62px":"35px";?>, *" frameborder="0" border="0" framespacing="0">
     <frame src="nav.php" name="nav" noresize scrolling="no">
-    <frame src="mediafrontpage.php" name="main" noresize>
+    <frame src="mediafrontpage.php" name="main" noresize scrolling="auto">
   </frameset>
   <noframes>
     <p>Your browser does not support frames</p>

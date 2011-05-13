@@ -1,5 +1,5 @@
 html,body { 
-	height: 100%; -webkit-font-smoothing: antialiased;
+	height: 96%; -webkit-font-smoothing: antialiased;
 }
 body {
 	background:url(../media/background.png) #222528;
