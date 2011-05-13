@@ -218,7 +218,6 @@ if(!empty($_GET['style']) && ($_GET['style'] == "w")) {
 		<link rel='stylesheet' type='text/css' href='css/front.css'>
 	</head>
 	<body>
-					<iframe name="nothing" height="0" width="0" style="visibility:hidden;display:none"></iframe>
 <?php
 		widgetTransmission();
 ?>
