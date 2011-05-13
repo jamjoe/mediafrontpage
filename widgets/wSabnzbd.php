@@ -104,7 +104,7 @@ function sabStatus($count = 15) {
 					$percentage = (int)((($total - $remaining) / $total)*100);
 
 					// filename
-					$fullname = $slot["filename"];
+					$name = $slot["filename"];
 
 					//The sab ID to get individual pause/resume and delete 
 					$id = $slot["nzo_id"];
@@ -118,12 +118,14 @@ function sabStatus($count = 15) {
 						//If paused $pause is the RESUME url (the button resumes the item)
 						$cmdPauseResume = $ajaxurl."cmd=".urlencode("queue&name=resume&value=".$id);
 						//When paused, adds PAUSED to the front of the name.
-						$name = "PAUSED - ".$fullname;
+						//$name = "PAUSED - ".$fullname;
+						$font = "red";
 					}
 					else{
 						// if not paused $pause is the PAUSE url
 						$cmdPauseResume = $ajaxurl."cmd=".urlencode("queue&name=pause&value=".$id);
-						$name = $fullname;
+						//$name = $fullname;
+						$font = "green";
 					}
 					if(!empty($_GET['style']) && ($_GET['style'] == "w")) {
 						$actions = "<img src=\"".$pathtoimages."media/btnPlayPause.png\" onclick=\"cmdSabnzbd('".$cmdPauseResume."');\" />";
@@ -135,7 +137,7 @@ function sabStatus($count = 15) {
 					echo "\t\t\t<div class=\"queueitem\">\n";
 					echo "\t\t\t\t<div class=\"progressbar\">\n";
 					echo "\t\t\t\t\t<div class=\"progress\" style=\"width:".$percentage."%\"></div>\n";
-					echo "\t\t\t\t\t<div class=\"progresslabel\">".$name."</div>\n";
+					echo "\t\t\t\t\t<div class=\"progresslabel\"><font color='".$font."' >".$name."</font></div>\n";
 					echo "\t\t\t\t</div><!-- .progressbar -->\n";
 					echo "\t\t\t\t<div class=\"actions\">".$actions."</div>\n";
 					echo "\t\t\t</div><!-- .queueitem -->\n";
