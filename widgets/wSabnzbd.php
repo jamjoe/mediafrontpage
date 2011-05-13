@@ -41,7 +41,8 @@ function sabQuery($command, $values = array()) {
 	curl_setopt($ch, CURLOPT_URL, $queryurl);
 	curl_setopt($ch, CURLOPT_HTTPGET, 1);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	$results = json_decode(curl_exec($ch), true);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);  //ignoring the check of SSL certificates.
+        $results = json_decode(curl_exec($ch), true);
 	curl_close($ch);
 	
 	return $results;
