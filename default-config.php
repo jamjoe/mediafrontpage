@@ -66,6 +66,9 @@ $transmission_url 	= "http://localhost:9091/transmission/rpc";	// The url for tr
 $transmission_admin	= "";	// The username for trasmission webui
 $transmission_pass 	= "";	// The password for the webui
 
+//Trakt USER info
+$trakt_api = "";		//this can be found on: http://trakt.tv/settings/api
+
 // enter navigation bar links
 $navlink;
 $navlink["XBMC"] = "http://localhost:8080";
@@ -121,6 +124,7 @@ $drive["Sata 3"] = "/media/sata3/";
 $drive["Sata 4"] = "/media/sata4/";
 
 // enter rss feeds. Ensure sabnzbd > config > index sites is set. Supports cat, pp, script, priority as per the sabnzbd api.
+$rssfeeds["MediaFrontPage on Github"]       	= array("url" => "https://github.com/MediaFrontPage/mediafrontpage/commits/master.atom", "type" => "atom");
 $rssfeeds["NZBMatrix - TV Shows (DivX)"]    	= array("url" => "http://rss.nzbmatrix.com/rss.php?subcat=6", "cat" => "tv");
 $rssfeeds["NZBMatrix - TV Shows (HD x264)"] 	= array("url" => "http://rss.nzbmatrix.com/rss.php?subcat=41", "cat" => "tv");
 $rssfeeds["NZBMatrix - Movies (DivX)"]      	= array("url" => "http://rss.nzbmatrix.com/rss.php?subcat=2", "cat" => "movies");
@@ -128,9 +132,9 @@ $rssfeeds["NZBMatrix - Movies (HD x264)"]   	= array("url" => "http://rss.nzbmat
 $rssfeeds["NZBMatrix - Music (MP3)"]        	= array("url" => "http://rss.nzbmatrix.com/rss.php?subcat=22", "cat" => "music");
 $rssfeeds["NZBMatrix - Music (Lossless)"]   	= array("url" => "http://rss.nzbmatrix.com/rss.php?subcat=23", "cat" => "music");
 $rssfeeds["NZBMatrix - Sports"]             	= array("url" => "http://rss.nzbmatrix.com/rss.php?subcat=7", "cat" => "sports");
-$rssfeeds["MediaFrontPage on Github"]       	= array("url" => "https://github.com/nick8888/mediafrontpage/commits/master.atom", "type" => "atom");
-$rssfeeds["MediaFrontPage on Github by gugahoi"]= array("url" => "https://github.com/gugahoi/mediafrontpage/commits/master.atom", "type" => "atom");
-$rssfeeds["MediaFrontPage on Github by DejaVu"] = array("url" => "https://github.com/DejaVu77/mediafrontpage/commits/master.atom", "type" => "atom");
+$rssfeeds["Nick8888's MediaFrontPage"]       	= array("url" => "https://github.com/nick8888/mediafrontpage/commits/master.atom", "type" => "atom");
+$rssfeeds["Gugahoi's MediaFrontPage"]= array("url" => "https://github.com/gugahoi/mediafrontpage/commits/master.atom", "type" => "atom");
+$rssfeeds["DejaVu's MediaFrontPage"] = array("url" => "https://github.com/DejaVu77/mediafrontpage/commits/master.atom", "type" => "atom");
 
 $customStyleSheet = "";
 //Example of how to use this

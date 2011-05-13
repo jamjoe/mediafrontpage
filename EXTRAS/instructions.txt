@@ -1,0 +1,3 @@
+To use MFP with the latest XBMC Nightly builds (post Dharma 10) replace your xbmcjsonlib.php in the root of mfp with xbmcjsonlib_Nigthly.php in this folder and rename it to xbmcjsonlib.php.
+
+All praises go to SleepyP!

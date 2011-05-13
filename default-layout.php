@@ -50,6 +50,10 @@ $arrLayout = array(
 			"wSabnzbd" => array(
 				"title" => "Sabnzbd",
 				"display" => ""
+			),
+			"wTrakt" => array(
+				"title" => "Trending Movies",
+				"display" => ""
 			)
 		)
 	);
