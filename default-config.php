@@ -68,6 +68,8 @@ $transmission_pass 	= "";	// The password for the webui
 
 //Trakt USER info
 $trakt_api = "";		//this can be found on: http://trakt.tv/settings/api
+$trakt_username = "";
+$trakt_password = "";
 
 // enter navigation bar links
 $navlink;
