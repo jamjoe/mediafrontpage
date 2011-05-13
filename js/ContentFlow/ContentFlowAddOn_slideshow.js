@@ -9,7 +9,7 @@
 new ContentFlowAddOn ('slideshow', {
 
     conf: {
-        showControlls: true,
+        showControlls: false,
         duration: 4000,
         startOnLoad: true
     },
