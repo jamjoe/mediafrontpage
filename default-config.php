@@ -120,10 +120,14 @@ $shortcut["Turn Xbox Off"] = "/xbox/off";
 // enter directories for hard drive section
 $drive;
 $drive["/"] = "/";
-$drive["Sata 1"] = "/media/sata1/";
-$drive["Sata 2"] = "/media/sata2/";
-$drive["Sata 3"] = "/media/sata3/";
-$drive["Sata 4"] = "/media/sata4/";
+/*
+$drive["USB"] = "/Volumes/USB_NAME"; 	//applies for Mac OS
+$drive["Sata 1"] = "/media/sata1/";		//applies for Linux OS
+$drive["Sata 2"] = "/media/sata2/";		//applies for Linux OS
+$drive["C Drive"] = "C:";				//applies for Windows OS
+$drive["D Drive"] = "D:";				//applies for Windows OS
+*/
+
 
 // enter rss feeds. Ensure sabnzbd > config > index sites is set. Supports cat, pp, script, priority as per the sabnzbd api.
 $rssfeeds["MediaFrontPage on Github"]       	= array("url" => "https://github.com/MediaFrontPage/mediafrontpage/commits/master.atom", "type" => "atom");

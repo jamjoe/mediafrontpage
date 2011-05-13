@@ -52,7 +52,7 @@ $arrLayout = array(
 				"display" => ""
 			),
 			"wTrakt" => array(
-				"title" => "Trending Movies",
+				"title" => "trakt.tv",
 				"display" => ""
 			)
 		)
