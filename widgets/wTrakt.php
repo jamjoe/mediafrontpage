@@ -1,11 +1,38 @@
 <?php
-$wIndex["wTrakt"] = array("name" => "trakt.tv", "type" => "inline", "function" => "wTrakt();", "headerfunction" => "wTraktHeader();");
+$wIndex["wTrakt"] = array("name" => "trakt.tv", "type" => "inline", "block" => "traktwrapper", "function" => "wTrakt();", "headerfunction" => "wTraktHeader();");
 
 function wTraktHeader()
 {
 	echo <<< TRAKTHEADER
 		<script type="text/javascript" language="javascript">
 		<!--
+		var movierecommendation = new ContentFlow('movie_rec');
+		var movietrending = new ContentFlow('movies_trakt');
+		var upcomingtv = new ContentFlow('tvtrakt');
+
+		function getPics(id){
+			$.get('widgets/wTrakt.php?type='+id, function(data){ $('#itemcontainer').html(data); alert(data); addPictures(id);});
+		}
+		function addPictures(id)
+		{
+			alert(id);
+	        var ic = document.getElementById('itemcontainer');
+	        var is = ic.getElementsByTagName('img');
+	        for (var i=0; i< is.length; i++) 
+	        {
+	         	if(id === 'movie_rec'){
+	            	movierecommendation.addItem(is[i], 'last');
+	            }
+	         	if(id === 'tvtrakt'){
+	            	upcomingtv.addItem(is[i], 'last');	         	
+	         	}
+	         	if(id === 'movies_trakt'){
+	            	movietrending.addItem(is[i], 'last');
+	         	}
+			}
+			document.getElementById('itemcontainer').innerHTML = '';
+		}
+
 		-->
 		</script>
 TRAKTHEADER;
@@ -14,23 +41,43 @@ TRAKTHEADER;
 function wTrakt()
 {
 	echo "<div id='wTrakt' style='overflow:scroll;overflow-x: hidden; height:40%;'>";
-	echo "<h1><a style='float:left;font-size:6px;' onclick=\"$('#movies_trakt').html('')\";'>Clear</a>";
-	echo "<a onclick=\"$.get('widgets/wTrakt.php?type=movies', function(data){ $('#movies_trakt').html(data); });\">Trending Movies</a>";
-	echo "<a style='float:right;font-size:6px;' onclick=\"$('#movies_trakt').toggle()\";'>Hide/Show</a></h1> ";
-	echo "<div id='movies_trakt'></div>";
-	echo "<h1><a style='float:left;font-size:6px;' onclick=\"$('#tvtrakt').html('')\";'>Clear</a>";
-	echo "<a onclick=\"$.get('widgets/wTrakt.php?type=tv', function(data){ $('#tvtrakt').html(data); });\">Upcoming TV Episodes</a>";
-	echo "<a style='float:right;font-size:6px;' onclick=\"$('#tvtrakt').toggle()\";'>Hide/Show</a></h1>";
-	echo "<div id='tvtrakt'></div>";
-	echo "<h1><a style='float:left;font-size:6px;' onclick=\"$('#movie_rec').html('')\";'>Clear</a>";
-	echo "<a onclick=\"$.get('widgets/wTrakt.php?type=movierecommendations', function(data){ $('#movie_rec').html(data); });\">Movie Recommendations</a>";
-	echo "<a style='float:right;font-size:6px;' onclick=\"$('#movie_rec').toggle()\";'>Hide/Show</a></h1>";
-	echo "<div id='movie_rec'></div>";
+	
+	
+	echo "<h1><a style='float:left;font-size:6px;' onmouseover=\"$(this).css({color:'orange'});\" onmouseout=\"$(this).css({color:'grey'});\" onclick=\"$('#movies_trakt').html('')\";'>Clear</a>";
+	echo "<a onmouseover=\"$(this).css({color:'orange'});\" onmouseout=\"$(this).css({color:'grey'});\" onclick=\"getPics('movies_trakt');\">Trending Movies</a>";
+	echo "<a onmouseover=\"$(this).css({color:'orange'});\" onmouseout=\"$(this).css({color:'grey'});\" style='float:right;font-size:6px;' onclick=\"$('#movies_trakt').toggle()\";'>Hide/Show</a></h1> ";
+	echo "<div id='movies_trakt'>";
+	echo "<div class=\"flow\"></div>";
+	//wTraktTrendingMovies();
 	echo "</div>";
+	
+	
+	echo "<h1><a onmouseover=\"$(this).css({color:'orange'});\" onmouseout=\"$(this).css({color:'grey'});\" style='float:left;font-size:6px;' onclick=\"$('#tvtrakt').html('')\";'>Clear</a>";
+	echo "<a onmouseover=\"$(this).css({color:'orange'});\" onmouseout=\"$(this).css({color:'grey'});\" onclick=\"getPics('tvtrakt');\">Upcoming TV Episodes</a>";
+	echo "<a onmouseover=\"$(this).css({color:'orange'});\" onmouseout=\"$(this).css({color:'grey'});\" style='float:right;font-size:6px;' onclick=\"$('#tvtrakt').toggle()\";'>Hide/Show</a></h1>";
+	echo "<div id='tvtrakt'>";
+	echo "<div class=\"flow\"></div>";
+	//wTraktComingShows();
+	echo "</div>";
+	
+	
+	echo "<h1><a onmouseover=\"$(this).css({color:'orange'});\" onmouseout=\"$(this).css({color:'grey'});\" style='float:left;font-size:6px;' onclick=\"$('#movie_rec').html('')\";'>Clear</a>";
+	echo "<a onmouseover=\"$(this).css({color:'orange'});\" onmouseout=\"$(this).css({color:'grey'});\" onclick=\"getPics('movie_rec');\">Movie Recommendations</a>";
+	echo "<a onmouseover=\"$(this).css({color:'orange'});\" onmouseout=\"$(this).css({color:'grey'});\" style='float:right;font-size:6px;' onclick=\"$('#movie_rec').toggle()\";'>Hide/Show</a></h1>";
+	echo "<div id=\"movie_rec\" class=\"ContentFlow\"> 
+    <div class=\"flow\"> </div>";
+	//wTraktMovieRecommendations();    
+	echo "</div>"; 
+	
+	
+	
+	echo "<div id=\"itemcontainer\" style=\"height: 0px; width: 0px; visibility: hidden; display:none;\"></div>";
+	echo "</div><!--end wTrakt-->";
 
 }
 
-function traktMethods($traktApiMethods = "", $post = false, $format = "json", $debug = false) {
+function traktMethods($traktApiMethods = "", $post = false, $format = "json", $debug = false) 
+{
 	global $trakt_api,$trakt_username,$trakt_password;
 	$response = "";
 	echo (empty($trakt_api))?"<h1>API not set in config.php</h1>":"";
@@ -79,12 +126,6 @@ function wTraktTrendingMovies()
 	$result = traktMethods("movies/trending");
 	if(!empty($result))
 	{
-		echo "<div id='trend_ajax' class=\"ContentFlow\" style='height:200px; width:100%;'>
-        <div class=\"loadIndicator\">
-        	<div class=\"indicator\">
-        	</div>
-        </div>
-        <div class=\"flow\">";
 		foreach($result as $movie)
 		{
 			$title  = $movie->title;
@@ -103,52 +144,45 @@ function wTraktTrendingMovies()
 			$fanart = $movie->images->fanart;
 			$watch  = $movie->watchers;
 
-			echo "<img class=\"item\" title=\"$title\" src=\"$poster\" href=\"$url\" target=\"_blank\" />";
+			echo "<img class=\"item\" src=\"$poster\" />";
 
 
 		}
-		echo "</div>
-       		<div class=\"globalCaption\">
-       		</div>
-    		</div>";
 	}
 }
-function wTraktMovieRecommendations(){
+function wTraktMovieRecommendations()
+{
 	$result = traktMethods("recommendations/movies", true, "");
 	if(!empty($result))
 	{
-		echo "<div id='reccomend_ajax' class=\"ContentFlow\" style='height:200px; width:100%;'>
-        <div class=\"loadIndicator\">
-        	<div class=\"indicator\">
-        	</div>
-        </div>
-        <div class=\"flow\">";
-		foreach($result as $movie)
-		{
-			$title 	 = $movie->title;
-			$year 	 = $movie->year;
-			$date 	 = $movie->date;
-			$url 	 = $movie->url;
-			$runtime = $movie->runtime;
-			$tagline = $movie->tagline;
-			$overview = $movie->overview;
-			$cert 	 = $movie->certification;
-			$imdb_id = $movie->imdb_id;
-			$tmdb_id = $movie->tmdb_id;
-			$poster  = $movie->images->poster;
-			$fanart  = $movie->images->fanart;
-			$ratings = $movie->ratings->percentage;
-			$votes	 = $movie->ratings->votes;
-			$loved	 = $movie->ratings->loved;
-			$hated	 = $movie->ratings->hated;
+		if($result->status != "failure"){
+			foreach($result as $movie)
+			{
+				$title 	 = $movie->title;
+				$year 	 = $movie->year;
+				$date 	 = $movie->date;
+				$url 	 = $movie->url;
+				$runtime = $movie->runtime;
+				$tagline = $movie->tagline;
+				$overview = $movie->overview;
+				$cert 	 = $movie->certification;
+				$imdb_id = $movie->imdb_id;
+				$tmdb_id = $movie->tmdb_id;
+				$poster  = $movie->images->poster;
+				$fanart  = $movie->images->fanart;
+				$ratings = $movie->ratings->percentage;
+				$votes	 = $movie->ratings->votes;
+				$loved	 = $movie->ratings->loved;
+				$hated	 = $movie->ratings->hated;
+				
+				echo "<img class=\"item\" src=\"$poster\" />";
 			
-			echo "<img class=\"item\" title=\"$title\" src=\"$poster\" href=\"$url\" target=\"_blank\" />";		
-		
+			}
 		}
-		echo "</div>
-       		<div class=\"globalCaption\">
-       		</div>
-    		</div>";
+		else
+		{
+			echo "Authentication failed";
+		}
 	}
 }
 function wTraktComingShows()
@@ -156,13 +190,6 @@ function wTraktComingShows()
 	$result = traktMethods("calendar/shows");
 
 	if(!empty($result)){
-		echo "<div id='tv_ajax' class=\"ContentFlow\" style='height:200; width:100%;'>
-        <div class=\"loadIndicator\">
-        	<div class=\"indicator\">
-        	</div>
-        </div>
-        <div class=\"flow\">";
-
 		foreach($result as $item)
 		{
 			$date = $item->date;
@@ -192,38 +219,26 @@ function wTraktComingShows()
 				$url  = $episodes->episode->url;
 				$firstaired = $episodes->episode->first_aired;
 				$screen  = $episodes->episode->images->screen;
-/*
-				echo "<a onclick=\"toggleTrakt('$url');\">v</a><h1><div style='text-align:left; text-overflow:ellipsis; overflow:hidden; white-space: nowrap;'><a href='$showUrl' target='_blank'>$showTitle</a> ($year) </div></h1>";
-				echo "<div id='$url' style='height:60%; width:100%; display:none;'>";
-				echo "<div id='content'>";
-				echo "<p><img src='$poster' width='20%' style='float:left;padding-bottom:5px;' /><font color='white'><p> $network  </p><p> $airday's @ $airtime for $runtime minutes </p><p><a href='$url' target='_blank'>S$season"."E$episode - $title<a>  </p><p> $overview </p></font></p>";
-				echo "</div>";
-				echo "</div>";
-*/
-				echo "<img class=\"item\" title=\"$showTitle - S$season"."E$episode\" src=\"$poster\" href=\"$showUrl\" target=\"_blank\" />";
+
+				echo "<img class=\"item\" src=\"$poster\" />";
 
 			}
 		}
-		echo "</div>
-       		<div class=\"globalCaption\">
-       		</div>
-    		</div>";
 	}
-	echo "<div id='clear-float'></div>";
-	echo "</div>";
 }
+
 if(!empty($_GET['type']))
-require_once "../config.php";
 {
-	if($_GET['type'] == 'movies')
+	require_once "../config.php";
+	if($_GET['type'] == 'movies_trakt')
 	{
 		wTraktTrendingMovies();
 	}
-	if($_GET['type'] == 'tv')
+	if($_GET['type'] == 'tvtrakt')
 	{
 		wTraktComingShows();
 	}
-	if($_GET['type'] == 'movierecommendations')
+	if($_GET['type'] == 'movie_rec')
 	{
 		wTraktMovieRecommendations();
 	}
