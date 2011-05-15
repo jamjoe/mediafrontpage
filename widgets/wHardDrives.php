@@ -40,25 +40,25 @@ function ByteSize($bytes)
     $size = $bytes / 1024;
     if($size < 1024)
         {
-        $size = number_format($size, 0);
+        $size = number_format($size, 1);
         $size .= ' KB';
         } 
     else 
         {
         if($size / 1024 < 1024) 
             {
-            $size = number_format($size / 1024, 0);
+            $size = number_format($size / 1024, 1);
             $size .= ' MB';
             } 
         else if ($size / 1024 / 1024 < 1024)  
             {
-            $size = number_format($size / 1024 / 1024, 0);
+            $size = number_format($size / 1024 / 1024, 1);
             $size .= ' GB';
             } 
         
             else if ($size / 1024 / 1024 / 1024 < 1024)  
             {
-            $size = number_format($size / 1024 / 1024/ 1024, 0);
+            $size = number_format($size / 1024 / 1024/ 1024, 1);
             $size .= ' TB';
             } 
         }
