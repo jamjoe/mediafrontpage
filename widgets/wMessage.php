@@ -5,13 +5,24 @@ function widgetNotificationHeader(){
 	echo <<< RSSHEADER
 <script type="text/javascript" language="javascript">
 	<!--
-	function sendMessage(){
-		var xbmc = document.getElementById('xbmc').value;
-		var msg  = document.getElementById('keyword').value;
-		xbmcAjax(xbmc, msg);
+	function paramsMsg(){
+			var dur = "10";
+			var title = "MediaFrontPage";
+			var extra;
+
+			var xbmc  = document.getElementById('xbmc').value;
+			var msg   = document.getElementById('keyword').value;
+			if(document.getElementById('duration').value){
+				dur = document.getElementById('duration').value;
+			}
+			if(document.getElementById('title').value){
+				title = document.getElementById('title').value;
+			}
+			extra = "&duration="+dur+"&title="+title;
+			sendMessage(xbmc, msg, extra);
 	}
-	function xbmcAjax(url, msg) {
-			//alert(msg);
+	
+	function sendMessage(url, msg, extra) {
 			if (window.XMLHttpRequest) {
 				// code for IE7+, Firefox, Chrome, Opera, Safari
 				xmlhttp=new XMLHttpRequest();
@@ -19,7 +30,7 @@ function widgetNotificationHeader(){
 				// code for IE6, IE5
 				xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 			}
-			xmlhttp.open("GET", "widgets/wMessage.php?msg="+msg+"&url="+url, true);
+			xmlhttp.open("GET", "widgets/wMessage.php?msg="+msg+extra+"&url="+url, true);
 
 			xmlhttp.onreadystatechange = function() {//Call a function when the state changes.
 				if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -28,7 +39,7 @@ function widgetNotificationHeader(){
 						alert('Message sent successfully');
 					}
 					else{
-						alert('Failed sending message. Error: ' + xmlhttp.responseText);
+						alert('Failed sending message. ' + xmlhttp.responseText);
 					}
 				}
 			}
@@ -43,7 +54,7 @@ function widgetMessage() {
 	require_once "config.php";
 	global $xbmcimgpath,$xbmcMessages;
 
-	echo "Send <b>Notice!</b> <input type='text' style='border:0px; background : #3D3D3D; color:white' name='keyword' id='keyword' />to XBMC.
+	echo "Send <b>Notice!</b><input type='text' style='border:0px; background:#3D3D3D; color:white' id='keyword' />to XBMC.
 	<select id='xbmc'>";
 	if(!empty($xbmcMessages)){
 		foreach($xbmcMessages as $title => $link){
@@ -54,8 +65,12 @@ function widgetMessage() {
 		echo "<option value='".substr($xbmcimgpath, 0, strlen($xbmcimgpath)-4)."'>Default</option>";
 	}
 	echo "</select>
-	<input type='button' value='Send' onclick='sendMessage()'>
-	<div id='responseMessage'></div>";
+	<input type='button' value='Send' onclick='paramsMsg();'>
+	<p><input type='button' value='EXTRAS' onclick=\"$('#extras').toggle();\"></p>
+	<div id='extras' style='display:none;'>
+		<p>Title: <input type='text' style='border:0px; background:#3D3D3D; color:white' id='title' /></p>
+		<p>Duration: <input type='text' style='border:0px; background:#3D3D3D; color:white' id='duration' /></p>
+	</div>";
 }
 if(!empty($_GET['msg']) && !empty($_GET['url']))
 {
@@ -63,7 +78,7 @@ if(!empty($_GET['msg']) && !empty($_GET['url']))
 	echo "<p>".$_GET['msg']."</p>";
 	echo "<p>".$_GET['url']."</p>";
 */
-	$url = $_GET['url']."xbmcCmds/xbmcHttp?command=ExecBuiltIn(Notification(MediaFrontPage,".urlencode($_GET['msg']).",20000))";
+	$url = $_GET['url']."xbmcCmds/xbmcHttp?command=ExecBuiltIn(Notification(".urlencode($_GET['title']).",".urlencode($_GET['msg']).",".urlencode($_GET['duration'])."000))";
 		
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
