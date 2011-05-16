@@ -54,8 +54,12 @@ function widgetMessage() {
 	require_once "config.php";
 	global $xbmcimgpath,$xbmcMessages;
 
-	echo "Send <b>Notice!</b><input type='text' style='border:0px; background:#3D3D3D; color:white' id='keyword' />to XBMC.
-	<select id='xbmc'>";
+	echo "Send Notice: </b><input type='text' style='border:0px; background:#3D3D3D; color:white' id='keyword' />to XBMC.
+	<input type='button' value='Send' onclick='paramsMsg();'> More... <img src='/media/extrasup.gif' onclick=\"$('#extras').toggle();\">
+	<div id='extras' style='display:none;'>
+	<p>Subject: <input type='text' style='border:0px; width:128px; background:#3D3D3D; color:white' id='title' /></p>
+	<p>Duration: <input type='text' style='border:0px; width:32px; background:#3D3D3D; color:white' id='duration' /> in seconds.</p>
+	<p>Select System: <select style='border:0px; width:128px; background:#3D3D3D; color:white' id='xbmc'>";
 	if(!empty($xbmcMessages)){
 		foreach($xbmcMessages as $title => $link){
 			echo "<option value='".$link."'>".$title."</option>";	
@@ -64,12 +68,7 @@ function widgetMessage() {
 	else{
 		echo "<option value='".substr($xbmcimgpath, 0, strlen($xbmcimgpath)-4)."'>Default</option>";
 	}
-	echo "</select>
-	<input type='button' value='Send' onclick='paramsMsg();'>
-	<p><input type='button' value='EXTRAS' onclick=\"$('#extras').toggle();\"></p>
-	<div id='extras' style='display:none;'>
-		<p>Title: <input type='text' style='border:0px; background:#3D3D3D; color:white' id='title' /></p>
-		<p>Duration: <input type='text' style='border:0px; background:#3D3D3D; color:white' id='duration' /></p>
+	echo "</select> add more in Config.php.</p>
 	</div>";
 }
 if(!empty($_GET['msg']) && !empty($_GET['url']))
