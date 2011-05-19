@@ -328,6 +328,6 @@ div#wSearch #search-Table{
 .btnUp {
 	background:#FFFFFF url(../media/btnUp_mini.png) no-repeat;
 	background-position: left;
-	padding-left: 8px;
+	padding-left: 10px;
 	border:0px;
 }

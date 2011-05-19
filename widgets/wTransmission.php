@@ -74,12 +74,11 @@ function widgetTransmission(){
 		$dl_speed_limit = $rpc->getSessionInfo(null)->arguments->speed_limit_down;
 		$ul_speed_limit = $rpc->getSessionInfo(null)->arguments->speed_limit_up;
 		
-		echo "<form target='nothing' style='float: right;' action='".$cmdpath."' method='get'>";
-		echo "<input type='text'  class='btnDown' value='".$dl_speed_limit."' id='dllimit' name='dllimit' size='1' />";
-		echo "<input type='text'  class='btnUp' value='".$ul_speed_limit."' id='ullimit' name='ullimit' size='1' />";
+		echo "<div style='float:right;padding-right:2px;'><form target='nothing' action='".$cmdpath."' method='get'>";
+		echo "<input type='text'  class='btnDown' value='".$dl_speed_limit."' id='dllimit' name='dllimit' size='2' />";
+		echo "<input type='text'  class='btnUp' value='".$ul_speed_limit."' id='ullimit' name='ullimit' size='2' />";
 		echo "<input type='submit' style='position: absolute; left: -9999px'/>";
-		echo "</form>";
-
+		echo "</form></div>";
 		if($active_torrents!=0){
 			echo "<a href='#' target='nothing' onclick=\"sendArgument('stop=all');\">Downloading</a>";
 			echo "<p>D: ".$download_speed." - U: ".$upload_speed."</p>";
@@ -176,6 +175,7 @@ overflow:hidden; white-space: nowrap;'>".$name."</div></font></td>";
 		//if there is need to see the errors, just uncomment the line below
 		//echo $e;
 	}
+	echo "<div style='clear:both;'></div>";
 	echo '</div>';
 }
 function ByteSize2($bytes)
