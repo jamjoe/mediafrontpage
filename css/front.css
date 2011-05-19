@@ -34,9 +34,6 @@ table {
 	font-size:1.2em;
 	text-align:center;
 }
-tr.row:hover {
-	background-color: #FFFFFF;
-} 
 td {
 	vertical-align:top;
 }
@@ -280,9 +277,10 @@ div#wSearch #search-Table{
 	float: left;
 	width: 20px;
 }
+
 #wSearch #imdb-badge{
-	float: right;
 	width: 15px;
+	float:left;
 }
 #wSearch tr.row{
 	height:2em;
@@ -297,6 +295,11 @@ div#wSearch #search-Table{
 #wSearch #movie-extra-rating{
 	float:right; 
 	size:10;
+}
+#wSearch #table-icon{
+	width: inherit;
+	max-width: 15px;
+	padding-right: 2px;
 }
 #wSearch #movie-extra-poster{
 	width:100%; 
