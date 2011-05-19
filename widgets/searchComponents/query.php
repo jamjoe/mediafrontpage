@@ -61,7 +61,7 @@ function main() {
 					<table id='search-Table' class='tablesorter' width='100%' style='table-layout:fixed;' cellspacing='0'>
 						<thead>
 							<tr>
-								<th style='width:3%;'></th>
+								<th style='width:5%;'></th>
 								<th style='width:60%;' onclick=\"setTimeout('updateRows()',10);\"><a href=#>Name <img src=\"./media/arrow.png\"/></a></th>
 								<th style='width:15%;'onclick=\"setTimeout('updateRows()',10);\"$column2<img src=\"./media/arrow.png\"/></a></th>
 								<th style='width:20%;' onclick=\"setTimeout('updateRows()',10);\"><a href=#>$column3 <img src=\"./media/arrow.png\"/></a></th>
@@ -78,35 +78,36 @@ function nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl){
 
 	$search = "http://nzb.su/api?t=search&q=".urlencode($q).$type."&apikey=".$nzbsuapi."&o=json";
 	$json = @file_get_contents($search);
-	$content = json_decode($json, true);
-	//print_r($content);
-
-	$table = "";
-	foreach($content as &$array){
-		//print_r($array);
-		$id = $array['guid'];
-		$name = $array['name'];
-		$cat = $array['category_name'];
-		$size = $array['size'];
-		$postdate = "<p>Date Posted: ".$array['postdate']."</p>";
-		$coments = "<p>Coments: ".$array['comments']."</p>";
-		$group_name = "<p> Group name: ".$array['group_name']."</p>";
-		$grabs = "<p> Grabs: ".$array['grabs']."</p>";
-		(!empty($array['seriesfull']))?($seriesfull=("<p>Episode info: ".$array['seriesfull']." ".$array['tvtitle']." ".$array['tvairdate']."</p>")):($seriesfull="");
-
-		$url="http://nzb.su/getnzb/".$id.".nzb".$nzbsudl;
-		$addToSab = $saburl.'api?mode=addurl&name='.urlencode($url).'&output=json&apikey='.$sabapikey;
-		$nzblink = "http://nzb.su/details/".$id;
-		$name = str_replace(".", "\n", $name);
-		$name = str_replace(" ", "\n", $name);
-		$item_desc = "<p>Name: $name</p>".$postdate.$coments.$group_name.$grabs.$seriesfull;
-		$item_desc = str_replace("\n", "<br>", $item_desc);
-		$item_desc = str_replace("\"", " - ", $item_desc);		
-		$item_desc = str_replace("'", "|", $item_desc);		
-
-		$addToSab = addCategory($cat,$addToSab);
-		if(strlen($name)!=0){
-			$table .= (strpos(strtolower($cat), "xxx")===false)?printTable($name,$cat,$size,$addToSab,$nzblink,$item_desc):("");
+	if(!stristr($json,'error code')){
+		$content = json_decode($json, true);
+		//print_r($content);
+		$table = "";
+		foreach($content as &$array){
+			//print_r($array);
+			$id = $array['guid'];
+			$name = $array['name'];
+			$cat = $array['category_name'];
+			$size = $array['size'];
+			$postdate = "<p>Date Posted: ".$array['postdate']."</p>";
+			$coments = "<p>Coments: ".$array['comments']."</p>";
+			$group_name = "<p> Group name: ".$array['group_name']."</p>";
+			$grabs = "<p> Grabs: ".$array['grabs']."</p>";
+			(!empty($array['seriesfull']))?($seriesfull=("<p>Episode info: ".$array['seriesfull']." ".$array['tvtitle']." ".$array['tvairdate']."</p>")):($seriesfull="");
+	
+			$url="http://nzb.su/getnzb/".$id.".nzb".$nzbsudl;
+			$addToSab = $saburl.'api?mode=addurl&name='.urlencode($url).'&output=json&apikey='.$sabapikey;
+			$nzblink = "http://nzb.su/details/".$id;
+			$name = str_replace(".", "\n", $name);
+			$name = str_replace(" ", "\n", $name);
+			$item_desc = "<p>Name: $name</p>".$postdate.$coments.$group_name.$grabs.$seriesfull;
+			$item_desc = str_replace("\n", "<br>", $item_desc);
+			$item_desc = str_replace("\"", " - ", $item_desc);		
+			$item_desc = str_replace("'", "|", $item_desc);		
+	
+			$addToSab = addCategory($cat,$addToSab);
+			if(strlen($name)!=0){
+				$table .= (strpos(strtolower($cat), "xxx")===false)?printTable($name,$cat,$size,$addToSab,$nzblink,$item_desc):("");
+			}
 		}
 	}
 	return $table;
