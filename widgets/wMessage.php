@@ -55,7 +55,7 @@ function widgetMessage() {
 	global $xbmcimgpath,$xbmcMessages;
 
 	echo "Send Notice: </b><input type='text' style='border:0px; background:#3D3D3D; color:white' id='keyword' />to XBMC.
-	<input type='button' value='Send' onclick='paramsMsg();'> More... <img src='/media/arrow.png' onclick=\"$('#extras').toggle();\">
+	<input type='button' value='Send' onclick='paramsMsg();'> More... <img src='media/arrow.png' onclick=\"$('#extras').toggle();\">
 	<div id='extras' style='display:none;'>
 	<p>Subject: <input type='text' style='border:0px; width:128px; background:#3D3D3D; color:white' id='title' /></p>
 	<p>Duration: <input type='text' style='border:0px; width:32px; background:#3D3D3D; color:white' id='duration' /> in seconds.</p>
