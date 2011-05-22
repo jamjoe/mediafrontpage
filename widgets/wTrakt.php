@@ -83,7 +83,7 @@ function traktMethods($traktApiMethods = "", $post = false, $format = "json", $d
 	{
 		echo "URL: $trakturl";
 		echo "\nUsername: $trakt_username";
-		echo "\nPASSWORD: $trakt_password";
+		echo "\nPassword: $trakt_password";
 		echo "<pre>";print_r($response);echo "</pre>";
 		return false;
 	}
