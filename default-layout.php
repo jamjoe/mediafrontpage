@@ -58,6 +58,10 @@ $arrLayout = array(
 			"wTrakt" => array(
 				"title" => "trakt.tv",
 				"display" => ""
+			),
+			"wSystem" => array(
+				"title" => "System info",
+				"display" => ""
 			)
 		)
 	);
