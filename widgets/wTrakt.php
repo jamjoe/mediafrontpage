@@ -50,12 +50,12 @@ function wTrakt()
 function traktMethods($traktApiMethods = "", $post = false, $format = "json", $debug = false) 
 {
 	require_once "config.php";
-	global $trakt_api,$trakt_USERNAME,$trakt_PASSWORD;
+	global $trakt_api,$trakt_username,$trakt_password;
 	$response = "";
 	echo (empty($trakt_api))?"<h1>API not set in config.php</h1>":"";
 	$format = (!empty($format))?".".$format:"";
 	$trakturl = 'http://api.trakt.tv/'.$traktApiMethods.$format.'/'.$trakt_api;
-	$ttpass = sha1($trakt_PASSWORD);
+	$ttpass = sha1($trakt_password);
 
 	if(!empty($traktApiMethods)) 
 	{
@@ -64,10 +64,10 @@ function traktMethods($traktApiMethods = "", $post = false, $format = "json", $d
 		curl_setopt($ch, CURLOPT_URL, $trakturl);
 		if($post)
 		{
-			if(!empty($trakt_PASSWORD) && !empty($trakt_USERNAME))
+			if(!empty($trakt_password) && !empty($trakt_username))
 			{
 				curl_setopt($ch, CURLOPT_POST, true);
-				curl_setopt($ch, CURLOPT_USERPWD, $trakt_USERNAME.':'.$ttpass); 
+				curl_setopt($ch, CURLOPT_USERPWD, $trakt_username.':'.$ttpass); 
 			}
 			else 
 			{
@@ -82,8 +82,8 @@ function traktMethods($traktApiMethods = "", $post = false, $format = "json", $d
 	if($debug)
 	{
 		echo "URL: $trakturl";
-		echo "\nUSERNAME: $trakt_USERNAME";
-		echo "\nPASSWORD: $trakt_PASSWORD";
+		echo "\nUsername: $trakt_username";
+		echo "\nPassword: $trakt_password";
 		echo "<pre>";print_r($response);echo "</pre>";
 		return false;
 	}
