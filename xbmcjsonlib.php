@@ -137,7 +137,7 @@ $xbmcJsonMethods = array(
 			'args' => 50
 		),
 		'VideoLibrary.GetMovies' => array(
-			'call' => '{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": { "sortorder" : "ascending", "fields" : [ "genre", "director", "trailer", "tagline", "plot", "plotoutline", "title", "originaltitle", "lastplayed", "showtitle", "firstaired", "duration", "season", "episode", "runtime", "year", "playcount", "rating", "writer", "studio", "mpaa", "premiered", "album" ] }, "id": 1}'
+			'call' => '{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": { "sort": { "method": "videotitle" }, "fields" : [ "genre", "director", "trailer", "tagline", "plot", "plotoutline", "title", "originaltitle", "lastplayed", "showtitle", "firstaired", "duration", "season", "episode", "runtime", "year", "playcount", "rating", "writer", "studio", "mpaa", "premiered", "album" ] }, "id": 1}'
 		),
 		'VideoLibraryV3.GetMovies' => array(
 			'call' => '{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": { "fields" : [ "title", "genre", "year", "rating", "director", "trailer", "tagline", "plot", "plotoutline", "originaltitle", "lastplayed", "playcount", "writer", "studio", "mpaa", "country", "imdbnumber", "premiered", "productioncode", "runtime", "set", "showlink", "streamDetails", "top250", "votes", "writingcredits", "fanart", "thumbnail", "file" ] }, "id": 1}'
