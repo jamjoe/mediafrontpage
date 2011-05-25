@@ -65,4 +65,13 @@ $arrLayout = array(
 			)
 		)
 	);
+	
+//UPS Widget
+/*
+			"wUPS" => array(
+				"title" => "UPS Status Monitor",
+				"display" => ""
+			)
+*/
+	
 ?>

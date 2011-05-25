@@ -124,6 +124,12 @@ $shortcut["Turn Xbox On"] = "/xbox/on";
 $shortcut["Turn Xbox Off"] = "/xbox/off";
 */
 
+//enter ups url and type (NUT or APC supported)
+//$ups;
+//$ups["UPS1"] = array("type" => "APC", "url" => "127.0.0.1:3551");
+//$ups["UPS2"] = array("type" => "NUT", "url" => "upsname@127.0.0.1");
+
+
 // enter directories for hard drive section
 $drive;
 $drive["/"] = "/";

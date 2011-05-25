@@ -331,3 +331,7 @@ div#wSearch #search-Table{
 	padding-left: 10px;
 	border:0px;
 }
+/* wUPS */
+#wUPS .progresslabel {
+        text-align: center;
+}
