@@ -35,6 +35,13 @@ $xbmcdbconn = array(
 	);
 */
 
+//These are for the Message Widget, if you only have 1 xbmc installation then the url from $xbmcimgpath will be used, otherwise set them here.
+$xbmcMessages;
+//$xbmcMessages['EXAMPLE'] = "http://USER:PASSWORD@localhost:8080/";
+//$xbmcMessages['Bedroom'] = "http://192.168.0.1:8080/";
+//$xbmcMessages['Bathroom']= "http://localhost:8080/";
+//$xbmcMessages['Kitchen'] = "http://xbmclive:8080/";
+
 // enter path to sickbeards's coming episodes page
 $sickbeardcomingepisodes = 'http://user:password@COMPUTER:PORT/sickbeard/comingEpisodes/';
 $sickbeardurl = "http://user:password@COMPUTER:PORT/sickbeard/";
@@ -116,6 +123,12 @@ $shortcut["Turn TV Off"] = "/tv/off";
 $shortcut["Turn Xbox On"] = "/xbox/on";
 $shortcut["Turn Xbox Off"] = "/xbox/off";
 */
+
+//enter ups url and type (NUT or APC supported)
+//$ups;
+//$ups["UPS1"] = array("type" => "APC", "url" => "127.0.0.1:3551");
+//$ups["UPS2"] = array("type" => "NUT", "url" => "upsname@127.0.0.1");
+
 
 // enter directories for hard drive section
 $drive;

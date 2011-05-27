@@ -51,10 +51,27 @@ $arrLayout = array(
 				"title" => "Sabnzbd",
 				"display" => ""
 			),
+			"wMessage" => array(
+				"title" => "XBMC Message",
+				"display" => ""
+			),
 			"wTrakt" => array(
 				"title" => "trakt.tv",
+				"display" => ""
+			),
+			"wSystem" => array(
+				"title" => "System info",
 				"display" => ""
 			)
 		)
 	);
+	
+//UPS Widget
+/*
+			"wUPS" => array(
+				"title" => "UPS Status Monitor",
+				"display" => ""
+			)
+*/
+	
 ?>

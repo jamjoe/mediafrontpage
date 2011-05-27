@@ -47,12 +47,12 @@ function ByteSize($bytes)
         {
         if($size / 1024 < 1024) 
             {
-            $size = number_format($size / 1024, 1);
+            $size = number_format($size / 1024, 0);
             $size .= ' MB';
             } 
         else if ($size / 1024 / 1024 < 1024)  
             {
-            $size = number_format($size / 1024 / 1024, 1);
+            $size = number_format($size / 1024 / 1024, 0);
             $size .= ' GB';
             } 
         
