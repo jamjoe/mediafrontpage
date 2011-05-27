@@ -131,6 +131,7 @@ function nzbmatrix($item, $nzbusername, $nzbapi,$saburl,$sabapikey) {
 					echo "</br>";
 					}
 */
+ if(count($item)>1){ 
 		$id = "ID: ".substr($item[0],6);
 		$name = substr($item[1],9);
 		$link = "http://www.".substr($item[2], 6);
@@ -149,7 +150,7 @@ function nzbmatrix($item, $nzbusername, $nzbapi,$saburl,$sabapikey) {
 		$item_desc	= "<p>Name: ".$name."</p><p>".$id."</p><p>".$group."</p><p>".$comments."</p><p>".$hits."</p><p>".$nfo."</p><p>".$indexdate."</p>";
 		
 		$addToSab = addCategory($cat,$addToSab);
-
+}
 		if(strlen($name)!=0){
 			$table .= printTable($name,$cat,$size,$addToSab,$link,$item_desc,$image, $weblink);
 		}
