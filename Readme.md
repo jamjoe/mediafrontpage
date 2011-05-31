@@ -66,7 +66,7 @@ sudo mkdir /var/www/sbpcache
 
 b) Give MFP write permissions to the Cache folder
 
-sudo chmod 777 /var/www/spbcache
+sudo chmod 777 /var/www/sbpcache
 
 ## List of available Widgets 5th May 2011
 
