@@ -5,6 +5,7 @@ $wIndex["wComingEpisodes"] = $wdgtComingEpisodes;
 
 function widgetComingEpisodes() {
 	global $sickbeardcomingepisodes;
+	echo "<div id='comingepisodes_widget'>";
 	
 // START Container for Scroller bar (Wraps comingepisodeswrapper before it created).	
 	echo "<div id=\"mcs3_container\">";
@@ -18,6 +19,8 @@ function widgetComingEpisodes() {
 //START Container for Scroller bar (Close Divs and add Dragger).
 	echo "</div></div><div class=\"dragger_container\"><div class=\"dragger\"></div></div></div></div>";
 //END Container for Scroller bar (Close Divs and add Dragger).
+	
+	echo "</div>";
 
 
 	if(strpos($sickbeardcomingepisodes, "http://")===false) {
@@ -34,6 +37,10 @@ function widgetComingEpisodes() {
 	echo "      </iframe>";
 }
 function widgetComingEpisodesHeader() {
+  	echo '<link href="css/scrollbar.css" rel="stylesheet" type="text/css" />
+		 <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+		 <script type="text/javascript" src="js/jquery.mousewheel.min.js"></script>';
+		 
 	echo <<< ComingEpisodesSCRIPT
 		<script type="text/javascript" language="javascript">
 		<!--
@@ -115,10 +122,46 @@ function widgetComingEpisodesHeader() {
 					objWrapper.style.height = windowHeight + 'px';
 				}
 			}
+			<!-- START: JQuery Scrollbar for Coming Episodes Widget, Javascript Entries -->
+ 		<!-- END: JQuery Scrollbar for Coming Episodes Widget, Javascript Entries -->
 		-->
 		</script>
 
 ComingEpisodesSCRIPT;
+
+	echo ' <!-- START: JQuery Scrollbar for Coming Episodes Widget, Javascript Entries -->
+			<script>
+				$(window).load(function() {
+						mCustomScrollbars();
+			});
+			
+			function mCustomScrollbars(){
+				/* 
+				malihu custom scrollbar function parameters: 
+				1) scroll type (values: "vertical" or "horizontal")
+				2) scroll easing amount (0 for no easing) 
+				3) scroll easing type 
+				4) extra bottom scrolling space for vertical scroll type only (minimum value: 1)
+				5) scrollbar height/width adjustment (values: "auto" or "fixed")
+				6) mouse-wheel support (values: "yes" or "no")
+				7) scrolling via buttons support (values: "yes" or "no")
+				8) buttons scrolling speed (values: 1-20, 1 being the slowest)
+				*/
+				$("#mcs3_container").mCustomScrollbar("vertical",900,"easeOutCirc",1.05,"auto","yes","no",0); 
+			}
+			
+			/* function to fix the -10000 pixel limit of jquery.animate */
+			$.fx.prototype.cur = function(){
+			    if ( this.elem[this.prop] != null && (!this.elem.style || this.elem.style[this.prop] == null) ) {
+			      return this.elem[ this.prop ];
+			    }
+			    var r = parseFloat( jQuery.css( this.elem, this.prop ) );
+			    return typeof r == \'undefined\' ? 0 : r;
+			}
+			</script>
+			        <script src="js/scrollbar.js"></script>
+			 		<!-- END: JQuery Scrollbar for Coming Episodes Widget, Javascript Entries -->        
+			';
 }
 if(!empty($_GET["display"])) {
 	include_once "../config.php";
