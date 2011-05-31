@@ -22,40 +22,27 @@ function wTrakt()
 {
 	global $num;
 	$num = rand(0,10);
-/*
-	echo '<h1>Featured Movie</h1>';
-	wTraktTrendingMovies();
-	echo '<h1>Featured TV Show</h1>';
-	wTraktTrendingShows();
-	echo '<h1>Featured New Episode</h1>';
-	wTraktComingShows();
-*/
+	//echo '<h1>Featured Movie</h1>';
+	//wTraktTrendingMovies();
+	//echo '<h1>Featured TV Show</h1>';
+	//wTraktTrendingShows();
+	//echo '<h1>Featured New Episode</h1>';
+	//wTraktComingShows();
 	echo '<h1>Movie Recommendation</h1>';
 	wTraktMovieRecommendations();
 	echo '<h1>TV Recommendation</h1>';
 	wTraktTVRecommendations();
-	
-/*
-	echo '<script type="text/javascript" language="javascript">
-		<!--
-		$("a[rel^=\'prettyPhoto\']").prettyPhoto(
-        {
-            social_tools: false
-        });		
-		-->
-		</script>';
-*/
 
 }
-function traktMethods($traktApiMethods = "", $post = false, $format = "json", $debug = false) 
+function traktMethods($traktApiMethods, $post = false, $format = "json", $debug = false) //set debug to true to see the actual returned values
 {
-	require_once "config.php";
-	global $trakt_api,$trakt_username,$trakt_password;
-	$response = "";
-	echo (empty($trakt_api))?"<h1>API not set in config.php</h1>":"";
-	$format = (!empty($format))?".".$format:"";
-	$trakturl = 'http://api.trakt.tv/'.$traktApiMethods.$format.'/'.$trakt_api;
-	$ttpass = sha1($trakt_password);
+	require "config.php";
+	global $TRAKT_API, $TRAKT_USERNAME, $TRAKT_PASSWORD;
+	$response;
+	echo (empty($TRAKT_API))?"<h1>API not set in config.php</h1>":"";
+	$format = (!empty($format))?'.'.$format:'';
+	$trakturl = 'http://api.trakt.tv/'.$traktApiMethods.$format.'/'.$TRAKT_API;
+	$encoded_pass = sha1($TRAKT_PASSWORD);
 
 	if(!empty($traktApiMethods)) 
 	{
@@ -64,10 +51,11 @@ function traktMethods($traktApiMethods = "", $post = false, $format = "json", $d
 		curl_setopt($ch, CURLOPT_URL, $trakturl);
 		if($post)
 		{
-			if(!empty($trakt_password) && !empty($trakt_username))
+			if(!empty($TRAKT_PASSWORD) && !empty($TRAKT_USERNAME))
 			{
-				curl_setopt($ch, CURLOPT_POST, true);
-				curl_setopt($ch, CURLOPT_USERPWD, $trakt_username.':'.$ttpass); 
+				$login = "$TRAKT_USERNAME:$encoded_pass";
+				//curl_setopt($ch, CURLOPT_POST, true);
+				curl_setopt($ch, CURLOPT_USERPWD, $login);
 			}
 			else 
 			{
@@ -76,18 +64,24 @@ function traktMethods($traktApiMethods = "", $post = false, $format = "json", $d
 				return false;
 			}
 		}
-		$response = json_decode(curl_exec($ch));
+		$response = (!($debug))?json_decode(curl_exec($ch)):curl_exec($ch);
 		curl_close($ch);
 	}
 	if($debug)
 	{
-		echo "URL: $trakturl";
-		echo "\nUsername: $trakt_username";
-		echo "\nPassword: $trakt_password";
-		echo "<pre>";print_r($response);echo "</pre>";
+		echo '<div id="traktdebug.$" style="overflow: scroll; height: 100%; width: 100%;">';
+		echo "<p>URL: $trakturl</p>";
+		echo "<p>Format: $format</p>";
+		if($post){
+			echo "<p>Username: $TRAKT_USERNAME</p>";
+			echo "<p>Password: $TRAKT_PASSWORD</p>";
+			echo "<p>Encoded Password: $encoded_pass</p>";
+			echo "<p>POST Command</p>";
+		}
+		print_r($response);
+		echo '</div>';
 		return false;
 	}
-
 	return $response;
 }
 function wTraktTrendingMovies()
@@ -314,20 +308,4 @@ function printItem($type, $url, $title, $year, $poster, $overview, $runtime, $im
 	echo '</tr></table>';
 
 } 
-if(!empty($_GET['type']))
-{
-	require_once "../config.php";
-	if($_GET['type'] == 'movies_trakt')
-	{
-		wTraktTrendingMovies();
-	}
-	if($_GET['type'] == 'tvtrakt')
-	{
-		wTraktComingShows();
-	}
-	if($_GET['type'] == 'movie_rec')
-	{
-		wTraktMovieRecommendations();
-	}
-}
 ?>
