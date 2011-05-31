@@ -37,12 +37,12 @@ function wTrakt()
 function traktMethods($traktApiMethods, $post = false, $format = "json", $debug = false) //set debug to true to see the actual returned values
 {
 	require "config.php";
-	global $TRAKT_API, $TRAKT_USERNAME, $TRAKT_PASSWORD;
+	global $trakt_api, $trakt_username, $trakt_password;
 	$response;
 	echo (empty($TRAKT_API))?"<h1>API not set in config.php</h1>":"";
 	$format = (!empty($format))?'.'.$format:'';
-	$trakturl = 'http://api.trakt.tv/'.$traktApiMethods.$format.'/'.$TRAKT_API;
-	$encoded_pass = sha1($TRAKT_PASSWORD);
+	$trakturl = 'http://api.trakt.tv/'.$traktApiMethods.$format.'/'.$trakt_api;
+	$encoded_pass = sha1($trakt_password);
 
 	if(!empty($traktApiMethods)) 
 	{
@@ -51,9 +51,9 @@ function traktMethods($traktApiMethods, $post = false, $format = "json", $debug 
 		curl_setopt($ch, CURLOPT_URL, $trakturl);
 		if($post)
 		{
-			if(!empty($TRAKT_PASSWORD) && !empty($TRAKT_USERNAME))
+			if(!empty($trakt_password) && !empty($trakt_username))
 			{
-				$login = "$TRAKT_USERNAME:$encoded_pass";
+				$login = "$trakt_username:$encoded_pass";
 				//curl_setopt($ch, CURLOPT_POST, true);
 				curl_setopt($ch, CURLOPT_USERPWD, $login);
 			}
@@ -69,12 +69,12 @@ function traktMethods($traktApiMethods, $post = false, $format = "json", $debug 
 	}
 	if($debug)
 	{
-		echo '<div id="traktdebug.$" style="overflow: scroll; height: 100%; width: 100%;">';
+		echo '<div id="traktdebug" style="overflow: scroll; height: 100%; width: 100%;">';
 		echo "<p>URL: $trakturl</p>";
 		echo "<p>Format: $format</p>";
 		if($post){
-			echo "<p>Username: $TRAKT_USERNAME</p>";
-			echo "<p>Password: $TRAKT_PASSWORD</p>";
+			echo "<p>Username: $trakt_username</p>";
+			echo "<p>Password: $trakt_password</p>";
 			echo "<p>Encoded Password: $encoded_pass</p>";
 			echo "<p>POST Command</p>";
 		}
