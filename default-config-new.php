@@ -380,7 +380,11 @@ $nzbapi                 = $NZBMATRIX_API;
 $nzbsuapi               = $NZBSU_API;
 $nzbsudl                = $NZB_DL;
 $sabapikey              = $SABNZBD_API;
+$trakt_api              = $TRAKT_API;
+$trakt_username         = $TRAKT_USERNAME;
+$trakt_password         = $TRAKT_PASSWORD;
 
+//   Reverse Proxy section    //
 if($REVERSE_PROXY){
 	if(!empty($XBMC_WEBROOT)){
 		$xbmcjsonservice = 'http://'.$XBMC_IP.'/'.$XBMC_WEBROOT.'/jsonrpc';
