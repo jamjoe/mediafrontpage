@@ -71,7 +71,7 @@ function wSystem(){
 		try {
 		    $rpc = new XBMC_RPC_HTTPClient(str_replace('/jsonrpc', '' , str_replace("http://","", $xbmcjsonservice)));
 		} catch (XBMC_RPC_ConnectionException $e) {
-		    die($e->getMessage());
+		    die();
 		}
 		echo '<h1>XBMC Info <img src="media/arrow.png" onclick="$(\'#libxbmc\').toggle();" /></h1>';
 		echo '<div id="libxbmc">';

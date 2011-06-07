@@ -64,7 +64,7 @@ class XBMC_RPC_Server {
         
         if (is_string($parameters)) {
             $parameters = preg_replace('#^[a-z]+://#i', '', trim($parameters));
-            if (!$parameters = parse_url('http://' . $parameters)) {
+            if (!$parameters = @parse_url('http://' . $parameters)) {
                 return false;
             }
         }
