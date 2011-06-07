@@ -132,7 +132,8 @@ if(!empty($_GET["display"])) {
 
 	$body = getComingSoon($sickbeardcomingepisodes);
 
-	$urldata = parse_url($sickbeardcomingepisodes);
+	$urldata = @parse_url($sickbeardcomingepisodes);
+	if(empty($urldata)){echo 'Sickbeard could not be reached. Please check if the URL is correct.';}
 	$pos = strrpos($sickbeardcomingepisodes, "/");
 	if($pos < strlen($sickbeardcomingepisodes)) {
 		$uri_full = substr($sickbeardcomingepisodes, 0, $pos + 1);
