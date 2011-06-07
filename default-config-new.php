@@ -423,5 +423,6 @@ if($REVERSE_PROXY){
 		$jd_url = 'http://'.$JDOWNLOADER_IP.'/'.$JDOWNLOADER_WEBROOT.'/';
 	}
 }
+if (session_id()=='') session_start();
 ?>
 
