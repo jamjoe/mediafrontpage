@@ -41,6 +41,24 @@ if (file_exists('config.php')){
 	echo "<tr><td>config.php <b>NOT</b> found</td><td><img src='media/red-cross.png' height='15px'/></td></tr>";
 	$redirect = false;
 }
+if (file_exists('layout.php'))
+	{
+	chmod("layout.php", 0777);
+		{
+		echo "<tr><td>layout.php found and chmodded </td><td><img src='media/green-tick.png' height='15px'/></td></tr>";
+		}
+	}
+		
+		else
+			{
+			rename("default-layout.php", "layout.php");
+				{
+				chmod("layout.php", 0777);
+					{
+					echo "<tr><td>layout.php found and chmodded </td><td><img src='media/green-tick.png' height='15px'/></td></tr>";
+					}
+				}
+			}
 echo '</table>';
 if($redirect){
 	echo "<p>Congratulations! Redirecting to MediaFrontPage in 5 seconds.</p>";
