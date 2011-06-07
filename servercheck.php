@@ -9,8 +9,8 @@ function redirect(){
 <link href="css/front.css" rel="stylesheet" type="text/css" />	
 </head>
 <body>
-<h1>Welcome to Media Front Page.</h1>
 <center>
+<h2>Welcome to <a href="http://mediafrontpage.net/" target="_blank">MediaFrontPage</a>.</h2>
 <?php if(false){
 ?>
 If you have no text below, your PHP is not working.
@@ -18,10 +18,11 @@ If you have no text below, your PHP is not working.
 }
 else{}
 $redirect = true;
-echo "<p>If you can read this, <B>PHP is working.</B></p>";
+echo "<p><br><br></p>";
 $version = phpversion();
-echo "<p>PHP Version $version</p>";
+
 echo '<table border="1">';
+echo "<tr><td>PHP Version $version</td><td>";if($version > 5){echo "<img src='media/green-tick.png' height='15px'/>";}else{echo "<img src='media/red-cross.png' height='15px'/>";$redirect = false;} echo "</td></tr>";
 if(extension_loaded('libxml')){ 
 	echo "<tr><td>Lib XML found</td><td><img src='media/green-tick.png' height='15px'/></td></tr>";
 }else{
@@ -35,12 +36,9 @@ if(extension_loaded('curl')){
 	$redirect = false;
 }
 if (file_exists('config.php')){
-	echo "<tr><td>You created config.php, seems like everything is in working order. </td><td><img src='media/green-tick.png' height='15px'/></td></tr>";
-} else if(file_exists('default-config-new.php')){
-	echo "<tr><td>Please rename default-config.php to config.php </td><td><img src='media/red-cross.png' height='15px'/></td></tr>";
-	$redirect = false;
+	echo "<tr><td>config.php found. </td><td><img src='media/green-tick.png' height='15px'/></td></tr>";
 }else{
-	echo "<tr><td>It seems you have no config file! Please make sure its named config.php or re-download from <a href=\"https://github.com/MediaFrontPage/mediafrontpage\">Media Front Page</a> </td><td><img src='media/red-cross.png' height='15px'/></td></tr>";
+	echo "<tr><td>config.php <b>NOT</b> found</td><td><img src='media/red-cross.png' height='15px'/></td></tr>";
 	$redirect = false;
 }
 echo '</table>';
@@ -48,6 +46,10 @@ if($redirect){
 	echo "<p>Congratulations! Redirecting to MediaFrontPage in 5 seconds.</p>";
 	echo "<script>setTimeout('redirect()', 5000);</script>";
 	if (file_exists('firstrun.php')){unlink('firstrun.php');}
+} else {
+	echo "<p>It looks like some problems were found, please fix them then <input type=\"button\" value=\"reload\" onClick=\"window.location.reload()\"> the page.</p>";
+	echo "<p>If further assistance is needed, please visit the <a href='http://forum.xbmc.org/showthread.php?t=83304' target='_blank'>forum</a> or our <a href='http://mediafrontpage.lighthouseapp.com' target='_blank'>project page</a>.</p>";
+	echo "Attention WINDOWS users, please remember our WEB Server of choice for your platform is <a href='http://www.uniformserver.com/' target='_blank'>The Uniform Server</a>.";
 }
 ?>
 </center>
