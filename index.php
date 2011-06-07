@@ -11,7 +11,15 @@ $submenu = false;
 require_once "config.php";
   if(!empty($subnavlink)||!empty($subnavlink_blank)||!empty($subnavselect)){$submenu = true;}
 ?>
-
+<?php
+	//Authentication check
+	require_once('config.php');
+	if ($authsecured && (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin'])) 
+		{
+			header('Location: login.php');
+			exit;
+		}
+?>
 <html>
   <head>
     <title>Media Center</title>

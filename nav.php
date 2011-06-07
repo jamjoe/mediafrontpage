@@ -1,4 +1,12 @@
 <?php
+//Authentication check
+require_once('config.php');
+if ($authsecured && (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin'])) {
+    header('Location: login.php');
+    exit;
+}
+?>
+<?php
 include "config.php";
 echo "<html>";
 echo "<head>";
