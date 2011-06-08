@@ -24,9 +24,9 @@ $version = phpversion();
 echo '<table border="1">';
 echo "<tr><td>PHP Version $version</td><td>";if($version > 5){echo "<img src='media/green-tick.png' height='15px'/>";}else{echo "<img src='media/red-cross.png' height='15px'/>";$redirect = false;} echo "</td></tr>";
 if(extension_loaded('libxml')){ 
-	echo "<tr><td>Lib XML found</td><td><img src='media/green-tick.png' height='15px'/></td></tr>";
+	echo "<tr><td>LibXML found</td><td><img src='media/green-tick.png' height='15px'/></td></tr>";
 }else{
-	echo "<tr><td>Lib XML NOT found, you will need to change your php.ini </td><td><img src='media/red-cross.png' height='15px'/></td></tr>"; 
+	echo "<tr><td>LibXML <b>NOT</b> found</td><td><img src='media/red-cross.png' height='15px'/></td></tr>"; 
 	$redirect = false;
 }
 if(extension_loaded('curl')){ 
@@ -41,24 +41,46 @@ if (file_exists('config.php')){
 	echo "<tr><td>config.php <b>NOT</b> found</td><td><img src='media/red-cross.png' height='15px'/></td></tr>";
 	$redirect = false;
 }
-if (file_exists('layout.php'))
-	{
-	chmod("layout.php", 0777);
-		{
-		echo "<tr><td>layout.php found and chmodded </td><td><img src='media/green-tick.png' height='15px'/></td></tr>";
+if (file_exists('layout.php')){
+	echo "<tr><td>layout.php found";
+	if(!is_writable('layout.php')){
+		if(@chmod("layout.php", 0777)){
+			echo " and CHMODDED</td><td><img src='media/green-tick.png' height='15px'/></td></tr>";
+		}
+		else{
+			echo ", could not be written. Please CHMOD it.</td><td><img src='media/red-cross.png' height='15px'/></td></tr>";
+			$redirect = false;
 		}
 	}
-		
-		else
-			{
-			rename("default-layout.php", "layout.php");
-				{
-				chmod("layout.php", 0777);
-					{
-					echo "<tr><td>layout.php found and chmodded </td><td><img src='media/green-tick.png' height='15px'/></td></tr>";
-					}
-				}
+	else{
+		echo ", writeable</td><td><img src='media/green-tick.png' height='15px'/></td></tr>";
+	}
+}else{
+	echo '<tr><td>default-layout.php';
+	if(file_exists("default-layout.php")){
+		if(rename("default-layout.php", "layout.php")){
+			echo " renamed successfully";
+		}
+	}
+	else{
+		echo " could not be found";
+		$redirect = false;
+	}	
+	if(file_exists("layout.php")){
+		if(!is_writable('layout.php')){
+			if(@chmod("layout.php", 0777)){
+				echo " and CHMODDED</td><td><img src='media/green-tick.png' height='15px'/></td></tr>";
 			}
+			else{
+				echo ", could not be written. Please CHMOD it.</td><td><img src='media/red-cross.png' height='15px'/></td></tr>";
+				$redirect = false;
+			}
+		}
+		else{
+			echo ", writeable</td><td><img src='media/green-tick.png' height='15px'/></td></tr>";
+		}
+	}
+}
 echo '</table>';
 if($redirect){
 	echo "<p>Congratulations! Redirecting to MediaFrontPage in 5 seconds.</p>";
