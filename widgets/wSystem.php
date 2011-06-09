@@ -1,51 +1,46 @@
 <?php 
-$wIndex["wSystem"] = array("name" => "System info", "type" => "ajax", "block" => "systeminfowrapper", "call" => "widgets/wSystem.php?style=w", "interval" => 60000);
+$wIndex["wSystem"] = array("name" => "System info", "type" => "ajax", "block" => "systeminfowrapper", "call" => "widgets/wSystem.php?style=w", "interval" => 10000);
 
 function wSystem(){
-        $userAgent = strtolower($_SERVER['HTTP_USER_AGENT']); 
+        $userAgent = $_SERVER['HTTP_USER_AGENT'];
 
-        // Identify the browser. Check Opera and Safari first in case of spoof. Let Google Chrome be identified as Safari. 
-        if (preg_match('/opera/', $userAgent)) { 
-            $name = 'Opera'; 
-        } 
-        elseif (preg_match('/chrome/', $userAgent)) { 
-            $name = 'Chrome'; 
-        } 
-        elseif (preg_match('/webkit/', $userAgent)) { 
-            $name = 'Safari'; 
-        } 
-        elseif (preg_match('/msie/', $userAgent)) { 
-            $name = 'Internet Explorer'; 
-        } 
-        elseif (preg_match('/mozilla/', $userAgent) && !preg_match('/compatible/', $userAgent)) { 
-            $name = 'Firefox'; 
-        } 
-        else { 
-            $name = 'unrecognized'; 
-        } 
-
-        // What version? 
-        if (preg_match('/.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/', $userAgent, $matches)) { 
-            $version = $matches[1]; 
-        } 
-        else { 
-            $version = 'unknown'; 
-        } 
-
-        // Running on what platform? 
-        if (preg_match('/linux/', $userAgent)) { 
-            $platform = 'Linux'; 
-        } 
-        elseif (preg_match('/macintosh|mac os x/', $userAgent)) { 
-            $platform = 'Mac OS'; 
-        } 
-        elseif (preg_match('/windows|win32/', $userAgent)) { 
-            $platform = 'Windows'; 
-        } 
-        else { 
-            $platform = 'Unrecognized'; 
-        } 
-
+	// Safari useragent preg
+	if(preg_match('/U;\s(.*);\s.*Version\/(.*)\s(.*)\//i', $userAgent, $match)){
+                $name = $match[3];
+                $version = $match[2];
+                $platform = $match[1];
+        }
+	// Firefox, Chrome, etc. useragent preg
+	else if(preg_match('/(windows|macintosh|linux).*\s(.*)\/(.*).*(firefox|safari)\/(.*)/i', $userAgent, $match)){
+		// If Chrome is found use its name and version instead of Safari
+		if($match[2] == "Chrome"){
+			$name = $match[2];
+			$version = $match[3];
+		}
+		else{
+			$name = $match[4];
+			$version = $match[5];
+		}
+		$platform = $match[1];
+	}
+	// Internet Explorer useragent preg
+	else if(preg_match('/compatible;\s(.*)\s(.*);\s(.*);\strident/i', $userAgent, $match)){
+		// Change MSIE to Internet Explorer
+		if(trim($match[1]) == "MSIE"){
+			$name = "Internet Explorer";
+		}
+		else{
+			$name = $match[1];
+		}
+		$version = $match[2];
+		$platform = $match[3];
+	}
+	// UnKnown, need string submitted for preg adaption or creation
+	else{
+		$name = "Unknown";
+		$version = "N/A";
+		$platform = "Unknown";
+	}
 /*
         return array( 
             'name'      => $name, 
@@ -76,7 +71,7 @@ function wSystem(){
 		try {
 		    $rpc = new XBMC_RPC_HTTPClient(str_replace('/jsonrpc', '' , str_replace("http://","", $xbmcjsonservice)));
 		} catch (XBMC_RPC_ConnectionException $e) {
-		    die($e->getMessage());
+		    die();
 		}
 		echo '<h1>XBMC Info <img src="media/arrow.png" onclick="$(\'#libxbmc\').toggle();" /></h1>';
 		echo '<div id="libxbmc">';

@@ -1,16 +1,15 @@
 <?php
-  // Redirect if on a mobile browser
-  require_once "m/mobile_device_detect.php";
-  if( mobile_device_detect(true,true,true,true,true,true,true,false,false) ) {
-    header('Location: m/');
-    exit();
-  }
-  $submenu = false;
-  require_once "config.php";
-	
-	if(!empty($subnavlink)||!empty($subnavlink_blank)||!empty($subnavselect)){
-		$submenu = true;
-	}
+//Check for config file and curl
+if (file_exists('firstrun.php')){header('Location: servercheck.php');}
+// Redirect if on a mobile browser
+require_once "m/mobile_device_detect.php";
+if( mobile_device_detect(true,true,true,true,true,true,true,false,false) ) {
+  header('Location: m/');
+  exit();
+}
+$submenu = false;
+require_once "config.php";
+  if(!empty($subnavlink)||!empty($subnavlink_blank)||!empty($subnavselect)){$submenu = true;}
 ?>
 
 <html>
