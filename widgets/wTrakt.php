@@ -39,7 +39,7 @@ function traktMethods($traktApiMethods, $post = false, $format = "json", $debug 
 	require "config.php";
 	global $trakt_api, $trakt_username, $trakt_password;
 	$response;
-	echo (empty($TRAKT_API))?"<h1>API not set in config.php</h1>":"";
+	echo (empty($trakt_api))?"<h1>API not set in config.php</h1>":"";
 	$format = (!empty($format))?'.'.$format:'';
 	$trakturl = 'http://api.trakt.tv/'.$traktApiMethods.$format.'/'.$trakt_api;
 	$encoded_pass = sha1($trakt_password);

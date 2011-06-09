@@ -1,5 +1,5 @@
 	#main #wComingEpisodes.widget .widget-content {
-		max-height:46%;
+		max-height:75%;
 }
 	/* centre align the tv show title */
 	div.tvshowDiv > table tr th > span.tvshowTitle a{
@@ -36,6 +36,6 @@
 		height: 10px !important;
 }
 	div#comingepisodes_widget{
-		height: 50%;
+		height: 75%;
 		overflow: hidden;
 }
