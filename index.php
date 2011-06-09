@@ -1,6 +1,6 @@
 <?php
 //Check for config file and curl
-if (file_exists('firstrun.php')){header('Location: servercheck.php');}
+if (file_exists('firstrun.php')){header('Location: servercheck.php');exit;}
 // Redirect if on a mobile browser
 require_once "m/mobile_device_detect.php";
 if( mobile_device_detect(true,true,true,true,true,true,true,false,false) ) {
