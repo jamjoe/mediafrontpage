@@ -1,5 +1,4 @@
 <?php
-if (file_exists('firstrun.php')){header('Location: servercheck.php');} 
 echo "<center>";
 echo  "<br>";
 echo "<br><br>";
