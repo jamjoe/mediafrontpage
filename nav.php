@@ -66,14 +66,6 @@ if(!empty($navselect)){
 	echo "</select>";
 }
 
-//Logout button 
-require_once('config.php');
-if ($authsecured) {
-  echo "<div id='auth' style='float:right;'>";
-  echo "&nbsp; &nbsp;";
-  echo "<a href='#' onclick=\"logout();\"/>Logout</a>";
- }
-//<--LOGOUT-->
 echo "</ul>";
 echo "</div>";
 echo "</div>";
@@ -109,6 +101,15 @@ if(!empty($subnavlink)||!empty($subnavlink_blank)||!empty($subnavselect)){
 	echo "</div>";
 	echo "</div>";
 }
+//Logout button 
+require_once('config.php');
+if ($authsecured) {
+  echo "<div id='nav-menu2' style='text-decoration: none; font-size:small; position:absolute; top:0; right:0;'>";
+  echo "&nbsp; &nbsp;";
+  echo "<ul><li><a href='#' onclick=\"logout();\"/>Logout</a></li></ul>";
+ }
+//<--LOGOUT-->
+
 echo "</body>";
 echo "</html>";
 ?>
