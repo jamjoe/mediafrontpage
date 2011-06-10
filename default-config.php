@@ -257,6 +257,23 @@ $xbmcMessages;
 //$xbmcMessages['EXAMPLE'] = "http://USERNAME:PASSWORD@IP:PORT/";
 
 
+                               // UPS Section //
+							  
+//***********************************************************************************//
+//       Uninterrupted Power Supplies support through APCUPSD and NUT hosts          //
+//                                                                                   //
+//       APCUPSD Example                                                             //
+//       ===============                                                             //
+//       $ups['UPS1'] = array("type" => "APC", "url" => "localhost:3551");           //
+//                                                                                   //
+//       NUT Example                                                                 //
+//       ===========                                                                 //
+//       $ups['UPS2'] = array("type" => "NUT", "url" => "upsname@localhost");        //
+//***********************************************************************************//
+
+          $ups;
+
+
                               // Security //
 
 //***********************************************************************************//
