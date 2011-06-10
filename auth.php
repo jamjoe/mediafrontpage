@@ -1,3 +1,17 @@
+<?php
+require_once("config.php");
+If (!$authsecured) {
+    echo "<script>window.location = 'index.php';</script>";
+    exit;
+}
+if (isset($_POST['user']) && isset($_POST['password'])) {
+    if ($_POST['user']==$authusername && $_POST['password']==$authpassword) {
+        // OK
+        $_SESSION['loggedin'] = true;
+        echo "<script>window.location = 'index.php';</script>";
+        exit;
+    } else {
+?>
 <html>
 <head>
 <title>Media Center</title>
@@ -23,41 +37,29 @@
 	font-weight:bold;
 }
 </style>
-<?php
-require_once("config.php");
-If (!$authsecured) {
-    header('Location: index.php');
-    exit;
-}
-if (isset($_POST['user']) && isset($_POST['password'])) {
-    if ($_POST['user']==$authusername && $_POST['password']==$authpassword) {
-        // OK
-        $_SESSION['loggedin'] = true;
-        header('Location: index.php');
-        exit;
-    } else {
-echo "<center><br><br><br>";
-echo "<form action=\"auth.php\" method=\"post\">";
-echo "<table class=\"widget\" width=259 cellpadding=0 cellspacing=0 id=1>";
-echo "<tr style=cursor: move;>";
-echo "<td align=center height=25><div class=\"widget-head\">MediaFrontPage Authentication</div></td>";
-echo "<tr>";
-echo "<td align=center height=25><br>Invalid Username and/or Password.</td>";
-echo "<tr>";
-echo "<td align=center height=25>&nbsp; &nbsp;</td>";
-echo "<tr>";
-echo "<td align=center height=25>Please try again.</td>";
-echo "<tr>";
-echo "<td align=center height=25>";
-echo "<input type=\"button\" value=\"<< Back\" onclick=\"history.go(-1);return false;\" /><br><br>";
-echo "</td>";
-echo "</table>";
-echo "</form>";
-echo "</center>";
+	<center><br><br><br>
+	<form action="auth.php" method="post">
+	<table class="widget" width=259 cellpadding=0 cellspacing=0 id=1>
+	<tr style=cursor: move;>
+	<td align=center height=25><div class="widget-head">MediaFrontPage Authentication</div></td>
+	<tr>
+	<td align=center height=25><br>Invalid Username and/or Password.</td>
+	<tr>
+	<td align=center height=25>&nbsp; &nbsp;</td>
+	<tr>
+	<td align=center height=25>Please try again.</td>
+	<tr>
+	<td align=center height=25>
+	<input type="button" value="<< Back" onclick="history.go(-1);return false;" /><br><br>
+	</td>
+	</table>
+	</form>
+	</center>
+	<?php
     }
 } else {
     // not logging in
-    header('Location: login.php');
+    echo "<script>window.location = 'login.php';</script>";
     exit;
 }
 ?>
