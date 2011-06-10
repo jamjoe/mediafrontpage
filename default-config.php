@@ -101,9 +101,9 @@
 
 /*Builtin Authentication*/
 	 
-     $AUTH_ON                = true;
-     $AUTH_USERNAME          = 'DejaVu';
-     $AUTH_PASS              = 'password';
+     $AUTH_ON                = false;
+     $AUTH_USERNAME          = '';
+     $AUTH_PASS              = '';
 	 
                               /*SEARCH WIDGET*/
 
