@@ -10,7 +10,7 @@ if ($authsecured && (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin'])) {
 // Redirect if on a mobile browser
 require_once "m/mobile_device_detect.php";
 if(mobile_device_detect(true,true,true,true,true,true,true,false,false) ) {
-  header('Location: m/');
+  echo "<script>window.location = 'm/';</script>";
   exit();
 }
 $submenu = false;
