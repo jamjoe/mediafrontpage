@@ -170,7 +170,12 @@ if($redirect){
 				fwrite($fp, $savecontent);
 				fclose($fp);
 				if($valid){
-					echo "<script>alert('Configuration saved successfully');</script>";
+					echo "
+					<script>
+						alert('Configuration saved successfully');
+						window.location = 'servercheck.php';
+					</script>";
+
 				}else{
 					echo "<script>alert('Unable to save configuration. Please open default-config.php in a text editor, fill in your information and save it as config.php.');</script>";
 				}
