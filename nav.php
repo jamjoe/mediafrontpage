@@ -106,7 +106,7 @@ require_once('config.php');
 if ($authsecured) {
   echo "<div id='nav-menu2' style='text-decoration: none; font-size:small; position:absolute; top:0; right:0;'>";
   echo "&nbsp; &nbsp;";
-  echo "<ul><li><a href='#' onclick=\"logout();\"/>Logout</a></li></ul>";
+  echo "<ul><li><a href=\"mfpedit.php\" target=\"main\">Config</a></li><li><a href='#' onclick=\"logout();\"/>Logout</a></li></ul>";
  }
 //<--LOGOUT-->
 
