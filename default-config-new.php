@@ -257,6 +257,23 @@ $xbmcMessages;
 //$xbmcMessages['EXAMPLE'] = "http://USERNAME:PASSWORD@IP:PORT/";
 
 
+                               // UPS Section //
+							  
+//***********************************************************************************//
+//       Uninterrupted Power Supplies support through APCUPSD and NUT hosts          //
+//                                                                                   //
+//       APCUPSD Example                                                             //
+//       ===============                                                             //
+//       $ups['UPS1'] = array("type" => "APC", "url" => "localhost:3551");           //
+//                                                                                   //
+//       NUT Example                                                                 //
+//       ===========                                                                 //
+//       $ups['UPS2'] = array("type" => "NUT", "url" => "upsname@localhost");        //
+//***********************************************************************************//
+
+          $ups;
+
+
                               // Security //
 
 //***********************************************************************************//
@@ -393,9 +410,9 @@ $sabapikey              = $SABNZBD_API;
 $trakt_api              = $TRAKT_API;
 $trakt_username         = $TRAKT_USERNAME;
 $trakt_password         = $TRAKT_PASSWORD;
-$authsecured			= $AUTH_ON;
-$authusername			= $AUTH_USERNAME;
-$authpassword 			= $AUTH_PASS;
+$authsecured			      = $AUTH_ON;
+$authusername			      = $AUTH_USERNAME;
+$authpassword 			    = $AUTH_PASS;
 
 //   Reverse Proxy section    //
 if($REVERSE_PROXY){
