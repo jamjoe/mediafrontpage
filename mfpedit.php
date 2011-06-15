@@ -89,16 +89,6 @@
 		    <li><a href="mfpedit.php?p=layout.php">Layout.php</a></li>
 		  </ul>
 		</div>
-		<?php
-		if(isset($_GET['p'])){
-		?>
-		<div style="float:left;">
-		  <br><br><br><br><br>
-		  <input type="submit" value="Save" onclick="document.getElementById('save_file').click();">
-		</div>
-		<?php
-		}
-		?>
 	</div>
 	<br><br>
 <?php
@@ -157,7 +147,7 @@ echo "<table width='50%' class='widget'>
     <tr>
       <td colspan='2' height='25'><div class='widget-head'>MediaFrontPage File Editor</div></td>
     <tr>
-      <td align=right>
+      <td align=\"center\">
         <div id=\"nav-menu\">
           <ul>
             <li><a href=\"mfpedit.php?p=config.php\">Config.php</a></li>

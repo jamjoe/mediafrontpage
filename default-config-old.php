@@ -164,4 +164,6 @@ $customStyleSheet = "";
 //Show only banners for coming episodes
 //$customStyleSheet = "css/comingepisodes-minimal-banner.css";
 
+//ignore this//
+if ($authsecured && session_id()=='') session_start();
 ?>
