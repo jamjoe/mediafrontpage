@@ -14,7 +14,6 @@ echo "<title>Navigation</title>";
 echo "<link rel='stylesheet' type='text/css' href='css/nav.css'>";
 echo "<script type=\"text/javascript\" language=\"javascript\">";
 echo 'function logout(){
-     alert("Logging out");
     var xmlhttp;
     if (window.XMLHttpRequest)
       {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -65,7 +64,18 @@ if(!empty($navselect)){
 	}
 	echo "</select>";
 }
+echo "<div id='nav-menu2' style='text-decoration: none; font-size:small; position:absolute; top:0; right:0;'>";
+//<-- CONFIG -->
+echo "<li><a href=\"mfpedit.php\" target=\"main\">Config</a></li>";
+//<-- END CONFIG -->
+//Logout button 
+require_once('config.php');
+if ($authsecured) {
+  echo "<ul><li><a href='#' onclick=\"logout();\"/>Logout</a></li></ul>";
+}
+//<--LOGOUT-->
 
+echo '</div>';
 echo "</ul>";
 echo "</div>";
 echo "</div>";
@@ -101,15 +111,6 @@ if(!empty($subnavlink)||!empty($subnavlink_blank)||!empty($subnavselect)){
 	echo "</div>";
 	echo "</div>";
 }
-//Logout button 
-require_once('config.php');
-if ($authsecured) {
-  echo "<div id='nav-menu2' style='text-decoration: none; font-size:small; position:absolute; top:0; right:0;'>";
-  echo "&nbsp; &nbsp;";
-  echo "<ul><li><a href=\"mfpedit.php\" target=\"main\">Config</a></li><li><a href='#' onclick=\"logout();\"/>Logout</a></li></ul>";
- }
-//<--LOGOUT-->
-
 echo "</body>";
 echo "</html>";
 ?>

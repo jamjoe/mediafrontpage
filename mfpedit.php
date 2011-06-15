@@ -1,6 +1,8 @@
 <html>
 <head>
 <title>MediaFrontPage File Edit</title>
+<link rel="stylesheet" type="text/css" href="css/nav.css" />
+<link rel="stylesheet" type="text/css" href="css/widget.css" />
 <link href="css/front.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 .widget {
@@ -66,93 +68,107 @@
 }
 
 #nav-menu2 li a:active  {
-  color: #FF9522
+  color: #FF9522;
 }
-
-</style>
-</head>
+</style></head>
 <body style="margin: 0; padding: 0;">
 <center>
-<div id="nav-menu2" style="position:fixed; background:url(../media/bgNav.png);"><center><ul><li><a href="http://xbmclive/mfpedit.php?p=config.php">Config.php</a></li><li><a href="http://xbmclive/mfpedit.php?p=layout.php">Layout.php</a></li></ul></center></div><br><br>
-
+	<div style="position:fixed;">
+		<div id="nav-menu2" style="background:url(media/bgNav.png);">
+		  <ul>
+		    <li><a href="mfpedit.php?p=config.php">Config.php</a></li>
+		    <li><a href="mfpedit.php?p=layout.php">Layout.php</a></li>
+		  </ul>
+		</div>
+		<?php
+		if(isset($_GET['p'])){
+		?>
+		<div style="float:left;">
+		  <br><br><br><br><br>
+		  <input type="submit" value="Save" onclick="document.getElementById('save_file').click();">
+		</div>
+		<?php
+		}
+		?>
+	</div>
+	<br><br>
 <?php
 // set file to read
-$filename =$_GET['p'];
-  
-$newdata = $_POST['newd'];
-
-if ($newdata != '') {
-
-// open file 
-$fw = fopen($filename, 'w') or die('Could not save file!'); //SAVING FAILS AND COMES TO HERE.
-// write to file
-// added stripslashes to $newdata
-$fb = fwrite($fw,stripslashes($newdata)) or die('Could not write to file');
-// close file
-fclose($fw);
+$filename='';
+if(isset($_GET['p'])){
+	$filename = $_GET['p'];
 }
-
 // open file
-  $fh = fopen($filename, "r") or die("
-  <table width='50%' class='widget' cellpadding=0 cellspacing=0 id=1>
-    <tr style='cursor: move; '>
-      <td align=center colspan=2 height=25><div class='widget-head'>MediaFrontPage File Editor</div></td>
-    <tr>
-      <td align=right>
-      <table width='100%' valign='top' border='0' cellspacing='1' cellpadding='1'>
-            <tr>
-              <td align='center' valign='top'><p>Please select a file to edit.</p></td>
-            </tr>
-          </table></td>
-    </tr>
-    </tr>
-  </table>
-  ");
-// read file contents
+if($fh = @fopen($filename, "r")){
+  // read file contents
   $data = fread($fh, filesize($filename)) or die("Could not read file!");
-// close file
+  // close file
   fclose($fh);
-// print file contents
-
-    if($_POST['save_file']) { 
-        $savecontent = stripslashes($_POST['savecontent']); 
-        $fp = @fopen($filename, "w"); 
-        if ($fp) { 
-            fwrite($fp, $savecontent); 
-            fclose($fp);
-print '<a href='.$_SERVER[PHP_SELF].'>Refresh</a>'; 
-print "<html><head><META http-equiv=\"refresh\" content=\"0;URL=$_SERVER[PHP_SELF]\"></head><body>"; 
-} 
-} 
-    $fp = @fopen($filename, "r"); 
-        $loadcontent = fread($fp, filesize($filename)); 
+  // print file contents
+if(isset($_POST['save_file']) && $_POST['save_file']) {
+	$savecontent = stripslashes($_POST['savecontent']);
+	$fp = @fopen($filename, "w");
+	if ($fp) {
+		fwrite($fp, $savecontent);
+		fclose($fp);
+		echo '<script>
+		        alert("Successfully saved '.$filename.'");
+		        window.location.reload();
+		      </script>';
+	}
+}
+$fp = @fopen($filename, "r");
+$loadcontent = fread($fp, filesize($filename));
 $lines = explode("\n", $loadcontent);
 $count = count($lines);
-        $filename = htmlspecialchars($loadcontent); 
-        fclose($fp); 
+$filename = htmlspecialchars($loadcontent);
+fclose($fp);
+$line = '';
 for ($a = 1; $a < $count+1; $a++) {
-$line .= "$a\n";
+	$line .= "$a\n";
 }
 ?>
-  <table class="widget" cellpadding=0 cellspacing=0 id=1>
+  <table class="widget" cellpadding="0" cellspacing="0" id="1">
     <tr style="cursor: move; ">
       <td align=center colspan=2 height=25><div class="widget-head">MediaFrontPage File Editor</div></td>
     <tr>
-      <td align=right><form method=post action="<?=$_SERVER['REQUEST_URI']?>">
+      <td align=right><form method=post action="<?php echo $_SERVER['REQUEST_URI']?>">
           <table width="50%" valign="top" border="0" cellspacing="1" cellpadding="1">
             <tr>
-              <td width="50%" align="right" valign="top"><pre style="color:#FF9522; text-align: right; padding: 2px; overflow: auto; border: 0px groove; font-size: 10px" name="lines" cols="5" rows="<?=$count+3;?>"><?=$line;?>
-</pre></td>
-              <td width="100%" align="center" valign="top"><textarea style="border:1px solid #2C2D32; background:#2C2D32; color:#666666; text-align: left;  padding-left: 3px; overflow: auto; font-size: 10px" name="newd" cols="170" rows="<?=$count;?>" wrap="OFF"><?=$loadcontent?>
-	</textarea></td>
+              <td width="50%" align="right" valign="top">
+                <pre style="color:#FF9522; text-align: right; padding: 2px; overflow: auto; border: 0px groove; font-size: 10px" name="lines" cols="5" rows="<?php echo $count;?>">
+                <?php echo $line;?>
+                </pre>
+              </td>
+              <td width="100%" align="center" valign="top">
+                <textarea style="border:1px solid #2C2D32; background:#2C2D32; color:#666666; text-align: left;  padding-left: 3px; overflow: auto; font-size: 10px" name="savecontent" cols="170" rows="<?php echo $count;?>" wrap="OFF"><?php echo $loadcontent?>
+	              </textarea>
+	            </td>
             </tr>
           </table>
-          <input type="submit" value="Save">
-        </form></td>
+          <input type="submit" id="save_file" name="save_file" value="Save">
+       </form></td>
     </tr>
     </tr>
-    
   </table>
-  <p>&nbsp;</p>
+<? 
+}else{
+echo "<table width='50%' class='widget'>
+    <tr>
+      <td colspan='2' height='25'><div class='widget-head'>MediaFrontPage File Editor</div></td>
+    <tr>
+      <td align=right>
+        <div id=\"nav-menu\">
+          <ul>
+            <li><a href=\"mfpedit.php?p=config.php\">Config.php</a></li>
+            <li><a href=\"mfpedit.php?p=layout.php\">Layout.php</a></li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+  </table>
+  ";
+}
+?>
 </body>
 </html>
