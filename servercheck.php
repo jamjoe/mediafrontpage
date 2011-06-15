@@ -107,7 +107,7 @@ if (file_exists('layout.php')){
 	echo '<tr><td>default-layout.php';
 	$valid = true;
 	if(file_exists("default-layout.php")){
-		if(rename("default-layout.php", "layout.php")){
+		if(copy("default-layout.php", "layout.php")){
 			echo " renamed successfully<br><br>";
 		}
 	}
