@@ -30,8 +30,6 @@ if (empty ($arrLayout)) {
 		<link rel="stylesheet" type="text/css" href="js/prettyPhoto/prettyPhoto.css" />
     	<script type="text/javascript" src="js/prettyLoader/js/jquery.prettyLoader.js"></script>
 		<link rel="stylesheet" type="text/css" href="js/prettyLoader/css/prettyLoader.css" />
-		<script language="JavaScript" type="text/javascript" src="js/ContentFlow/contentflow.js" load="slideshow"></script>
-		<script type="text/javascript" src="js/ContentFlow/ContentFlowAddOn_slideshow.js"></script>
 		<link rel="stylesheet" type="text/css" href="js/highslide/highslide.css" />
 		<script type="text/javascript">
 			//<![CDATA[
