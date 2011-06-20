@@ -5,112 +5,126 @@ html,body {
 
 /*Start 3 Columns*/
 
-#main .section {
+	#main .section {
     float: left;
     min-height: 400px;
     height: auto !important; 
-}
-#main #section1 { 
+	}
+	
+	#main #section1 { 
     width: 25% !important;
-}
-#main #section2 { 
+	}
+	
+	#main #section2 { 
     width: 25% !important;
-}
-#main #section3 { 
+	}
+	
+	#main #section3 { 
     width: 25% !important;
-}
-#main #section4 { 
+	}
+	
+	#main #section4 { 
     width: 25% !important;
-}
+	}
 
 /*End 3 Columns */
 
 /* Start Comming Episodes */
 
-div.tvshowDiv > table tr th > span.tvshowTitle a{
-	display: block !important;
-	text-align: left !important;
-	float: left !important;
-	padding: 3px 0px 4px !important;
-	font-size: 16px !important;
-	text-decoration: none !important;
-}
+	/* TV Show Title */
+	div.tvshowDiv > table tr th > span.tvshowTitle a{
+		display: block !important;
+		text-align: left !important;
+		float: left !important;
+		padding: 3px 0px 4px !important;
+		font-size: 16px !important;
+		text-decoration: none !important;
+	}
 
+	/* Border */
+	div.tvshowDiv > table tr th {
+		background-color: transparent !important;
+		border-bottom: none !important;
+		background-color: transparent !important;
+	}
 
+	/* Episode Summary */
+	div.ep_summary  { 
+		display: block !important;
+		vertical-align: top !important;
+		visibility: visible !important;
+		color: #666 !important;
+		font-size: 12px !important;
+	}
 
-div.tvshowDiv > table tr th {
-	background-color: transparent !important;
-	border-bottom: none !important;
-	background-color: transparent !important;
-}
-
-div.ep_summary  { 
-	display: block !important;
-	vertical-align: top !important;
-	visibility: visible !important;
-	color: #666 !important;
-	font-size: 12px !important;
-}
-
-.posterThumb {
+	/* Poster - doesn't float? */
+	.posterThumb {
 		float:right !important;
-		 clear: right !important;
-		
-}
+		clear: right !important;	
+	}
 
-/*End Comming Episodes */
+/* End Comming Episodes */
 
-h3 {
-	color: #d3d3d3 !IMPORTANT;
-}
+/* Start Page Text*/
+	h3 {
+		color: #d3d3d3 !IMPORTANT;
+	}
 
-table {
-	font-size: 1.0em !IMPORTANT;
-}
+	table {
+		font-size: 1.0em !IMPORTANT;
+	}
 
-a:link {
-	color:#8B8989 !IMPORTANT;
+	a:link {
+		color:#8B8989 !IMPORTANT;
 
-}
-a:hover {
-	color:#FCF6CF !IMPORTANT;
+	}
+	a:hover {
+		color:#FF9522 !IMPORTANT;
 
-}
-a:visited {
-	color:#8B8989 !IMPORTANT;
+	}
+	
+	a:visited {
+		color:#8B8989 !IMPORTANT;
 
-}
+	}
+	
+/* End Page Text*/
 
 /* Start Progress Bars */
 
-.progressbar { 
-	background: #3d3d3d !IMPORTANT;
-	border: 1px inset #FFF !IMPORTANT;
-	border-radius: 6px;
-}
 
-.progress { 
-	background: -moz-linear-gradient(left, #FF9522 5%, #3d3d3d ) !important;
-	background: -webkit-gradient(linear, left center, right center, from(#FF9522), color-stop(95%,#3d3d3d)) !important;
-}
+	.progressbar { 
+		background: #3d3d3d !IMPORTANT;
+		border: 1px inset #FFF !IMPORTANT;
+		border-radius: 6px;
+	}
+
+	.progress { 
+		background: -moz-linear-gradient(left, #FF9522 5%, #3d3d3d ) !important;
+		background: -webkit-gradient(linear, left center, right center, from(#FF9522), color-stop(95%,#3d3d3d)) !important;
+	}
 
 /* End Progress Bars */
 
-#wHardDrives .progresslabel {
-	color: #c6c6c6 !IMPORTANT
-}
-#wNowPlaying #thumbblock img {
-	border: 0px solid #FCF6CF !IMPORTANT;
-}
-.odd {
-	background-color: #FCF6CF  !IMPORTANT;
-}
-#wSearch tr.row:hover {
-	background-color: #f5f5f5 !IMPORTANT;
-}
-#wSearch .actor-odd{
-	background-color:#FCF6CF  !IMPORTANT;
-}
+	#wHardDrives .progresslabel {
+		color: #c6c6c6 !IMPORTANT
+	}
+	
+	#wNowPlaying #thumbblock img {
+		border: 0px !IMPORTANT;
+	}
+	
+	.odd {
+		background-color: transparent !IMPORTANT;
+	}
+	
+	#wSearch tr.row:hover {
+		background-color: transparent !IMPORTANT;
+	}
+	
+	#wSearch .actor-odd{
+		background-color:#8B8989  !IMPORTANT;
+	}
 
 /*END Front.CSS */
 
@@ -121,25 +135,33 @@ a:visited {
 -webkit-box-shadow: 2px 3px 5px#000 !IMPORTANT;
 box-shadow: 2px 2px 3px #000 !IMPORTANT;
 }
+
+
 /*Widget.CSS */
 
-.widget .widget-head {
-	background: -moz-linear-gradient(bottom, #3d3d3d, #636363 ) !important;
-	background: -webkit-gradient(linear, center bottom, center top, from(#3d3d3d), to(#636363)) !important;
-}
+	.widget .widget-head {
+		background: -moz-linear-gradient(bottom, #3d3d3d, #636363 ) !important;
+		background: -webkit-gradient(linear, center bottom, center top, from(#3d3d3d), to(#636363)) !important;
+	}
 
-#main .widget .widget-config {
-   background:#FFF !IMPORTANT;
-}
-#main .widget .widget-content {
-    background: -moz-linear-gradient(bottom right,  #CDC9C9,	#fff) !IMPORTANT;
-	background: -webkit-gradient(linear,right bottom,left top,from(#CDC9C9),to(#fff)) !important;
-    padding: 3px 9px 3px !IMPORTANT;
-}
-#main .widget .widget-content .alt {
-    background: transparent  !IMPORTANT;
+	#main .widget .widget-config {
+		background:#FFF !IMPORTANT;
+	}
+	
+	#main .widget .widget-content {
+		background: -moz-linear-gradient(bottom right,  #CDC9C9,	#fff) !IMPORTANT;
+		background: -webkit-gradient(linear,right bottom,left top,from(#CDC9C9),to(#fff)) !important;
+		padding: 3px 9px 3px !IMPORTANT;
+	}
+	
+	#main .widget .widget-content .alt {
+		background: transparent  !IMPORTANT;
 	}
 
 /* END Widget.CSS */
 
-
+div.tvshowDiv > table tr th img, td > a > img {
+    border: 0 none !important;
+    margin: 0 !important;
+	clear: right !important;
+}
