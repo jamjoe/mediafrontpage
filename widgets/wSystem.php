@@ -2,7 +2,10 @@
 $wIndex["wSystem"] = array("name" => "System info", "type" => "ajax", "block" => "systeminfowrapper", "call" => "widgets/wSystem.php?style=w", "interval" => 10000);
 
 function wSystem(){
-        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+  echo '<!-- START System Widget -->';
+	echo '<p style="float:right; font-size: 7px;" onclick="systeminfowrapper_interval = window.setInterval(ajaxPageLoad(\'widgets/wSystem.php?style=w\', \'systeminfowrapper\'), 10000);" />RELOAD</p>';
+  echo '<div onmouseover="window.clearInterval(systeminfowrapper_interval);">'; 
+  $userAgent = $_SERVER['HTTP_USER_AGENT'];
 
 	// Safari useragent preg
 	if(preg_match('/U;\s(.*);\s.*Version\/(.*)\s(.*)\//i', $userAgent, $match)){
@@ -49,6 +52,7 @@ function wSystem(){
             'userAgent' => $userAgent 
         ); 
 */
+    	echo '<!-- Start Server INFO -->';
     	echo '<h1> System Info <img src="media/arrow.png" onclick="$(\'#system\').toggle();" /></h1>';
     	echo '<div id="system" style="height: 100px; overflow-y: auto; overflow-x: hidden;">';
     	echo "<p>Browser: $name $version</p>";
@@ -64,7 +68,8 @@ function wSystem(){
     	echo "<p>Remote port: ".$_SERVER['REMOTE_PORT']."</p>";
     	echo "<p>Server port: ".$_SERVER['SERVER_PORT']."</p>";
     	echo "<p>Request URI: ".$_SERVER['REQUEST_URI']."</p>";
-		echo '</div>';
+		  echo '</div>';
+		  echo '<!-- END Server INFO -->';
 
 		global $xbmcjsonservice;
 		//$xbmcjsonservice = 'localhost:8080';
@@ -73,6 +78,7 @@ function wSystem(){
 		} catch (XBMC_RPC_ConnectionException $e) {
 		    die();
 		}
+		echo '<!-- START XBMC General info-->';
 		echo '<h1>XBMC Info <img src="media/arrow.png" onclick="$(\'#libxbmc\').toggle();" /></h1>';
 		echo '<div id="libxbmc">';
 		try {
@@ -118,6 +124,9 @@ function wSystem(){
 		}
 		//echo '<pre>';print_r($response);echo '</pre>';
 		echo '</div>';
+		echo '<!-- END XBMC General info -->';
+
+  	echo '<!-- Start XBMC System info -->';
 		echo '<h1>XBMC System Info <img src="media/arrow.png" onclick="$(\'#systemxbmc\').toggle();" /></h1>';
 		echo '<div id="systemxbmc" style="height: 100px; overflow: auto;">';
 		try {
@@ -137,6 +146,8 @@ function wSystem(){
 		    die($e->getMessage());
 		}
 		echo '</div>';
+	 	echo '<!-- END XBMC System info -->';
+		echo '</div><!-- END System Widget-->';
 }
 if(!empty($_GET['style']) && ($_GET['style'] == "w")) {
 	require_once "../config.php";
