@@ -45,10 +45,15 @@ $xbmcJsonMethods = array(
                                                  'args' => '0'),
         'AudioPlaylist.Clear'           => array('call' => '{"jsonrpc": "2.0", "method": "AudioPlaylist.Clear", "id": 1}'),
         'AudioPlaylist.GetItems'        => array('call' => '{"jsonrpc": "2.0", "method": "AudioPlaylist.GetItems", "params": { "fields": ["title", "album", "artist", "duration"] }, "id": 1}'),    
+        'AudioPlaylist.Play'            => array('call' => '{"jsonrpc": "2.0", "method": "AudioPlaylist.Play", "id": 1}'),
         'AudioPlaylist.SkipPrevious'    => array('call' => '{"jsonrpc": "2.0", "method": "AudioPlaylist.SkipPrevious", "id": 1}'),
         'AudioPlaylist.SkipNext'        => array('call' => '{"jsonrpc": "2.0", "method": "AudioPlaylist.SkipNext", "id": 1}'),
         'AudioPlaylist.Shuffle'         => array('call' => '{"jsonrpc": "2.0", "method": "AudioPlaylist.Shuffle", "id": 1}'),
         'AudioPlaylist.UnShuffle'       => array('call' => '{"jsonrpc": "2.0", "method": "AudioPlaylist.UnShuffle", "id": 1}'),
+
+        //AudioPlaylistV3 
+        'AudioPlaylistV3.Add'             => array('call' => '{"jsonrpc": "2.0", "method": "AudioPlaylist.Add", "params": { "item" : { "songid" : %d } }, "id": 1}',
+                                                 'args' => '0'),
 
         //Files
         'Files.Download'                => array('call' => '{"jsonrpc": "2.0", "method": "Files.Download", "params": %s, "id": 1}',
