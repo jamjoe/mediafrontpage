@@ -250,7 +250,9 @@ function executeVideo($style = "w", $action, $breadcrumb, $params = array()) {
 			} elseif (!empty($params['albumid'])) {
 				$request = jsonstring("AudioLibrary.GetSongs", array("artistid" => '"artistid": "" ,', "albumid" => '"albumid": '.$params['albumid'].','));
 			} else {
-				$request = jsonstring("AudioLibrary.GetSongs", array("artistid" => '', "albumid" => ''));
+				if($jsonVersion['result']['version'] == '2') { $request = jsonstring("AudioLibrary.GetSongs", array("artistid" => '', "albumid" => '')); }
+				if($jsonVersion['result']['version'] == '3') { $request = jsonstring("AudioLibraryV3.GetSongs", array("artistid" => '', "albumid" => '')); }
+				
 			} 
 			$results = jsoncall($request);
 			if (!empty($results['result'])) {

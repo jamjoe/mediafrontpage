@@ -38,6 +38,10 @@ $xbmcJsonMethods = array(
         'AudioLibrary.GetSongs'         => array('call' => '{"jsonrpc": "2.0", "method": "AudioLibrary.GetSongs", "params": { %s %s "fields": [ "artist", "year" ] },"id": 1}',
                                                  'args' => array('artistid' => '','albumid' => '')),
         'AudioLibrary.ScanForContent'   => array('call' => '{"jsonrpc": "2.0", "method": "AudioLibrary.ScanForContent", "id" : 1 }'),
+
+        //AudioLibraryV3
+        'AudioLibraryV3.GetSongs'       => array('call' => '{"jsonrpc": "2.0", "method": "AudioLibrary.GetSongs", "params": { %s %s "sort" : { "method" : "artist", "order" : "ascending" }, "fields": [ "artist", "year" ] },"id": 1}',
+                                                 'args' => array('artistid' => '','albumid' => '')),
    
 
         //AudioPlaylist 
