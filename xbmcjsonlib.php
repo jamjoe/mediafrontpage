@@ -43,6 +43,7 @@ $xbmcJsonMethods = array(
         //AudioPlaylist 
         'AudioPlaylist.Add'             => array('call' => '{"jsonrpc": "2.0", "method": "AudioPlaylist.Add", "params": { "songid" : %d }, "id": 1}',
                                                  'args' => '0'),
+        'AudioPlaylist.Clear'           => array('call' => '{"jsonrpc": "2.0", "method": "AudioPlaylist.Clear", "id": 1}'),
         'AudioPlaylist.GetItems'        => array('call' => '{"jsonrpc": "2.0", "method": "AudioPlaylist.GetItems", "params": { "fields": ["title", "album", "artist", "duration"] }, "id": 1}'),    
         'AudioPlaylist.SkipPrevious'    => array('call' => '{"jsonrpc": "2.0", "method": "AudioPlaylist.SkipPrevious", "id": 1}'),
         'AudioPlaylist.SkipNext'        => array('call' => '{"jsonrpc": "2.0", "method": "AudioPlaylist.SkipNext", "id": 1}'),

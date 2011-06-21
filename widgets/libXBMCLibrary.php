@@ -422,7 +422,12 @@ function playSongFromList($songid) {
 		if ($results['result']['audio'] == 1) {
 			$request = jsonstring("AudioPlaylist.Add", $songid);
 		} else {
-			$request = jsonstring("XBMC.Play", '"songid": '.$songid);
+			if($jsonVersion['result']['version'] == '2') { $request = jsonstring("XBMC.Play", '"songid": '.$songid); }
+			if($jsonVersion['result']['version'] == '3') 
+			{ 
+				jsoncall("AudioPlaylist.Clear";   
+				jsoncall(jsonstring("AudioPlaylist.Add", $songid)); 
+			}
 		}
 		$results = jsoncall($request);
 		if (empty($results)) {
