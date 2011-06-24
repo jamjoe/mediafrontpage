@@ -8,9 +8,23 @@ To use XBMC over a reverse proxy you will need to replace and edit a couple of f
     ProxyPass /xbmc/jsonrpc http://localhost:8080/jsonrpc
     ProxyPassReverse http://localhost:8080/jsonrpc /xbmc/jsonrpc
 
+Those 4 lines are the same as:
+
+    <Location /xbmc/>
+      ProxyPass        http://localhost:8080/
+      ProxyPassReverse http://localhost:8080/
+    </Location>
+    <Location /xbmc/jsonrpc>
+      ProxyPass        http://localhost:8080/jsonrpc
+      ProxyPassReverse http://localhost:8080/jsonrpc
+    </Location>
+
+So pick which one you prefer.
+
 3. You will need to replace the XBMC WebServer files with the ones in this folder.
 
     On Ubuntu Linux the paths are the following:
+      /usr/share/xbmc/addons/webinterface.default/js/MediaLibrary.js
       /usr/share/xbmc/addons/webinterface.default/js/Core.js
       /usr/share/xbmc/addons/webinterface.default/index.html 
 
