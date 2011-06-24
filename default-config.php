@@ -416,27 +416,27 @@ $authpassword 			    = $AUTH_PASS;
 //   Reverse Proxy section    //
 if($REVERSE_PROXY){
 	if(!empty($XBMC_WEBROOT)){
-		$xbmcjsonservice = 'http://'.$XBMC_IP.'/'.$XBMC_WEBROOT.'/jsonrpc';
-		$xbmcimgpath     = 'http://'.$XBMC_IP.'/'.$XBMC_WEBROOT.'/vfs/';
+		$xbmcjsonservice = 'http://'.$GLOBAL_IP.'/'.$XBMC_WEBROOT.'/jsonrpc';
+		$xbmcimgpath     = 'http://'.$GLOBAL_IP.'/'.$XBMC_WEBROOT.'/vfs/';
 	}
 	if(!empty($SICKBEARD_WEBROOT)){
-		$sickbeardcomingepisodes = 'http://'.$SICKBEARD_IP.'/'.$SICKBEARD_WEBROOT.'/comingEpisodes/';
-		$sickbeardurl = 'http://'.$SICKBEARD_IP.'/'.$SICKBEARD_WEBROOT.'/home/';
+		$sickbeardcomingepisodes = 'http://'.$GLOBAL_IP.'/'.$SICKBEARD_WEBROOT.'/comingEpisodes';
+		$sickbeardurl = 'http://'.$GLOBAL_IP.'/'.$SICKBEARD_WEBROOT.'/home/';
 	}
 	if(!empty($COUCHPOTATO_WEBROOT)){
-		$cp_url = 'http://'.$COUCHPOTATO_IP.'/'.$COUCHPOTATO_WEBROOT.'/';
+		$cp_url = 'http://'.$GLOBAL_IP.'/'.$COUCHPOTATO_WEBROOT.'/';
 	}
 	if(!empty($UTORRENT_WEBROOT)){
 		$utorrent_url = 'http://'.$UTORRENT_IP.'/'.$UTORRENT_WEBROOT.'/';
 	}
 	if(!empty($SABNZBD_WEBROOT)){
-		$saburl = 'http://'.$SABNZBD_IP.'/'.$SABNZBD_WEBROOT.'/';
+		$saburl = 'http://'.$SABNZBDlogin.$GLOBAL_IP.'/'.$SABNZBD_WEBROOT.'/';
 	}
 	if(!empty($TRANSMISSION_WEBROOT)){
-		$transmission_url = 'http://'.$TRANSMISSION_IP.'/'.$TRANSMISSION_WEBROOT.'/';
+		$transmission_url = 'http://'.$GLOBAL_IP.'/'.$TRANSMISSION_WEBROOT.'/rpc/';
 	}
 	if(!empty($JDOWNLOADER_WEBROOT)){
-		$jd_url = 'http://'.$JDOWNLOADER_IP.'/'.$JDOWNLOADER_WEBROOT.'/';
+		$jd_url = 'http://'.$GLOBAL_IP.'/'.$JDOWNLOADER_WEBROOT.'/';
 	}
 }
 if ($authsecured && session_id()=='') session_start();
