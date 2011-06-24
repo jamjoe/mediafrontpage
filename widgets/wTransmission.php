@@ -57,23 +57,21 @@ function widgetTransmission(){
 	echo '<div id="transmission_body" width="100%" overflow="hidden">';
 	
 	try{
-		$rpc = new TransmissionRPC($transmission_url);
+		$rpc =@ new TransmissionRPC($transmission_url);
 		$rpc->username = $transmission_admin;
 		$rpc->password = $transmission_pass;
 		//$rpc->debug = true;
-
 		$session = $rpc->getSession(null)->arguments;
 		$current_stats = $session->current_stats;
-		$upload_speed = ByteSize2($session->uploadSpeed)."/s";
-		$download_speed = ByteSize2($session->downloadSpeed)."/s";
-		$active_torrents = $session->activeTorrentCount;
-		$paused_torrents = $session->pausedTorrentCount;
-		$total_torrents = $session->torrentCount;
-		$downloaded_bytes = ByteSize2($current_stats->downloadedBytes);
-		$uploaded_bytes = ByteSize2($current_stats->uploadedBytes);
-		$dl_speed_limit = $rpc->getSessionInfo(null)->arguments->speed_limit_down;
-		$ul_speed_limit = $rpc->getSessionInfo(null)->arguments->speed_limit_up;
-		
+		if(isset($session->uploadSpeed)) { $upload_speed = ByteSize2($session->uploadSpeed)."/s"; } else { $upload_speed = ByteSize2(0)."/s"; }
+		if(isset($session->downloadSpeed)) { $download_speed = ByteSize2($session->downloadSpeed)."/s"; } else { $download_speed = ByteSize2(0)."/s"; }
+		if(isset($session->activeTorrentCount)) { $active_torrents = $session->activeTorrentCount; } else { $active_torrents = "0"; }
+		if(isset($session->pausedTorrentCount)) { $paused_torrents = $session->pausedTorrentCount; } else { $paused_torrents = "0"; }
+		if(isset($session->torrentCount)) { $total_torrents = $session->torrentCount; } else { $total_torrents = "0"; }
+		if(isset($downloaded_bytes)) { $downloaded_bytes = ByteSize2($current_stats->downloadedBytes); } else { $downloaded_bytes = "0"; }
+		if(isset($uploaded_bytes)) { $uploaded_bytes = ByteSize2($current_stats->uploadedBytes); } else { $uploaded_bytes = "0"; }
+		if(isset($dl_speed_limit)) { $dl_speed_limit = $rpc->getSessionInfo(null)->arguments->speed_limit_down; } else { $dl_speed_limit = '0'; }
+		if(isset($ul_speed_limit)) { $ul_speed_limit = $rpc->getSessionInfo(null)->arguments->speed_limit_up; } else { $ul_speed_limit = '0'; }
 		echo "<div style='float:right;padding-right:2px;'><form target='nothing' action='".$cmdpath."' method='get'>";
 		echo "<input type='text'  class='btnDown' value='".$dl_speed_limit."' id='dllimit' name='dllimit' size='2' />";
 		echo "<input type='text'  class='btnUp' value='".$ul_speed_limit."' id='ullimit' name='ullimit' size='2' />";
@@ -104,11 +102,10 @@ function widgetTransmission(){
 				$size		=	ByteSize2($item->totalSize);
 				$id   		= 	$item->id;
 				$dl_dir  	= 	$item->downloadDir;
-				$dl_rate 	= 	ByteSize2($item->rateDownload).'/s';
-				$ul_rate 	= 	ByteSize2($item->rateUpload).'/s';
-				$ratio  	=	$item->uploadRatio;
-				$progress	=	($item->percentDone*100).'%';
-				
+				if(isset($item->rateDownload)) { $dl_rate 	= 	ByteSize2($item->rateDownload).'/s'; } else { $dl_rate 	= 	ByteSize2(0).'/s'; }
+				if(isset($item->rateUpload)) { $ul_rate 	= 	ByteSize2($item->rateUpload).'/s'; } else { $ul_rate 	= 	ByteSize2(0).'/s'; }
+				if(isset($item->uploadRatio)) { $ratio  	=	$item->uploadRatio; } else { $ratio  	=	0; }
+				if(isset($item->percentDone)) { $progress	=	($item->percentDone*100).'%'; } else { $progress	=	(0).'%'; }
 				$eta 		= 	$item->eta;
 				$eta_hr		=	floor($eta/60/60);
 				$eta_min 	= 	($eta<60)?$eta:floor($eta/60-$eta_hr*60);
