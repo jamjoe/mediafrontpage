@@ -2,8 +2,8 @@
 function main() {
 	require_once "../../config.php";
 	
-	$q=$_GET["q"];
-	$site = $_GET["site"];
+	$q = (isset($_GET["q"]))?$_GET["q"]:'';
+	$site = (isset($_GET["site"]))?$_GET["site"]:'';
 	$column2 = "class=\"header filesize\"><a href=#>Size ";
 	$column3 = "Category";
 	
@@ -17,7 +17,7 @@ function main() {
 		$column2 = "><a href=#>Rating ";
 		$column3 = "Year";
 
-		$results = imdb($q,$cp_url);		
+		$results = tmdb($q,$cp_url);		
 	}
 	elseif(!empty($_GET['id']))
 	{
@@ -52,7 +52,7 @@ function main() {
 			case '3':
 				$column2 = "><a href=#>Rating ";
 				$column3 = "Year";
-				$results = imdb($q,$cp_url);
+				$results = tmdb($q,$cp_url);
 				break;
 		}
 	}
@@ -78,6 +78,7 @@ function nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl){
 
 	$search = "http://nzb.su/api?t=search&q=".urlencode($q).$type."&apikey=".$nzbsuapi."&o=json";
 	$json = @file_get_contents($search);
+	$table = '';
 	if(!stristr($json,'error code')){
 		$content = json_decode($json, true);
 		//print_r($content);
@@ -93,7 +94,7 @@ function nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl){
 			$group_name = "<p> Group name: ".$array['group_name']."</p>";
 			$grabs = "<p> Grabs: ".$array['grabs']."</p>";
 			(!empty($array['seriesfull']))?($seriesfull=("<p>Episode info: ".$array['seriesfull']." ".$array['tvtitle']." ".$array['tvairdate']."</p>")):($seriesfull="");
-	
+
 			$url="http://nzb.su/getnzb/".$id.".nzb".$nzbsudl;
 			$addToSab = $saburl.'api?mode=addurl&name='.urlencode($url).'&output=json&apikey='.$sabapikey;
 			$nzblink = "http://nzb.su/details/".$id;
@@ -103,7 +104,7 @@ function nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl){
 			$item_desc = str_replace("\n", "<br>", $item_desc);
 			$item_desc = str_replace("\"", " - ", $item_desc);		
 			$item_desc = str_replace("'", "|", $item_desc);		
-	
+
 			$addToSab = addCategory($cat,$addToSab);
 			if(strlen($name)!=0){
 				$table .= (strpos(strtolower($cat), "xxx")===false)?printTable($name,$cat,$size,$addToSab,$nzblink,$item_desc):("");
@@ -111,53 +112,48 @@ function nzbsu($q, $saburl,$sabapikey, $nzbsuapi, $nzbsudl){
 		}
 	}
 	return $table;
-
 }
 
 function nzbmatrix($item, $nzbusername, $nzbapi,$saburl,$sabapikey) {
 
 	$type = (!empty($_GET['type']))?("&catid=".$_GET['type']):"";
 
-	$search = "https://api.nzbmatrix.com/v1.1/search.php?search=".urlencode($item).$type."&username=".$nzbusername."&apikey=".$nzbapi;
+	$search = "https://api.nzbmatrix.com/v1.1/search.php?search=".urlencode($item).$type."&num=50&username=".$nzbusername."&apikey=".$nzbapi;
 	$content = file_get_contents($search);
 	$itemArray = explode('|',$content);
-
 	$table = "";
-	foreach($itemArray as &$item){
-		$item = explode(';',$item);
-/*
-					foreach($item as &$value){
-					echo $value;
-					echo "</br>";
-					}
-*/
-		$id = "ID: ".substr($item[0],6);
-		$name = substr($item[1],9);
-		$link = "http://www.".substr($item[2], 6);
-		$size = 0+substr($item[3], 6);
-		$size = $size;
-		$cat = substr($item[6],10);
-		$addToSab=$saburl."api?mode=addurl&name=http://www.".substr($link,6)."&nzbname=".urlencode($name)."&output=json&apikey=".$sabapikey;
-
-		$indexdate 	= "Index Date: ".substr($item[4], 12);
-		$group 		= "Group: ".substr($item[7],7);
-		$comments 	= "Comments: ".substr($item[8],10);
-		$hits 		= "Hits: ".substr($item[9],6);
-		$nfo 		= "NFO: ".substr($item[10], 5);
-		$weblink 	= substr($item[11], 9);
-		$image 		= substr($item[13],7);
-		$item_desc	= "<p>Name: ".$name."</p><p>".$id."</p><p>".$group."</p><p>".$comments."</p><p>".$hits."</p><p>".$nfo."</p><p>".$indexdate."</p>";
-		
-		$addToSab = addCategory($cat,$addToSab);
-
-		if(strlen($name)!=0){
-			$table .= printTable($name,$cat,$size,$addToSab,$link,$item_desc,$image, $weblink);
+	if($itemArray["0"]!='error:nothing_found'){
+		foreach($itemArray as &$x){
+			$item = explode(';', $x);
+			if(isset($item[1])){			
+				$id = "ID: ".substr($item[0],6);
+				$name = substr($item[1],9);
+				$link = "http://www.".substr($item[2], 6);
+				$size = 0+substr($item[3], 6);
+				$size = $size;
+				$cat = substr($item[6],10);
+				$addToSab=$saburl."api?mode=addurl&name=http://www.".substr($link,6)."&nzbname=".urlencode($name)."&output=json&apikey=".$sabapikey;
+				$indexdate 	= "Index Date: ".substr($item[4], 12);
+				$group 		= "Group: ".substr($item[7],7);
+				$comments 	= "Comments: ".substr($item[8],10);
+				$hits 		= "Hits: ".substr($item[9],6);
+				$nfo 		= "NFO: ".substr($item[10], 5);
+				$weblink 	= substr($item[11], 9);
+				$image 		= substr($item[13],7);
+				$item_desc	= "<p>Name: ".$name."</p><p>".$id."</p><p>".$group."</p><p>".$comments."</p><p>".$hits."</p><p>".$nfo."</p><p>".$indexdate."</p>";
+			
+				$addToSab = addCategory($cat,$addToSab);
+	
+				if(strlen($name)!=0){
+					$table .= printTable($name,$cat,$size,$addToSab,$link,$item_desc,$image, $weblink);
+				}
+			}
 		}
 	}
 	return $table;
 }
 
-function imdb($item,$cp){
+function tmdb($item,$cp){
 	
 	$api = '1b0319774deb9c07ca72ecafa8f13f8f';
 	$search = 'http://api.themoviedb.org/2.1/Movie.search/en/json/'.$api.'/'.urlencode($item);
@@ -177,7 +173,7 @@ function imdb($item,$cp){
 				$orig_name	= $e->original_name;
 				$name		= $e->name;
 				$alt_name	= $e->alternative_name;
-				$type		= $e->type;
+				//$type		= $e->type;
 				$id			= $e->id;
 				$imdb_id	= $e->imdb_id;
 				$votes		= $e->votes;
@@ -185,8 +181,10 @@ function imdb($item,$cp){
 				$certific	= $e->certification;
 				$overview	= $e->overview;
 				$released	= $e->released;
-				$poster_th	= $e->posters['2']->image->url;
-				$poster_lg	= $e->posters['1']->image->url;
+				if(isset($e->posters['1'])){
+					$poster_th	= $e->posters['2']->image->url;
+					$poster_lg	= $e->posters['1']->image->url;
+				}
 				$last_mod	= $e->last_modified_at;
 				$backdrops	= $e->backdrops;
 				$url 		= $e->url;
@@ -407,19 +405,19 @@ function ByteSize($bytes)
 	$size = $bytes / 1024;
 	if($size < 1024)
 	{
-		$size = number_format($size, 2);
+		$size = number_format($size, 0);
 		$size .= ' KB';
 	}
 	else
 	{
 		if($size / 1024 < 1024)
 		{
-			$size = number_format($size / 1024, 2);
+			$size = number_format($size / 1024, 0);
 			$size .= ' MB';
 		}
 		else if ($size / 1024 / 1024 < 1024)
 			{
-				$size = number_format($size / 1024 / 1024, 2);
+				$size = number_format($size / 1024 / 1024, 1);
 				$size .= ' GB';
 			}
 
