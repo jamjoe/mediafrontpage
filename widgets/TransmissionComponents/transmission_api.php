@@ -177,7 +177,7 @@ class TransmissionRPC
    */
 
   public function getSession($request){
-		if ( !is_array( $ids ) ) $ids = array( $ids );	// Convert $ids to an array if only a single id was passed
+		$ids = (isset($ids) && !is_array( $ids ))?array( $ids ):'';	// Convert $ids to an array if only a single id was passed
 		$request = array( "ids" => $ids );
 		return $this->request( "session-stats", $request ); 
   }
