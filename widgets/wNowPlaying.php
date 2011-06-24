@@ -71,63 +71,189 @@ function displayNowPlaying($baseurl = "") {
 
 	//video Player
 	if (($results['result']['video']) == 1) {
+		$jsonVersion = jsonmethodcall("JSONRPC.Version"); //pull the JSON version # from XBMC
 		//get playlist items
-		$results = jsonmethodcall("VideoPlaylist.GetItems");
+		if($jsonVersion['result']['version'] == '2')
+		{ // For the old version
+			$results = jsonmethodcall("VideoPlaylist.GetItems"); //Pull the current "playlist"
+			if(!empty($results['result']['items'])) { $items = $results['result']['items'][0]; } //If there's anything there, get the current item
+			//The older interface doesn't explicitly return a "type"
+			if(isset($items['episode'])) //However, all TV shows will have an episode #, so if this is set, we're watching a TV show
+			{
+				if(!empty($items['showtitle'])) //We begin building the first line with the show's title
+				{
+					$line1=$items['showtitle'];
+				}
+				if(!empty($items['season']))
+				{
+					$line1=$line1." - S".sprintf("%02d", $items['season']);
+				}
+				if(empty($items['season'])) //There's a bug with the interface where if you're watching a "special" episode, the season # is 0, but nothing is returned
+				{
+					$line1=$line1." - S00";
+				}
+				if(!empty($items['episode']))
+				{
+					$line1=$line1."E".sprintf("%02d", $items['episode']);
+				}
+				if(!empty($items['title']))
+				{
+					$line2='"'.$items['title'].'"';
+				}
+				if(empty($items['plot']))
+				{
+					$line3="Plot Summary Unavailable";
+					$plot="Plot Summary Unavailable";
+				}
+				if(!empty($items['plot']))
+				{
+					$line3=$items['plot'];
+					$plot=$items['plot'];
+				}
+			}
+			if(!isset($items['episode'])) //If the episode # is not set, we can assume its a movie and go from there
+			{
+				if(!empty($items['title']))
+				{
+					$line1=$items['title'];
+				}
+				if(!empty($items['year']))
+				{
+					$line1=$line1.' ('.$items['year'].')';
+				}
+				if(!empty($items['director']))
+				{
+					$line1=$line1." | Directed by ".$items['director'];
+				}
+				if(empty($line1)) //For some reason, with the old interface if you launch a video from one of the widgets, basically NONE of the metadata is populated
+				// As a result we can't do any of the normal nice stuff.
+				{ // In this lame case, we can fall back to the file name
+					$line1=substr($items['file'],strrpos($items['file'],'/'));
+				}
+				$line2 =''; // set this variable so that PHP won't error if it remains unset
+				if(!empty($items['tagline']))
+				{
+					$line2=$items['tagline'];
+				}
+				if(empty($items['plot']))
+				{
+					$line3="Plot Summary Unavailable";
+					$plot="Plot Summary Unavailable";
+				}
+				if(!empty($items['plot']))
+				{
+					$line3=$items['plot'];
+					$plot=$items['plot'];
+				}
+			}
+		}
+		if($jsonVersion['result']['version'] == '3') //Handle the new interface
+		{
+			$results = jsonmethodcall("VideoPlaylistV3.GetItems"); //Pull the current "playlist"
+			if(!empty($results['result']['items'])) { $items = $results['result']['items'][0]; } //If there's anything there, get the current item
+			if ($items['type']=='episode')
+			{
+				//its a TV show!
+				if(!empty($items['showtitle']))
+				{
+					$line1=$items['showtitle'];
+				}
+				if(!empty($items['season']))
+				{
+					$line1=$line1." - S".sprintf("%02d", $items['season']);
+				}
+				if(!empty($items['episode']))
+				{
+					$line1=$line1."E".sprintf("%02d", $items['episode']);
+				}
+				if(!empty($items['title']))
+				{
+					$line2='"'.$items['title'].'"';
+				}
 
-		if(!empty($results['result']['items'])) {
-			$items = $results['result']['items'];
-			$current = (!empty($results['result']['current'])) ? $results['result']['current'] : 0;
-			
-			if (!empty($items[$current]['thumbnail'])) {
-				$thumb = $items[$current]['thumbnail'];
+				if(empty($items['plot']))
+				{
+					$line3="Plot Summary Unavailable";
+					$plot="Plot Summary Unavailable";
+				}
+				if(!empty($items['plot']))
+				{
+					$line3=$items['plot'];
+					$plot=$items['plot'];
+				}
+
+			}
+			else if ($items['type']=='movie')
+			{
+			    //it's a movie
+				if(!empty($items['title']))
+				{
+					$line1=$items['title'];
+				}
+				if(!empty($items['year']))
+				{
+					$line1=$line1.' ('.$items['year'].')';
+				}
+				if(!empty($items['director']))
+				{
+					$line1=$line1." | Directed by ".$items['director'];
+				}
+				if(!empty($items['tagline']))
+				{
+					$line2=$items['tagline'];
+				}
+				if(empty($items['plot']))
+				{
+					$line3="Plot Summary Unavailable";
+					$plot="Plot Summary Unavailable";
+				}
+				if(!empty($items['plot']))
+				{
+					$line3=$items['plot'];
+					$plot=$items['plot'];
+				}
+			}
+		}
+			if (!empty($items['thumbnail'])) {
+				$thumb = $items['thumbnail'];
 			} else {
-				$thumb = (!empty($items[$current]['fanart']) ? $items[$current]['fanart'] : "");
-			}
-			if(!empty($items[$current]['title'])) {
-				$title = $items[$current]['title'];
-			} else {
-				$title = (!empty($items[$current]['label']) ? $items[$current]['label'] : "");
-			}
-			if(!empty($items[$current]['showtitle'])) {
-				$show  = $items[$current]['showtitle'];
-			} else {
-				$show = $title;
-				$title = "";
-			}
-			$season = (!empty($items[$current]['season']) ? $items[$current]['season'] : "");
-			$episode = (!empty($items[$current]['episode']) ? $items[$current]['episode'] : "");
-			if((strlen($season) > 0) && (strlen($episode) > 0)) {
-				$title = $season."x".str_pad($episode, 2, '0', STR_PAD_LEFT)." ".$title;
-			}
-			
-			if(strlen($show) == 0) {
-				$info = pathinfo($items[$current]['file']);
-				$show = $info['filename'];
-			}
-			if(!empty($items[$current]['plot'])) {
-				$plot = $items[$current]['plot'];
-			} else {
-				$plot = "";
+				if(!empty($items['fanart'])){ $thumb = $items['fanart']; }
 			}
 			if(strlen($thumb) > 0) {
 				echo "\t<div id=\"thumbblock\" class=\"thumbblockvideo\">\n";
 				if(!empty($baseurl)) {
 					echo "\t\t<img src=\"".$xbmcimgpath.$thumb."\" alt=\"".htmlentities($plot, ENT_QUOTES)."\" />";
 				} else {
-					echo "\t\t<a href=\"".$xbmcimgpath.$thumb."\" class=\"highslide\" onclick=\"return hs.expand(this)\">\n";
+					echo "\t\t <b>".$line1."</b><a href=\"".$xbmcimgpath.$thumb."\" class=\"highslide\" onclick=\"return hs.expand(this)\">\n";
 					echo "\t\t\t<img src=\"".$xbmcimgpath.$thumb."\" title=\"Click to enlarge\" alt=\"".htmlentities($plot, ENT_QUOTES)."\" />";
 					echo "\t\t</a>\n";
 				}
 				echo "\t</div>\n";
 			}
-			echo "\t\t<p>".$show."</p>\n";
-			echo "\t\t<p>".$title."</p>\n";
-		}
+			echo "\t\t<p><i>".$line2."</i></p>\n";
+			echo "\t\t<p>".$line3."</p>\n";
 		//progress time
 		$results = jsonmethodcall("VideoPlayer.GetTime");
-		$time = $results['result']['time'];
-		$total = $results['result']['total'];
-		echo "\t\t<p>".formattimes($time, $total)."</p>\n";
+		$time = $results['result']['time']; // Current time (in seconds)
+		$total = $results['result']['total']; // Total time (in seconds)
+		$timeFormatted = ''; //Instantiate the "timeFormatted" variable so we don't get errors
+		//The way time is formatted and returned is different in the old and new JSON interfaces, so we fork here to handle each case.
+		if($jsonVersion['result']['version'] == '2')
+		{ 
+			$timeFormatted = formattimes($time, $total);
+			echo "$timeFormatted</p>\n";
+		}
+		if($jsonVersion['result']['version'] == '3') //For the newer version results are returned in an array
+		{
+			if($time['hours']!=0) { $timeFormatted = $time['hours'].":"; } //If there's actually any "hours" value, we format and add them to the string
+			$timeFormatted = "\t\t<p>".$timeFormatted.sprintf("%02d", $time['minutes']).':'.sprintf("%02d", $time['seconds']).' / ';
+			if($total['hours']!=0)
+			{
+				$timeFormatted = $timeFormatted.$total['hours'].":";
+			}
+			$timeFormatted = $timeFormatted.sprintf("%02d", $total['minutes']).":".sprintf("%02d", $total['seconds']);
+			echo "$timeFormatted</p>\n";
+		}
 		if(!empty($results['result']['paused']) && ($results['result']['paused'])) {
 			echo "\t\t<p>Paused</p>\n";
 		}
@@ -244,7 +370,6 @@ function processCommand($command) {
 
 		//get active players
 		$results = jsonmethodcall("Player.GetActivePlayers");
-
 		//Video Player
 		if (($results['result']['video']) == 1) {
 			//get playlist items
@@ -282,7 +407,6 @@ if (!empty($_GET['ajax']) && ($_GET['ajax'] == "w")) {
 if (!empty($_GET['ajax']) && ($_GET['ajax'] == "c")) {
 	require_once "../config.php";
 	require_once "../functions.php";
-
 	if (!empty($_GET['command'])) {
 		$command = $_GET["command"];
 		processCommand($command);
@@ -296,8 +420,6 @@ if (!empty($_GET['ajax']) && ($_GET['ajax'] == "c")) {
 }
 
 if (!empty($_GET['style']) && (($_GET['style'] == "w") || ($_GET['style'] == "s"))) {
-	require_once "../config.php";
-
 	if ($_GET['style'] == "w") {
 ?>
 <html>
