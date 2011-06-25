@@ -21,7 +21,7 @@ function execProgram ($prog, $arg){
    		1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
    		2 => array("pipe", "w") // stderr
 	);
-	
+
 	$pipes = Array();
 	// Run command with arguments
 	$process = proc_open($prog." ".trim($arg), $descriptorspec, $pipes);
@@ -37,7 +37,7 @@ function execProgram ($prog, $arg){
 function getNUTInfo($upsurl) {
 	// Execute upsc with url as argument
 	$ups = execProgram("upsc", $upsurl);
-		
+
 	// Array to hold filtered device details
 	$dev = Array();
 
@@ -199,8 +199,11 @@ function widgetUPS() {
 				$dev['name'] = "Error";
 			}
 			// Error check
-			if ($dev['name'] == "Error") {
-				$popup = "Error: Please recheck you config as the ups wasn't found.";
+			if (empty($dev['name'])) {
+				$dev['name'] = "Offline";
+				$popup = "Offline: Unable to communicate with UPS at ".$upsurl['url'];
+			} elseif ($dev['name'] == "Error") {
+				$popup = "Error: Please recheck your config as the ups type wasn't found.";
 			} else {
 				// Popup Information
 				if ($dev['hostname']) {
@@ -208,25 +211,25 @@ function widgetUPS() {
 				} else {
 					$popup = "<p>UPS: ".$dev['name']."</p>";
 				}
-				$popup .= "<p>Model: ".$dev['model']." (".$dev['apcmodel'].")</p>";	
-				$popup .= "<p>UPS Mode: ".$dev['upsmode']."</p>";	
+				$popup .= "<p>Model: ".$dev['model']." (".$dev['apcmodel'].")</p>";
+				$popup .= "<p>UPS Mode: ".$dev['upsmode']."</p>";
 				$popup .= "<p>Maximum Watts: ".$dev['nompower']."</p>";
 				if ($dev['starttime']) {
 					$popup .= "<p>Start Time: ".$dev['starttime']."</p>";
-				}	
+				}
 				$popup .= "<p>Status: ".$dev['status']."</p>";
-				if ($dev['numxfers']) {	
+				if ($dev['numxfers']) {
 					$popup .= "<p>Outages: ".$dev['numxfers']."</p>";
 				}
-				if ($dev['lastxfer']) {	
+				if ($dev['lastxfer']) {
 					$popup .= "<p>Last Transfer: ".$dev['lastxfer']."</p>";
 				}
 				if ($dev['xoffbatt']) {
 					$popup .= "<p>Last Outage Timestamp: ".$dev['xoffbatt']."</p>";
-				}	
+				}
 				$popup .= "<p>Line Voltage: ".$dev['linev']." V</p>";
 				$popup .= "<p>Load Percent: ".$dev['loadpct']."%</p>";
-				if ($dev['battv']) {	
+				if ($dev['battv']) {
 					$popup .= "<p>Battery Volts: ".$dev['battv']." V</p>";
 				}
 				$popup .= "<p>Battery Charge: ".$dev['bcharge']."%</p>";
@@ -234,7 +237,7 @@ function widgetUPS() {
 			}
 			echo "\t<tr>\n";
 			echo "\t\t<td onMouseOver=\"ShowPopupBox('".$popup."');\" onMouseOut=\"HidePopupBox();\">".$dev['name']."</td>\n";
-			echo "\t\t<td>".($dev['timeleft'] ? $dev['timeleft'] : "N/A")." mins</td>\n";
+			echo "\t\t<td>".($dev['timeleft'] ? $dev['timeleft']." mins" : "N/A")."</td>\n";
 			echo "\t\t<td>".($dev['loadpct'] ? $dev['loadpct']."%" : "N/A")."</td>\n";
 			echo "\t\t<td><div class=\"progressbar\"><div class=\"progress".(($dev['bcharge'] < $warningthreshold) ? " warning" : "")."\" style=\"width:".($dev['bcharge'])."%\"></div><div class=\"progresslabel\">".sprintf("%u", $dev['bcharge'])."%</div></div></td>\n";
 			echo "\t</tr>\n";
