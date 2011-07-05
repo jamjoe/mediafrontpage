@@ -97,6 +97,11 @@
      $TRANSMISSION_USERNAME  = '';
      $TRANSMISSION_PASS      = '';
 
+/* HeadPhones Section*/
+
+     $HEADPHONES_IP          = '';
+     $HEADPHONES_PORT        = '';
+
 /*Builtin Authentication*/
 	 
      $AUTH_ON                = false;
@@ -149,20 +154,51 @@
 //     To open in a blank page                                                       //
 //          $subnavlink_blank["Google"] = "http://google.com";                       //
 //                                                                                   //
+//     Extra Options                                                                 //
+//     =============                                                                 //
+//     It is possible to further customise the links in the NavMenu by handling      //
+//     some parameters in arrays. Supported parameters are: image, title,            //
+//                                path, target.                                      //
+//                                                                                   //
+//         image -> represents a custom image in the media/nav/ folder               //
+//                                                     (must include extension)      //
+//                                                                                   //
+//         path -> the URL                                                           //
+//                                                                                   //
+//         title -> a custom title. This is the only way of having two of the        //
+//                                  same title.                                      //
+//         target -> How to open the page as per the <a> anchor HTML tag.            //
+//                   _blank will make it open in a new page.                         //
+//                                                                                   //
 //     Examples                                                                      //
 //     ========                                                                      //
 //     $navlink["TV Headend"]   = "/tvheadend";                                      //
 //     $navlink["Transmission"] = "http://localhost:9091/transmission/web/";         //
 //     $navlink["uTorrent"]     = "http://localhost:8081/gui/";                      //
 //     $navlink["jDownloader"]  = "http://localhost:8765/";                          //
+//     $navlink["Test"]  = array( "path"=>"http://www.example.com/",                 //
+//                                "title" => "Custom",                               //
+//                                "image" => "example.png",                          //
+//                                "target => "_blank" );                             //
 //***********************************************************************************//
 
 
+//***********************************************************************************//
+// REVAMPED TO BE CHANGED FOR CONFIGURING WITH NEW LAYOUT.                           //
+// NOT SURE HOW TO IMPLEMENT THE /WEBROOTS INTO THIS THOUGH.                         //
+// SIMPLY COMMENT OUT // THE LINES YOU DO NOT NEED FOR NOW.                          //
+//***********************************************************************************//
+
           $navlink;
-          $navlink["XBMC"]           = '';
-          $navlink["Sickbeard"]      = '';
-          $navlink["Couch Potato"]   = '';
-          $navlink["Sabnzbd"]        = '';
+          $navlink["XBMC"]           = 'programs.php?p=XBMC';
+          $navlink["Sickbeard"]      = 'programs.php?p=SickBeard';
+          $navlink["CouchPotato"]    = 'programs.php?p=CouchPotato';
+          $navlink["HeadPhones"]     = 'programs.php?p=HeadPhones';
+          $navlink["Transmission"]   = 'programs.php?p=Transmission';
+          $navlink["uTorrent"]       = 'programs.php?p=uTorrent';
+          $navlink["TVHeadend"]      = 'programs.php?p=TVHeadend';		  		  
+          $navlink["JDownloader"]    = 'programs.php?p=JDownloader';
+          $navlink["SabNZBd"]        = 'programs.php?p=SabNZBd';
 
                               // Control Section //
 
@@ -335,6 +371,10 @@ if($GLOBAL_MACHINE)
      if(empty($COUCHPOTATO_IP) && !empty($COUCHPOTATO_PORT)){
           $COUCHPOTATO_IP = $GLOBAL_IP;
      }
+     //HeadPhones Global Settings//
+     if(empty($HEADPHONES_IP) && !empty($HEADPHONES_PORT)){
+          $HEADPHONES_IP = $GLOBAL_IP;
+     }
      //uTorrent Global Settings//
      if(empty($uTORRENT_IP) && !empty($uTORRENT_PORT)){
           $uTORRENT_IP = $GLOBAL_IP;
@@ -432,9 +472,10 @@ if($REVERSE_PROXY){
 	}
 	if(!empty($TRANSMISSION_WEBROOT)){
 		$transmission_url = 'http://'.$GLOBAL_IP.'/'.$TRANSMISSION_WEBROOT.'/rpc/';
+		$transmission_web = 'http://'.$GLOBAL_IP.'/'.$TRANSMISSION_WEBROOT;
 	}
 	if(!empty($JDOWNLOADER_WEBROOT)){
-		$jd_url = 'http://'.$JDOWNLOADERlogin.$GLOBAL_IP.'/'.$JDOWNLOADER_WEBROOT.'/';
+		$jd_weburl = 'http://'.$JDOWNLOADERlogin.$GLOBAL_IP.'/'.$JDOWNLOADER_WEBROOT.'/';
 	}
 } else {
    $xbmcjsonservice        = "http://$xbmclogin"."$XBMC_IP:$XBMC_PORT/jsonrpc";
@@ -443,7 +484,8 @@ if($REVERSE_PROXY){
    $sickbeardurl           = "http://$sickbeardlogin"."$SICKBEARD_IP:$SICKBEARD_PORT/home/";
    $saburl                 = "http://$SABNZBDlogin"."$SABNZBD_IP:$SABNZBD_PORT/";
    $cp_url                 = "http://$COUCHPOTATOlogin"."$COUCHPOTATO_IP:$COUCHPOTATO_PORT/";
-   $utorrent_url           = "http://$uTorrentlogin"."$uTORRENT_IP:$uTORRENT_PORT/";
+   $headphones_url         = "http://$HEADPHONES_IP:$HEADPHONES_PORT/";
+   $utorrent_url           = "http://$uTorrentlogin"."$uTORRENT_IP:$uTORRENT_PORT/gui/";
    $jd_url                 = "http://$JDOWNLOADERlogin"."$JDOWNLOADER_IP:$JDOWNLOADER_REMOTEPORT/";
    $jd_weburl              = "http://$JDOWNLOADER_IP:$JDOWNLOADER_WEBPORT/";
    $transmission_url       = "http://$TRANSMISSION_IP:$TRANSMISSION_PORT/transmission/rpc";     
