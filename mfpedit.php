@@ -25,7 +25,6 @@
 		cursor: move;
 	}
 	#nav-menu2 {
-	
 	  display: block;
 	  font-size:.8em;
 	  margin-top:0px;
@@ -39,7 +38,6 @@
 	#nav-menu2 ul {
 	  margin-right:0px;
 	}
-	
 	
 	#nav-menu2 li {
 	  display: inline;
@@ -80,17 +78,27 @@
 	});
 	</script>
 </head>
-<body style="margin: 0; padding: 0;">
-<center>
-	<div style="position:fixed;">
+<body>
+    <center>
+      <div style="width:90%; height:95%;" align="center" class="widget">
+        <div class="widget-head">MediaFrontPage File Editor</div>
+	      <div id="nav-menu2">
 		<div id="nav-menu2" style="background:url(media/bgNav.png);">
-		  <ul>
-		    <li><a href="mfpedit.php?p=config.php">Config.php</a></li>
-		    <li><a href="mfpedit.php?p=layout.php">Layout.php</a></li>
-		  </ul>
-		</div>
-	</div>
-	<br><br>
+	        <ul>
+          <?php
+          if(isset($_GET['p'])){
+            echo '<li><a href="#" onclick="document.getElementById(\'save_file\').click();">Save</a></li>
+                  <li><a href="#" onclick="window.location.reload();">Cancel</a></li>';
+          } else {
+            echo '<li><a>NO FILE SELECTED. PLEASE SELECT A FILE TO EDIT.</a></li>'; 
+          }
+          ?>
+          </ul>
+          <ul style="float: left;">
+            <li><a href="mfpedit.php?p=config.php">Configuration</a></li>
+            <li><a href="mfpedit.php?p=layout.php">Layout</a></li>
+          </ul>
+        </div>
 <?php
 // set file to read
 $filename='';
@@ -104,61 +112,37 @@ if($fh = @fopen($filename, "r")){
   // close file
   fclose($fh);
   // print file contents
-if(isset($_POST['save_file']) && $_POST['save_file']) {
-	$savecontent = stripslashes($_POST['savecontent']);
-	$fp = @fopen($filename, "w");
-	if ($fp) {
-		fwrite($fp, $savecontent);
-		fclose($fp);
-		echo '<script>
-		        alert("Successfully saved '.$filename.'");
-		        window.location.reload();
-		      </script>';
-	}
-}
-$fp = @fopen($filename, "r");
-$loadcontent = fread($fp, filesize($filename));
-$lines = explode("\n", $loadcontent);
-$count = count($lines);
-$filename = htmlspecialchars($loadcontent);
-fclose($fp);
-$line = '';
-for ($a = 1; $a < $count+1; $a++) {
-	$line .= "$a\n";
+  if(isset($_POST['save_file']) && $_POST['save_file']) {
+    $savecontent = stripslashes($_POST['savecontent']);
+	  $fp = @fopen($filename, "w");
+	  if ($fp) {
+		  fwrite($fp, $savecontent);
+		  fclose($fp);
+		  echo '<script>
+		          alert("Successfully saved '.$filename.'");
+		          window.location.reload();
+		        </script>';
+	  }
+  }
+  $fp = @fopen($filename, "r");
+  $loadcontent = fread($fp, filesize($filename));
+  $lines = explode("\n", $loadcontent);
+  $count = count($lines);
+  $filename = htmlspecialchars($loadcontent);
+  fclose($fp);
+  $line = '';
+  for ($a = 1; $a < $count+1; $a++) {
+	  $line .= "$a\n";
+  }
+?>
+        <form method=post action="<?php echo $_SERVER['REQUEST_URI'] ?>" >
+          <textarea id="textarea_1" name="savecontent" style="padding:0; margin:0; width:100%; height:85%;"><?php echo $loadcontent ?></textarea>
+          <input type="submit" id="save_file" name="save_file" value="Save" style="display: none;">
+        </form>
+<?php
 }
 ?>
-  <table class="widget" cellpadding="0" cellspacing="0" id="1">
-    <tr style="cursor: move; ">
-      <td align=center colspan=2 height=25><div class="widget-head">MediaFrontPage File Editor</div></td>
-    <tr>
-      <td align=right>
-        <form method=post action="<?php echo $_SERVER['REQUEST_URI']?>">
-          <textarea id="textarea_1" name="savecontent" cols="140" rows="37" ><?php echo $loadcontent?>
-          </textarea>
-          <input type="submit" id="save_file" name="save_file" value="Save">
-         </form>
-       </td>
-    </tr>
-    </tr>
-  </table>
-<? 
-}else{
-echo "<table width='50%' class='widget'>
-    <tr>
-      <td colspan='2' height='25'><div class='widget-head'>MediaFrontPage File Editor</div></td>
-    <tr>
-      <td align=\"center\">
-        <div id=\"nav-menu\">
-          <ul>
-            <li><a href=\"mfpedit.php?p=config.php\">Config.php</a></li>
-            <li><a href=\"mfpedit.php?p=layout.php\">Layout.php</a></li>
-          </ul>
-        </div>
-      </td>
-    </tr>
-  </table>
-  ";
-}
-?>
-</body>
+      </div>
+    </center>
+  </body>
 </html>
