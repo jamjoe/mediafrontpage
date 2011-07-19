@@ -1,5 +1,5 @@
 <?php 
-$wIndex["wSystem"] = array("name" => "System info", "type" => "ajax", "block" => "systeminfowrapper", "call" => "widgets/wSystem.php?style=w", "interval" => 10000);
+$wIndex["wSystem"] = array("name" => "System info", "type" => "ajax", "block" => "systeminfowrapper", "call" => "widgets/wSystem.php?style=w", "interval" => 50000);
 
 function wSystem(){
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
