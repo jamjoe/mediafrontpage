@@ -213,7 +213,6 @@ function executeVideo($style = "w", $action, $breadcrumb, $params = array()) {
 			}
 			break;
 		case "mv": // Music Videos
-			echo "<ul class=\"widget-list\"><li>Not Supported Yet</li></ul>";
 			$anchor = buildBackAnchor($style, "l|lv", $params);
 			echo "<div class=\"widget-control\">".$anchor."</div>\n";
 			break;
@@ -229,7 +228,6 @@ function executeVideo($style = "w", $action, $breadcrumb, $params = array()) {
 			}
 			break;
 		case "al": // Albums
-			echo "<ul class=\"widget-list\"><li>Under Construction</li></ul>";
 			if (!empty($params['artistid'])) {
 				$artistid = $params['artistid'];
 				$request = jsonstring("AudioLibrary.GetAlbums", '"artistid": '.$artistid.',');
@@ -247,13 +245,14 @@ function executeVideo($style = "w", $action, $breadcrumb, $params = array()) {
 			}
 			break;
 		case "so": // Songs
-			echo "<ul class=\"widget-list\"><li>Under Construction</li></ul>";
 			if (!empty($params['artistid']) && !empty($params['albumid'])) {
 				$request = jsonstring("AudioLibrary.GetSongs", array("artistid" => '"artistid": '.$params['artistid'].',', "albumid" => '"albumid": '.$params['albumid'].','));
 			} elseif (!empty($params['albumid'])) {
 				$request = jsonstring("AudioLibrary.GetSongs", array("artistid" => '"artistid": "" ,', "albumid" => '"albumid": '.$params['albumid'].','));
 			} else {
-				$request = jsonstring("AudioLibrary.GetSongs", array("artistid" => '', "albumid" => ''));
+				if($jsonVersion['result']['version'] == '2') { $request = jsonstring("AudioLibrary.GetSongs", array("artistid" => '', "albumid" => '')); }
+				if($jsonVersion['result']['version'] == '3') { $request = jsonstring("AudioLibraryV3.GetSongs", array("artistid" => '', "albumid" => '')); }
+				
 			} 
 			$results = jsoncall($request);
 			if (!empty($results['result'])) {
@@ -265,7 +264,6 @@ function executeVideo($style = "w", $action, $breadcrumb, $params = array()) {
 			}
 			break;
 		case "ms": // Music Source
-			echo "<ul class=\"widget-list\"><li>Under Construction</li></ul>";
 			$results = jsonmethodcall("Files.GetSources", "music");
 			if (!empty($results['result'])) {
 				$sources = $results['result']['shares'];
@@ -417,12 +415,21 @@ function playVideoFromList($videoList, $idType = "episodeid", $videoId = -1) {
 }
 
 function playSongFromList($songid) {
+	echo "1";
+	$jsonVersion = jsonmethodcall("JSONRPC.Version"); //pull the JSON version # from XBMC
 	$results = jsonmethodcall("Player.GetActivePlayers");
 	if (!empty($results)) {
 		if ($results['result']['audio'] == 1) {
-			$request = jsonstring("AudioPlaylist.Add", $songid);
+			if($jsonVersion['result']['version'] == '2') { $request = jsonstring("AudioPlaylist.Add", $songid); }
+			if($jsonVersion['result']['version'] == '3') { $request = jsonstring("AudioPlaylistV3.Add", $songid); }
 		} else {
-			$request = jsonstring("XBMC.Play", '"songid": '.$songid);
+			if($jsonVersion['result']['version'] == '2') { $request = jsonstring("XBMC.Play", '"songid": '.$songid); }
+			if($jsonVersion['result']['version'] == '3') 
+			{ 
+				jsoncall(jsonstring("AudioPlaylist.Clear"));   
+				jsoncall(jsonstring("AudioPlaylistV3.Add", $songid)); 
+				jsoncall(jsonstring("AudioPlaylist.Play"));
+			}
 		}
 		$results = jsoncall($request);
 		if (empty($results)) {

@@ -1,9 +1,41 @@
 <?php
+//Authentication check
+require_once('config.php');
+if ($authsecured && (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin'])) {
+    header('Location: login.php');
+    exit;
+}
+?>
+<?php
 include "config.php";
 echo "<html>";
 echo "<head>";
 echo "<title>Navigation</title>";
 echo "<link rel='stylesheet' type='text/css' href='css/nav.css'>";
+echo "<script type=\"text/javascript\" language=\"javascript\">";
+echo 'function logout(){
+    var xmlhttp;
+    if (window.XMLHttpRequest)
+      {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+      } else {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+    xmlhttp.onreadystatechange=function()
+      {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+        {
+          if(xmlhttp.responseText)
+          {
+            window.top.document.location.href = "login.php";
+            alert("Logout successful");
+          }
+        }
+      }
+    xmlhttp.open("GET","logout.php",true);
+    xmlhttp.send();
+    }';
+echo "</script>";
 echo "</head>";
 echo "<body>";
 echo "<div id='header'>";
@@ -32,7 +64,18 @@ if(!empty($navselect)){
 	}
 	echo "</select>";
 }
+echo "<div id='nav-menu2' style='text-decoration: none; font-size:small; position:absolute; top:0; right:0;'>";
+//<-- CONFIG -->
+echo "<li><a href=\"mfpedit.php\" target=\"main\">Config</a></li>";
+//<-- END CONFIG -->
+//Logout button 
+require_once('config.php');
+if ($authsecured) {
+  echo "<ul><li><a href='#' onclick=\"logout();\"/>Logout</a></li></ul>";
+}
+//<--LOGOUT-->
 
+echo '</div>';
 echo "</ul>";
 echo "</div>";
 echo "</div>";
